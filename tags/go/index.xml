@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>go on 陈大壮的小木屋</title>
+    <link>http://lknownothing.github.io/tags/go/</link>
+    <description>Recent content in go on 陈大壮的小木屋</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 02 Apr 2014 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://lknownothing.github.io/tags/go/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Getting Started with Hugo</title>
+      <link>http://lknownothing.github.io/post/hugoisforlovers/</link>
+      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://lknownothing.github.io/post/hugoisforlovers/</guid>
+      <description>Step 1. Install Hugo Go to Hugo releases and download the appropriate version for your OS and architecture.
+Save it somewhere specific as we will be using it in the next step.
+More complete instructions are available at Install Hugo
+Step 2. Build the Docs Hugo has its own example site which happens to also be the documentation site you are reading right now.
+Follow the following steps:
+ Clone the Hugo repository Go into the repo Run hugo in server mode and build the docs Open your browser to http://localhost:1313  Corresponding pseudo commands:</description>
+    </item>
+    
+    <item>
+      <title>VS code 基本使用方法</title>
+      <link>http://lknownothing.github.io/post/vscode/</link>
+      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://lknownothing.github.io/post/vscode/</guid>
+      <description>前言  文章标题：《第一次使用 VS Code 时你应该知道的一切配置》。本文的最新内容，更新于 2020-06-19。大家完全不用担心这篇文章会过时，因为随着 VS Code 的版本更新和插件更新，本文也会随之更新。
+  本文的最新内容，也会在GitHub上同步更新，欢迎 star。
+ VS Code 软件实在是太酷、太好用了，越来越多的新生代互联网青年正在使用它。
+前端男神尤雨溪大大这样评价 VS Code：
+有一点你可能会感到惊讶：VS Code 这款软件本身，是用 JavaScript 语言编写的（具体请自行查阅基于 JS 的 PC 客户端开发框架 Electron）。Jeff Atwood 在 2007 年提出了著名的 Atwood 定律：
+ 任何能够用 JavaScript 实现的应用系统，最终都必将用 JavaScript 实现。
+ Jeff Atwood 这个人是谁不重要（他是 Stack Overflow 网站的联合创始人），重要的是这条定律。
+前端目前是处在春秋战国时代，各路英雄豪杰成为后浪，各种框架工具层出不穷，VS Code 软件无疑是大前端时代最骄傲的工具。
+如果你是做前端开发（JavaScript 编程语言为主），则完全可以将 VS Code 作为「主力开发工具」。这款软件是为前端同学量身定制的。
+如果你是做其他语言方向的开发，并且不需要太复杂的集成开发环境，那么，你可以把 VS Code 作为「代码编辑器」来使用，纵享丝滑。
+甚至是一些写文档、写作的同学，也经常把 VS Code 作为 markdown 写作工具，毫无违和感。
+退而求其次，即便你不属于以上任何范畴，你还可以把 VS Code 当作最简单的文本编辑器来使用，完胜 Windows 系统自带的记事本。</description>
+    </item>
+    
+  </channel>
+</rss>

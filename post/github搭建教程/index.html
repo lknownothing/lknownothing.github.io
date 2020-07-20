@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Github &amp; Hugo搭建博客 - 陈大壮的小木屋</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Github &amp; Hugo搭建博客" />
+<meta property="og:description" content="主题地址  本篇博客选择的theme地址github主题地址
+ 主要参考为hugo官方中文文档。
+创建的站点文件目录说明 创建的sites就是用来存放创建的网站的，创建的文件夹名为blog的网站： |- archetypes ：存放default.md，头文件格式
+|- content ：content目录存放博客文章（.markdown/.md文件）
+|- data ：存放自定义模版，导入的toml文件（或json，yaml）
+|- layouts ：layouts目录存放的是网站的模板文件
+|- static ：static目录存放js/css/img等静态资源
+|- config.toml ：config.toml是网站的配置文件
+当前网站是没有任何内容的，需要下载个主题跑起来才有内容。
+安装主题 |- archetypes ：存放default.md，头文件格式
+|- layouts ：主题模板文件
+|- static ：静态资源
+|- theme.toml ：主题配置文件
+运行Hugo server  hugo server &ndash;theme=mainraod hugo new post/test.md 注意需要将draft的值改为false才能看到页面
+ 生成静态网站  hugo &ndash;theme baseUrl=&quot;http://YOURNAME.githun.io/&rdquo;
+ 所有的静态页面都会生成道public目录下，生成静态网站后并push到你的github pages上。就能得到一个在线的个人博客了。
+在github端创建repository 在命令行里边创建一个github repository
+echo &quot;# lknownothing.github.io&quot; &gt;&gt; README.mdgit initgit add README." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://lknownothing.github.io/post/github%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/" />
+
+
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="陈大壮的小木屋" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">陈大壮的小木屋</div>
+					<div class="logo__tagline">哇哈哈plus盐</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/post/hugoisforlovers/">
+				
+				<span class="menu__text">Getting Started with Hugo</span>
+				
+			</a>
+		</li>
+		<li class="menu__item menu__item--active">
+			<a class="menu__link" href="/post/github%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/">
+				
+				<span class="menu__text">Github &amp; Hugo搭建博客</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/vscode/">
+				
+				<span class="menu__text">VS code 基本使用方法</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Github &amp; Hugo搭建博客</h1>
+			<div class="post__meta meta"><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%B7%A5%E5%85%B7/" rel="category">工具</a>, <a class="meta__link" href="/categories/%E6%95%99%E7%A8%8B/" rel="category">教程</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<h2 id="主题地址">主题地址</h2>
+<blockquote>
+<p>本篇博客选择的theme地址<a href="https://github.com/Vimux/mainroad">github主题地址</a></p>
+</blockquote>
+<p>主要参考为hugo官方中文文档。</p>
+<h3 id="创建的站点文件目录说明">创建的站点文件目录说明</h3>
+<p>创建的sites就是用来存放创建的网站的，创建的文件夹名为blog的网站：
+|- archetypes ：存放default.md，头文件格式</p>
+<p>|- content ：content目录存放博客文章（.markdown/.md文件）</p>
+<p>|- data ：存放自定义模版，导入的toml文件（或json，yaml）</p>
+<p>|- layouts ：layouts目录存放的是网站的模板文件</p>
+<p>|- static ：static目录存放js/css/img等静态资源</p>
+<p>|- config.toml ：config.toml是网站的配置文件</p>
+<p>当前网站是没有任何内容的，需要下载个主题跑起来才有内容。</p>
+<h3 id="安装主题">安装主题</h3>
+<p>|- archetypes ：存放default.md，头文件格式</p>
+<p>|- layouts ：主题模板文件</p>
+<p>|- static ：静态资源</p>
+<p>|- theme.toml ：主题配置文件</p>
+<h3 id="运行hugo-server">运行Hugo server</h3>
+<blockquote>
+<p>hugo server &ndash;theme=mainraod
+hugo new post/test.md 注意需要将draft的值改为false才能看到页面</p>
+</blockquote>
+<h3 id="生成静态网站">生成静态网站</h3>
+<blockquote>
+<p>hugo &ndash;theme baseUrl=&quot;http://YOURNAME.githun.io/&rdquo;</p>
+</blockquote>
+<p>所有的静态页面都会生成道public目录下，生成静态网站后并push到你的github pages上。就能得到一个在线的个人博客了。</p>
+<h3 id="在github端创建repository">在github端创建repository</h3>
+<p>在命令行里边创建一个github repository</p>
+<pre><code>echo &quot;# lknownothing.github.io&quot; &gt;&gt; README.md
+git init
+git add README.md
+git commit -m &quot;first commit&quot;
+git remote add origin git@github.com:lknownothing/lknownothing.github.io.git
+git push -u origin master
+</code></pre><p>push an existing repository from the command line</p>
+<pre><code>git remote add origin git@github.com:lknownothing/lknownothing.github.io.git
+git push -u origin master
+</code></pre>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="陈大壮 avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About 陈大壮</span>
+	</div>
+	<div class="authorbox__description">
+		陈大壮&rsquo;s true identity is unknown. Maybe he is a successful blogger or writer. Nobody knows it.
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/post/vscode/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">VS code 基本使用方法</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q" aria-label="SEARCH...">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="http://lknownothing.github.io/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/basic-elements/">Basic HTML Elements</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/hugoisforlovers/">Getting Started with Hugo</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/vscode/">VS code 基本使用方法</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/github%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/">Github &amp; Hugo搭建博客</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/golang/">golang</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/basic-elements/" title="Basic Elements">Basic Elements (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/css/" title="CSS">CSS (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/development/" title="development">development (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go/" title="go">go (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/golang/" title="golang">golang (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/html/" title="HTML">HTML (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/hugo/" title="hugo">hugo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/templates/" title="templates">templates (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/themes/" title="themes">themes (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%B7%A5%E5%85%B7/" title="工具">工具 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%99%E7%A8%8B/" title="教程">教程 (1)</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 陈大壮的小木屋.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

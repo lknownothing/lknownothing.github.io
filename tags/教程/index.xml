@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>教程 on 陈大壮的小木屋</title>
+    <link>http://lknownothing.github.io/tags/%E6%95%99%E7%A8%8B/</link>
+    <description>Recent content in 教程 on 陈大壮的小木屋</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="http://lknownothing.github.io/tags/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Github &amp; Hugo搭建博客</title>
+      <link>http://lknownothing.github.io/post/github%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://lknownothing.github.io/post/github%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/</guid>
+      <description>主题地址  本篇博客选择的theme地址github主题地址
+ 主要参考为hugo官方中文文档。
+创建的站点文件目录说明 创建的sites就是用来存放创建的网站的，创建的文件夹名为blog的网站： |- archetypes ：存放default.md，头文件格式
+|- content ：content目录存放博客文章（.markdown/.md文件）
+|- data ：存放自定义模版，导入的toml文件（或json，yaml）
+|- layouts ：layouts目录存放的是网站的模板文件
+|- static ：static目录存放js/css/img等静态资源
+|- config.toml ：config.toml是网站的配置文件
+当前网站是没有任何内容的，需要下载个主题跑起来才有内容。
+安装主题 |- archetypes ：存放default.md，头文件格式
+|- layouts ：主题模板文件
+|- static ：静态资源
+|- theme.toml ：主题配置文件
+运行Hugo server  hugo server &amp;ndash;theme=mainraod hugo new post/test.md 注意需要将draft的值改为false才能看到页面
+ 生成静态网站  hugo &amp;ndash;theme baseUrl=&amp;quot;http://YOURNAME.githun.io/&amp;rdquo;
+ 所有的静态页面都会生成道public目录下，生成静态网站后并push到你的github pages上。就能得到一个在线的个人博客了。
+在github端创建repository 在命令行里边创建一个github repository
+echo &amp;quot;# lknownothing.github.io&amp;quot; &amp;gt;&amp;gt; README.mdgit initgit add README.</description>
+    </item>
+    
+  </channel>
+</rss>
