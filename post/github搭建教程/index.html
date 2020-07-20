@@ -27,7 +27,7 @@
 在github端创建repository 在命令行里边创建一个github repository
 echo &quot;# lknownothing.github.io&quot; &gt;&gt; README.mdgit initgit add README." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://lknownothing.github.io/post/github%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/" />
+<meta property="og:url" content="https://lknownothing.github.io/post/github%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/" />
 
 
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -134,6 +134,42 @@ git push -u origin master
 </code></pre><p>push an existing repository from the command line</p>
 <pre><code>git remote add origin git@github.com:lknownothing/lknownothing.github.io.git
 git push -u origin master
+</code></pre><p>在git bash里边检查ssh，并将ssh加入到ssh-agent，将.pub复制到github中。</p>
+<ol>
+<li>执行指令 git add -A 将所有文件添加到仓库</li>
+<li>执行指令：git commit -m &ldquo;提交文件&rdquo;</li>
+<li>关联github仓库
+<ol>
+<li>到github仓库复制仓库地址。</li>
+<li>执行指令：git remote add origin <a href="https://github.com/hanyuntao/text.git">https://github.com/hanyuntao/text.git</a></li>
+<li>上传本地代码：git push -u origin master</li>
+</ol>
+</li>
+</ol>
+<h3 id="所遇到的问题">所遇到的问题</h3>
+<p>第一问题：</p>
+<blockquote>
+<p>fatal: remote origin already exists.的解决方法。（报错远程源已经存在）解决方法</p>
+</blockquote>
+<pre><code>先输入git remote rm origin
+再输入git remote add origin ***
+</code></pre><p>第二个问题：</p>
+<blockquote>
+<p>the authenticity of host &ldquo;githun.io&rdquo; can&rsquo;t be established. (建立主机与githun.io的验证)</p>
+</blockquote>
+<h3 id="常用命令">常用命令</h3>
+<pre><code>cd public 
+git init
+git remote add origin https://github.com/lknownothing/lknownothing.github.io.git
+git add -A
+git commit -m &quot;first commit&quot;
+git pull --rebase origin master
+git push -u origin master
+</code></pre><h3 id="更新文章">更新文章</h3>
+<pre><code># 本地调试
+hugo server --theme=mainroad --buildDrafts
+# 部署
+hugo --theme=mainroad --baseUrl=&quot;https://lknownothing.github.io/&quot;
 </code></pre>
 		</div>
 		<footer class="post__footer">
@@ -179,7 +215,7 @@ git push -u origin master
 			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q" aria-label="SEARCH...">
 		</label>
 		<input class="widget-search__submit" type="submit" value="Search">
-		<input type="hidden" name="sitesearch" value="http://lknownothing.github.io/" />
+		<input type="hidden" name="sitesearch" value="https://lknownothing.github.io/" />
 	</form>
 </div>
 <div class="widget-recent widget">
