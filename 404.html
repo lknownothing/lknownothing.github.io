@@ -13,6 +13,10 @@
 <meta property="og:url" content="https://lknownothing.github.io/404.html" />
 
 
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="404 Page not found"/>
+<meta name="twitter:description" content="陈大壮&#39;s Personal blog about everything"/>
+
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
 	<link rel="dns-prefetch" href="//fonts.gstatic.com">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
@@ -26,9 +30,11 @@
 		<header class="header">
 	<div class="container header__container">
 		
-	<div class="logo">
+	<div class="logo logo--mixed">
 		<a class="logo__link" href="/" title="陈大壮的小木屋" rel="home">
-			<div class="logo__item logo__text">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/img/placeholder.png">
+				</div><div class="logo__item logo__text">
 					<div class="logo__title">陈大壮的小木屋</div>
 					<div class="logo__tagline">哇哈哈plus盐</div>
 				</div>
@@ -44,13 +50,6 @@
 			<a class="menu__link" href="/post/hugoisforlovers/">
 				
 				<span class="menu__text">Getting Started with Hugo</span>
-				
-			</a>
-		</li>
-		<li class="menu__item">
-			<a class="menu__link" href="/post/github%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/">
-				
-				<span class="menu__text">Github &amp; Hugo搭建博客</span>
 				
 			</a>
 		</li>
@@ -91,9 +90,9 @@
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
-			<li class="widget__item"><a class="widget__link" href="/post/basic-elements/">Basic HTML Elements</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/hugoisforlovers/">Getting Started with Hugo</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/vscode/">VS code 基本使用方法</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/basic-elements/">Basic HTML Elements</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/github%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/">Github &amp; Hugo搭建博客</a></li>
 		</ul>
 	</div>
@@ -120,8 +119,6 @@
 <div class="widget-taglist widget">
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
-		<a class="widget-taglist__link widget__link btn" href="/tags/basic-elements/" title="Basic Elements">Basic Elements (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/css/" title="CSS">CSS (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/development/" title="development">development (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/go/" title="go">go (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/golang/" title="golang">golang (1)</a>
@@ -135,7 +132,24 @@
 </div>
 </aside>
 		</div>
-		<footer class="footer">
+		<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            displayMath: [['$$','$$'], ['\[','\]']],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: { autoNumber: "AMS" },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<footer class="footer">
 	<div class="container footer__container flex">
 		
 		<div class="footer__copyright">

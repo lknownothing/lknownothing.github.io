@@ -18,7 +18,8 @@
       <guid>https://lknownothing.github.io/post/github%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/</guid>
       <description>主题地址  本篇博客选择的theme地址github主题地址
  主要参考为hugo官方中文文档。
-创建的站点文件目录说明 创建的sites就是用来存放创建的网站的，创建的文件夹名为blog的网站： |- archetypes ：存放default.md，头文件格式
+创建的站点文件目录说明 创建的sites就是用来存放创建的网站的，创建的文件夹名为blog的网站：
+|- archetypes ：存放default.md，头文件格式
 |- content ：content目录存放博客文章（.markdown/.md文件）
 |- data ：存放自定义模版，导入的toml文件（或json，yaml）
 |- layouts ：layouts目录存放的是网站的模板文件
@@ -30,7 +31,7 @@
 |- static ：静态资源
 |- theme.toml ：主题配置文件
 运行Hugo server  hugo server &amp;ndash;theme=mainraod hugo new post/test.md 注意需要将draft的值改为false才能看到页面
- 生成静态网站  hugo &amp;ndash;theme baseUrl=&amp;quot;http://YOURNAME.githun.io/&amp;rdquo;
+ 生成静态网站  hugo &amp;ndash;theme=THEME_NAME baseUrl=&amp;quot;http://YOURNAME.github.io/&amp;rdquo;
  所有的静态页面都会生成道public目录下，生成静态网站后并push到你的github pages上。就能得到一个在线的个人博客了。
 在github端创建repository 在命令行里边创建一个github repository
 echo &amp;quot;# lknownothing.github.io&amp;quot; &amp;gt;&amp;gt; README.mdgit initgit add README.</description>
