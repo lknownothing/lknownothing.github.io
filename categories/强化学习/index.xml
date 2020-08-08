@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>强化学习 on 哇哈哈plus盐</title>
+    <link>https://lknownothing.github.io/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</link>
+    <description>Recent content in 强化学习 on 哇哈哈plus盐</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lknownothing.github.io/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>OpenAI gym介绍</title>
+      <link>https://lknownothing.github.io/post/copy-v0%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>Sat, 08 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://lknownothing.github.io/post/copy-v0%E5%AE%9E%E7%8E%B0/</guid>
+      <description>OpenAI Gym的使用 介绍 目前，OpenAI Gym（以下简称gym）作为一个在强化学习领域内非常流行的测试框架，已然成为了Benchmark。
+Toy example import gym test_envs={&amp;#39;algorithm&amp;#39;:&amp;#39;Copy-v0&amp;#39;, &amp;#39;toy_text&amp;#39;:&amp;#39;FrozenLake-v0&amp;#39;, &amp;#39;control&amp;#39;:&amp;#39;CartPole-v0&amp;#39;, # option：MountainCar-v0 &amp;#39;atari&amp;#39;:&amp;#39;SpaceInvaders-v0&amp;#39;,# options：&amp;#39;Breakout-ram-v4&amp;#39;，&amp;#39;Seaquest-v0&amp;#39;, &amp;#39;mujoco&amp;#39;:&amp;#39;Humanoid-v1&amp;#39;, # not feasible on Win10 &amp;#39;box2d&amp;#39;:&amp;#39;LunarLander-v2&amp;#39; } # not feasible on Win10 game_name = test_envs[&amp;#39;algorithm&amp;#39;] env = gym.make(game_name) for i_episode in range(20): observation = env.reset() for t in range(100): env.render() print(observation) action = env.action_space.sample() observation, reward, done, info = env.step(action) if done: print(&amp;#34;Episode finished after {} timesteps&amp;#34;.format(t+1)) break 在增强学习算法中有观察（observation）、回报（reward）、价值（value）、策略（policy）四个核心元素。使用python可以安装并加载OpenAI Gym提供的预设环境。这些环境在每一轮动作执行后以新的观察和即时回报作为输出，接受下一轮执行的动作作为输入。
+ Monte Carlo算法：与动态规划DP不同的是，这里不需要完整的知识，MC方法仅仅需要经验就可以求解最优策略。这些经验可以在线获得，或者根据某种模拟机制获得。MC方法是episode task上的，不管采取哪种策略。都会在有限时间达到终止状态并获得returnr任务。比如棋牌类游戏。有很多组这样经历完整的状态序列，就可以来近似估计状态价值了。进而求解预测和控制问题。</description>
+    </item>
+    
+  </channel>
+</rss>

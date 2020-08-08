@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>OpenAI gym介绍 - 哇哈哈plus盐</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="OpenAI gym介绍" />
+<meta property="og:description" content="OpenAI Gym的使用 介绍 目前，OpenAI Gym（以下简称gym）作为一个在强化学习领域内非常流行的测试框架，已然成为了Benchmark。
+Toy example import gym test_envs={&#39;algorithm&#39;:&#39;Copy-v0&#39;, &#39;toy_text&#39;:&#39;FrozenLake-v0&#39;, &#39;control&#39;:&#39;CartPole-v0&#39;, # option：MountainCar-v0 &#39;atari&#39;:&#39;SpaceInvaders-v0&#39;,# options：&#39;Breakout-ram-v4&#39;，&#39;Seaquest-v0&#39;, &#39;mujoco&#39;:&#39;Humanoid-v1&#39;, # not feasible on Win10 &#39;box2d&#39;:&#39;LunarLander-v2&#39; } # not feasible on Win10 game_name = test_envs[&#39;algorithm&#39;] env = gym.make(game_name) for i_episode in range(20): observation = env.reset() for t in range(100): env.render() print(observation) action = env.action_space.sample() observation, reward, done, info = env.step(action) if done: print(&#34;Episode finished after {} timesteps&#34;.format(t&#43;1)) break 在增强学习算法中有观察（observation）、回报（reward）、价值（value）、策略（policy）四个核心元素。使用python可以安装并加载OpenAI Gym提供的预设环境。这些环境在每一轮动作执行后以新的观察和即时回报作为输出，接受下一轮执行的动作作为输入。
+ Monte Carlo算法：与动态规划DP不同的是，这里不需要完整的知识，MC方法仅仅需要经验就可以求解最优策略。这些经验可以在线获得，或者根据某种模拟机制获得。MC方法是episode task上的，不管采取哪种策略。都会在有限时间达到终止状态并获得returnr任务。比如棋牌类游戏。有很多组这样经历完整的状态序列，就可以来近似估计状态价值了。进而求解预测和控制问题。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lknownothing.github.io/post/copy-v0%E5%AE%9E%E7%8E%B0/" />
+<meta property="article:published_time" content="2020-08-08T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-08-08T00:00:00+00:00" />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="OpenAI gym介绍"/>
+<meta name="twitter:description" content="OpenAI Gym的使用 介绍 目前，OpenAI Gym（以下简称gym）作为一个在强化学习领域内非常流行的测试框架，已然成为了Benchmark。
+Toy example import gym test_envs={&#39;algorithm&#39;:&#39;Copy-v0&#39;, &#39;toy_text&#39;:&#39;FrozenLake-v0&#39;, &#39;control&#39;:&#39;CartPole-v0&#39;, # option：MountainCar-v0 &#39;atari&#39;:&#39;SpaceInvaders-v0&#39;,# options：&#39;Breakout-ram-v4&#39;，&#39;Seaquest-v0&#39;, &#39;mujoco&#39;:&#39;Humanoid-v1&#39;, # not feasible on Win10 &#39;box2d&#39;:&#39;LunarLander-v2&#39; } # not feasible on Win10 game_name = test_envs[&#39;algorithm&#39;] env = gym.make(game_name) for i_episode in range(20): observation = env.reset() for t in range(100): env.render() print(observation) action = env.action_space.sample() observation, reward, done, info = env.step(action) if done: print(&#34;Episode finished after {} timesteps&#34;.format(t&#43;1)) break 在增强学习算法中有观察（observation）、回报（reward）、价值（value）、策略（policy）四个核心元素。使用python可以安装并加载OpenAI Gym提供的预设环境。这些环境在每一轮动作执行后以新的观察和即时回报作为输出，接受下一轮执行的动作作为输入。
+ Monte Carlo算法：与动态规划DP不同的是，这里不需要完整的知识，MC方法仅仅需要经验就可以求解最优策略。这些经验可以在线获得，或者根据某种模拟机制获得。MC方法是episode task上的，不管采取哪种策略。都会在有限时间达到终止状态并获得returnr任务。比如棋牌类游戏。有很多组这样经历完整的状态序列，就可以来近似估计状态价值了。进而求解预测和控制问题。"/>
+
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="哇哈哈plus盐" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/img/placeholder.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">哇哈哈plus盐</div>
+					<div class="logo__tagline">哇哈哈plus盐</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/post/hugoisforlovers/">
+				
+				<span class="menu__text">Getting Started with Hugo</span>
+				
+			</a>
+		</li>
+		<li class="menu__item menu__item--active">
+			<a class="menu__link" href="/post/copy-v0%E5%AE%9E%E7%8E%B0/">
+				
+				<span class="menu__text">OpenAI gym介绍</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/vscode/">
+				
+				<span class="menu__text">VS code 基本使用方法</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">OpenAI gym介绍</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-08-08T00:00:00Z">August 08, 2020</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="category">强化学习</a>, <a class="meta__link" href="/categories/%E6%95%99%E7%A8%8B/" rel="category">教程</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<h1 id="openai-gym的使用">OpenAI Gym的使用</h1>
+<h2 id="介绍">介绍</h2>
+<p>目前，OpenAI Gym（以下简称gym）作为一个在强化学习领域内非常流行的测试框架，已然成为了Benchmark。</p>
+<h3 id="toy-example">Toy example</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> gym
+test_envs<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;algorithm&#39;</span>:<span style="color:#e6db74">&#39;Copy-v0&#39;</span>,
+           <span style="color:#e6db74">&#39;toy_text&#39;</span>:<span style="color:#e6db74">&#39;FrozenLake-v0&#39;</span>,
+           <span style="color:#e6db74">&#39;control&#39;</span>:<span style="color:#e6db74">&#39;CartPole-v0&#39;</span>, <span style="color:#75715e"># option：MountainCar-v0</span>
+           <span style="color:#e6db74">&#39;atari&#39;</span>:<span style="color:#e6db74">&#39;SpaceInvaders-v0&#39;</span>,<span style="color:#75715e"># options：&#39;Breakout-ram-v4&#39;，&#39;Seaquest-v0&#39;,</span>
+          <span style="color:#e6db74">&#39;mujoco&#39;</span>:<span style="color:#e6db74">&#39;Humanoid-v1&#39;</span>,     <span style="color:#75715e"># not feasible on Win10</span>
+          <span style="color:#e6db74">&#39;box2d&#39;</span>:<span style="color:#e6db74">&#39;LunarLander-v2&#39;</span> }  <span style="color:#75715e"># not feasible on Win10</span>
+
+game_name <span style="color:#f92672">=</span> test_envs[<span style="color:#e6db74">&#39;algorithm&#39;</span>]
+env <span style="color:#f92672">=</span> gym<span style="color:#f92672">.</span>make(game_name)
+<span style="color:#66d9ef">for</span> i_episode <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">20</span>):
+    observation <span style="color:#f92672">=</span> env<span style="color:#f92672">.</span>reset()
+    <span style="color:#66d9ef">for</span> t <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">100</span>):
+        env<span style="color:#f92672">.</span>render() 
+        <span style="color:#66d9ef">print</span>(observation)
+        action <span style="color:#f92672">=</span> env<span style="color:#f92672">.</span>action_space<span style="color:#f92672">.</span>sample()
+        observation, reward, done, info <span style="color:#f92672">=</span> env<span style="color:#f92672">.</span>step(action)
+        <span style="color:#66d9ef">if</span> done:
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Episode finished after {} timesteps&#34;</span><span style="color:#f92672">.</span>format(t<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>))
+            <span style="color:#66d9ef">break</span>
+</code></pre></div><p>在增强学习算法中有观察（observation）、回报（reward）、价值（value）、策略（policy）四个核心元素。使用python可以安装并加载OpenAI Gym提供的预设环境。这些环境在每一轮动作执行后以新的观察和即时回报作为输出，接受下一轮执行的动作作为输入。</p>
+<blockquote>
+<p>Monte Carlo算法：与动态规划DP不同的是，这里不需要完整的知识，MC方法仅仅需要经验就可以求解最优策略。这些经验可以在线获得，或者根据某种模拟机制获得。MC方法是episode task上的，不管采取哪种策略。都会在<strong>有限时间达到终止状态并获得returnr</strong>任务。比如棋牌类游戏。有很多组这样经历完整的状态序列，就可以来近似估计状态价值了。进而求解预测和控制问题。</p>
+</blockquote>
+<p>Model-free的强化学习：</p>
+<ul>
+<li>预测问题：即给定强化学习的5个要素：状态集S, 动作集A, 即时奖励R，衰减因子γ,  给定策略π， 求解该策略的状态价值函数v(π);</li>
+<li>控制问题，也就是求解最优的价值函数和策略。给定强化学习的5个要素：状态集S, 动作集A, 即时奖励R，衰减因子γ, 探索率ϵ, 求解最优的动作价值函数q∗和最优策略π∗.</li>
+</ul>
+<h4 id="mc优化考虑">MC优化考虑</h4>
+<ol>
+<li>
+<p>同一状态可能在一个完整的状态序列中重复出现。比如，象棋中马可能重复到一个位置。两种方法：first visit和every visit。</p>
+</li>
+<li>
+<p>累进更新平均值（incement mean）。average公式，意味着报错所有该状态的收获值，最优平均。浪费存储空间。一种方法就是保存上轮得到的收货均值与次数。</p>
+</li>
+</ol>
+<h4 id="mc方法控制问题的算法流程">MC方法控制问题的算法流程</h4>
+<ol>
+<li>
+<p>初始化所有的动作价值$Q(s,a)=0$,状态次数$N(s,a)=0$，随机初始化一个策略$\pi$</p>
+</li>
+<li>
+<p>k=k+1 基于策略进行k次MC采样，得到完整的状态序列。
+$$
+S_1,A_1,R_2,S_2,A_2,&hellip;S_t,A_t,R_{t+1},&hellip;R_T, S_T
+$$</p>
+</li>
+<li>
+<p>对于每一个状态行为，计算收获$G_t$</p>
+</li>
+<li>
+<p>基于新计算的动作价值，更新当前的贪婪策略</p>
+</li>
+<li>
+<p>如果所有的Q收敛，则对应的Q(s,a)即为最优的动作价值函数，对应的策略$\pi(a|s)$为最优策略。</p>
+</li>
+</ol>
+<h3 id="算法代码">算法代码</h3>
+<p>算法完全遵循强化学习MC方法，rets为episode的累计奖励。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">import</span> random
+env<span style="color:#f92672">=</span>gym<span style="color:#f92672">.</span>make(<span style="color:#e6db74">&#34;Copy-v0&#34;</span>)
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">action_to_index</span>(action):
+    <span style="color:#66d9ef">return</span> action[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">*</span><span style="color:#ae81ff">10</span><span style="color:#f92672">+</span>action[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">*</span><span style="color:#ae81ff">5</span><span style="color:#f92672">+</span>action[<span style="color:#ae81ff">2</span>] <span style="color:#75715e"># 0+5+4</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index_to_action</span>(index):
+    action<span style="color:#f92672">=</span>[index<span style="color:#f92672">//</span><span style="color:#ae81ff">10</span>,index<span style="color:#f92672">%</span><span style="color:#ae81ff">2</span>,index<span style="color:#f92672">%</span><span style="color:#ae81ff">5</span>]
+    <span style="color:#66d9ef">return</span> tuple(action)
+
+STATE_COUNT<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>  <span style="color:#75715e"># ABCDE+边界</span>
+ACTION_COUNT<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>  <span style="color:#75715e"># 2*2*5 总共有20个动作</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">init_MC</span>(state_count,action_count):
+    <span style="color:#75715e"># 初始q值都为0</span>
+    q<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>rand(state_count,action_count)  
+    <span style="color:#75715e"># return G_t 一个动作之后的所有收货，计算V(s)</span>
+    rets<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>zeros((state_count,action_count),dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>double)
+    <span style="color:#75715e"># 6个的策略</span>
+    policy<span style="color:#f92672">=</span>[random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>,action_count) <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(state_count)]
+    <span style="color:#66d9ef">return</span> q,rets,policy
+    
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">learning</span>(env):
+    q,rets,policy<span style="color:#f92672">=</span>init_MC(STATE_COUNT,ACTION_COUNT)
+    gamma<span style="color:#f92672">=</span><span style="color:#ae81ff">0.9</span>
+    epsilon<span style="color:#f92672">=</span><span style="color:#ae81ff">0.1</span>
+    total_score<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0</span>
+    i_episode<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+    
+    <span style="color:#66d9ef">for</span> i_episode <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">100000</span>):
+        total_reward<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+        observation<span style="color:#f92672">=</span>env<span style="color:#f92672">.</span>reset()
+        g <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((STATE_COUNT, ACTION_COUNT), dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>double)
+        passed <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((STATE_COUNT, ACTION_COUNT), dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>double)
+        
+        <span style="color:#66d9ef">for</span> t <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">10</span>):
+<span style="color:#75715e">#             env.render()</span>
+            raw_action<span style="color:#f92672">=</span>policy[observation]
+        
+            <span style="color:#66d9ef">if</span> random<span style="color:#f92672">.</span>random()<span style="color:#f92672">&lt;</span> epsilon:
+                raw_action<span style="color:#f92672">=</span>action_to_index((random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>),
+                                           random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>),
+                                           random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">4</span>)))              
+            <span style="color:#66d9ef">if</span> passed[observation,raw_action]<span style="color:#f92672">==</span><span style="color:#ae81ff">0.0</span>:
+                passed[observation,raw_action]<span style="color:#f92672">=</span><span style="color:#ae81ff">1.0</span> <span style="color:#75715e"># 记录visit</span>
+            action<span style="color:#f92672">=</span>index_to_action(raw_action)
+            observation,reward,done,info<span style="color:#f92672">=</span>env<span style="color:#f92672">.</span>step(action)
+           
+            reward<span style="color:#f92672">-=</span><span style="color:#ae81ff">0.5</span> <span style="color:#75715e"># 惩罚奖励为0的无用动作,即不write。</span>
+            total_reward<span style="color:#f92672">+=</span>reward
+            
+            <span style="color:#75715e"># every visit</span>
+            <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(STATE_COUNT):
+                <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(ACTION_COUNT):
+                    passed[i][j]<span style="color:#f92672">*=</span>gamma
+                    g[i][j]<span style="color:#f92672">+=</span>reward<span style="color:#f92672">*</span>passed[i][j]
+            <span style="color:#66d9ef">if</span> done:
+                <span style="color:#66d9ef">break</span>
+                
+            <span style="color:#75715e"># 减小exploration chance</span>
+        <span style="color:#66d9ef">if</span> i_episode <span style="color:#f92672">%</span> <span style="color:#ae81ff">999</span><span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>:
+                epsilon<span style="color:#f92672">*=</span><span style="color:#ae81ff">0.9</span>
+                
+        rets<span style="color:#f92672">+=</span>g
+        q<span style="color:#f92672">=</span>rets<span style="color:#f92672">/</span>(i_episode<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#75715e"># 每一个episode之后更新Q值</span>
+        policy<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>argmax(q,axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">.</span>tolist()
+
+        total_score<span style="color:#f92672">+=</span>total_reward
+    
+    <span style="color:#66d9ef">return</span> policy,i_episode
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_policy</span>(env,policy):
+    total_reward<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0</span>
+    observation<span style="color:#f92672">=</span>env<span style="color:#f92672">.</span>reset()
+    <span style="color:#66d9ef">for</span> t <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1000</span>):
+        action<span style="color:#f92672">=</span>index_to_action(policy[observation])
+        observation,reward,done,info<span style="color:#f92672">=</span>env<span style="color:#f92672">.</span>step(action)
+        total_reward<span style="color:#f92672">+=</span>reward
+        <span style="color:#66d9ef">if</span> done:
+            <span style="color:#66d9ef">break</span>
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Total reward: </span><span style="color:#e6db74">%f</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">%</span> total_reward)
+
+<span style="color:#75715e"># env.monitor.start(&#34;Copyv0-experiment-0&#34;)</span>
+policy,n_episode<span style="color:#f92672">=</span>learning(env)
+<span style="color:#75715e"># env.monitor.close()</span>
+
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Final policy:&#34;</span><span style="color:#f92672">+</span>str(policy))
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Episode trained:&#34;</span><span style="color:#f92672">+</span>str(n_episode))
+test_policy(env,policy)
+</code></pre></div><h3 id="运行结果">运行结果</h3>
+<pre><code>Final policy:[15, 11, 17, 13, 19, 12]
+Episode trained:99999
+Total reward: 13.000000
+</code></pre>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="tag">强化学习</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" rel="tag">开发环境</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="陈大壮 avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About 陈大壮</span>
+	</div>
+	<div class="authorbox__description">
+		有的人八十岁就死了，18岁才埋
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/post/hugoisforlovers/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Getting Started with Hugo</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "dadachen-1" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://dadachen-1.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q" aria-label="SEARCH...">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://lknownothing.github.io/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/copy-v0%E5%AE%9E%E7%8E%B0/">OpenAI gym介绍</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/hugoisforlovers/">Getting Started with Hugo</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/vscode/">VS code 基本使用方法</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/basic-elements/">Basic HTML Elements</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/golang/">golang</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/development/" title="development">development (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go/" title="go">go (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/golang/" title="golang">golang (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/html/" title="HTML">HTML (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/hugo/" title="hugo">hugo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/templates/" title="templates">templates (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/themes/" title="themes">themes (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%B7%A5%E5%85%B7/" title="工具">工具 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" title="开发环境">开发环境 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%99%E7%A8%8B/" title="教程">教程 (1)</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            displayMath: [['$$','$$'], ['\[','\]']],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: { autoNumber: "AMS" },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 哇哈哈plus盐.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>
