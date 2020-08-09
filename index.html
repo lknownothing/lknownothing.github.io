@@ -56,6 +56,13 @@
 			</a>
 		</li>
 		<li class="menu__item">
+			<a class="menu__link" href="/post/gym-cart-pole/">
+				
+				<span class="menu__text">Gym Cart-Pole-v1</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/post/copy-v0%E5%AE%9E%E7%8E%B0/">
 				
 				<span class="menu__text">OpenAI gym介绍</span>
@@ -81,6 +88,27 @@
 	<article class="list__item post">
 	<header class="list__header">
 		<h3 class="list__title post__title ">
+			<a href="/post/gym-cart-pole/" rel="bookmark">
+			Gym Cart-Pole-v1
+			</a>
+		</h3>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-08-08T00:00:00Z">August 08, 2020</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="category">强化学习</a>, <a class="meta__link" href="/categories/%E6%95%99%E7%A8%8B/" rel="category">教程</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		介绍 在CartPole-v0的环境中，实际参考了论文：AG Barto, RS Sutton and CW Anderson, “Neuronlike Adaptive Elements That Can Solve Difficult Learning Control Problem”, IEEE Transactions on Systems, Man, and Cybernetics, 1983.中的倒立摆控制问题。
+Cart-Pole就是车杆游戏，为了保证游戏能继续进行,需要满足两个条件：
+ 杆子倾斜的角度$\theta$不能大于15度 小车移动的位置x需要保持在一定的范围，（中间到两边各2.4个单位长度)  状态变量
+ x 小车在轨道的位置 $\theta$：杆子与竖直方向的夹角 v 小车速度 $v_rad$ 角度变化率  在CartPole-v0中到达200个reward之后，CartPole-v1中则为500。最大奖励reward阈值可以通过前面介绍的注册表进行修改。
+form gym.envs.registration import registerregister(id='CartPole-v2',entry_point='gym.envs.classic_control:CartPoleEnv',max_episode_steps=200*4,reward_threshold=195.0*4,)env = gym.make('CartPole-v2')经验回放 我们需要来给你个类
+ Transition (state,action,next_state,reward) ReplayMemory 一个有界的循环缓冲区，用于最近观察到的转换。还实现了.sample()方法，从经验库中随机选择一批transitions。  参考   OpenAI Gym使用、rendering画图   
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
 			<a href="/post/copy-v0%E5%AE%9E%E7%8E%B0/" rel="bookmark">
 			OpenAI gym介绍
 			</a>
@@ -92,9 +120,10 @@
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		OpenAI Gym的使用 介绍 目前，OpenAI Gym（以下简称gym）作为一个在强化学习领域内非常流行的测试框架，已然成为了Benchmark。
+		介绍 目前，OpenAI Gym（以下简称gym）作为一个在强化学习领域内非常流行的测试框架，已然成为了Benchmark。
 Toy example import gym test_envs={&#39;algorithm&#39;:&#39;Copy-v0&#39;, &#39;toy_text&#39;:&#39;FrozenLake-v0&#39;, &#39;control&#39;:&#39;CartPole-v0&#39;, # option：MountainCar-v0 &#39;atari&#39;:&#39;SpaceInvaders-v0&#39;,# options：&#39;Breakout-ram-v4&#39;，&#39;Seaquest-v0&#39;, &#39;mujoco&#39;:&#39;Humanoid-v1&#39;, # not feasible on Win10 &#39;box2d&#39;:&#39;LunarLander-v2&#39; } # not feasible on Win10 game_name = test_envs[&#39;algorithm&#39;] env = gym.make(game_name) for i_episode in range(20): observation = env.reset() for t in range(100): env.render() print(observation) action = env.action_space.sample() observation, reward, done, info = env.step(action) if done: print(&#34;Episode finished after {} timesteps&#34;.format(t+1)) break 在增强学习算法中有观察（observation）、回报（reward）、价值（value）、策略（policy）四个核心元素。使用python可以安装并加载OpenAI Gym提供的预设环境。这些环境在每一轮动作执行后以新的观察和即时回报作为输出，接受下一轮执行的动作作为输入。
  Monte Carlo算法：与动态规划DP不同的是，这里不需要完整的知识，MC方法仅仅需要经验就可以求解最优策略。这些经验可以在线获得，或者根据某种模拟机制获得。MC方法是episode task上的，不管采取哪种策略。都会在有限时间达到终止状态并获得returnr任务。比如棋牌类游戏。有很多组这样经历完整的状态序列，就可以来近似估计状态价值了。进而求解预测和控制问题。
+ Model-free的强化学习：
 	</div>
 </article><article class="list__item post">
 	<header class="list__header">
@@ -208,10 +237,10 @@ echo &quot;# lknownothing.github.io&quot; &gt;&gt; README.mdgit initgit add RE
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/gym-cart-pole/">Gym Cart-Pole-v1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/copy-v0%E5%AE%9E%E7%8E%B0/">OpenAI gym介绍</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/hugoisforlovers/">Getting Started with Hugo</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/vscode/">VS code 基本使用方法</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/basic-elements/">Basic HTML Elements</a></li>
 		</ul>
 	</div>
 </div>
@@ -248,8 +277,8 @@ echo &quot;# lknownothing.github.io&quot; &gt;&gt; README.mdgit initgit add RE
 		<a class="widget-taglist__link widget__link btn" href="/tags/templates/" title="templates">templates (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/themes/" title="themes">themes (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%B7%A5%E5%85%B7/" title="工具">工具 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" title="开发环境">开发环境 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" title="开发环境">开发环境 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%99%E7%A8%8B/" title="教程">教程 (1)</a>
 	</div>
 </div>
