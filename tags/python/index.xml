@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>python on 哇哈哈plus盐</title>
+    <link>https://lknownothing.github.io/tags/python/</link>
+    <description>Recent content in python on 哇哈哈plus盐</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lknownothing.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>classmethod and super</title>
+      <link>https://lknownothing.github.io/post/python-classmethod/</link>
+      <pubDate>Sat, 08 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://lknownothing.github.io/post/python-classmethod/</guid>
+      <description>代码 class time(object): def __init__(self, year): super(time, self).__init__() self.year = year print(self.year) ​ # a class method to create a time that one day following the data &amp;#39;year&amp;#39; @classmethod def tomorrow(cls,year): print(type(cls)) # &amp;gt;&amp;gt;&amp;gt; ▲ Python所有类都继承自`&amp;lt;class &amp;#39;type&amp;#39;&amp;gt;`，包括新式类`object` return cls(year+1) ​ # a static method to check whether the given data &amp;#39;year&amp;#39; is after 2000. @staticmethod def twoThoundYear(year): return year&amp;gt;2000 ​ @classmethod def class_name(cls): return cls.__name__ ​ if __name__ == &amp;#39;__main__&amp;#39;: t1 = time(1999) t2 = time.</description>
+    </item>
+    
+  </channel>
+</rss>

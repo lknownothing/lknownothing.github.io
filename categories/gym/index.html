@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Gym - 哇哈哈plus盐</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Gym" />
+<meta property="og:description" content="陈大壮&#39;s Personal blog about everything" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lknownothing.github.io/categories/gym/" />
+<meta property="og:updated_time" content="2020-08-08T00:00:00+00:00" />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Gym"/>
+<meta name="twitter:description" content="陈大壮&#39;s Personal blog about everything"/>
+
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="alternate" type="application/rss+xml" href="/categories/gym/index.xml" title="哇哈哈plus盐">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="哇哈哈plus盐" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/img/placeholder.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">哇哈哈plus盐</div>
+					<div class="logo__tagline">哇哈哈plus盐</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/post/hugoisforlovers/">
+				
+				<span class="menu__text">Getting Started with Hugo</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/gym-cart-pole/">
+				
+				<span class="menu__text">Gym Cart-Pole-v1</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/vscode/">
+				
+				<span class="menu__text">VS code 基本使用方法</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main list" role="main">
+	<header class="main__header">
+		<h1 class="main__title">Gym</h1>
+	</header><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
+			<a href="/post/gym-copy-v0%E5%AE%9E%E7%8E%B0/" rel="bookmark">
+			OpenAI gym介绍
+			</a>
+		</h3>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-08-08T00:00:00Z">August 08, 2020</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="category">强化学习</a>, <a class="meta__link" href="/categories/%E6%95%99%E7%A8%8B/" rel="category">教程</a>, <a class="meta__link" href="/categories/gym/" rel="category">Gym</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		介绍 目前，OpenAI Gym（以下简称gym）作为一个在强化学习领域内非常流行的测试框架，已然成为了Benchmark。
+Toy example import gym test_envs={&#39;algorithm&#39;:&#39;Copy-v0&#39;, &#39;toy_text&#39;:&#39;FrozenLake-v0&#39;, &#39;control&#39;:&#39;CartPole-v0&#39;, # option：MountainCar-v0 &#39;atari&#39;:&#39;SpaceInvaders-v0&#39;,# options：&#39;Breakout-ram-v4&#39;，&#39;Seaquest-v0&#39;, &#39;mujoco&#39;:&#39;Humanoid-v1&#39;, # not feasible on Win10 &#39;box2d&#39;:&#39;LunarLander-v2&#39; } # not feasible on Win10 game_name = test_envs[&#39;algorithm&#39;] env = gym.make(game_name) for i_episode in range(20): observation = env.reset() for t in range(100): env.render() print(observation) action = env.action_space.sample() observation, reward, done, info = env.step(action) if done: print(&#34;Episode finished after {} timesteps&#34;.format(t+1)) break 在增强学习算法中有观察（observation）、回报（reward）、价值（value）、策略（policy）四个核心元素。使用python可以安装并加载OpenAI Gym提供的预设环境。这些环境在每一轮动作执行后以新的观察和即时回报作为输出，接受下一轮执行的动作作为输入。
+ Monte Carlo算法：与动态规划DP不同的是，这里不需要完整的知识，MC方法仅仅需要经验就可以求解最优策略。这些经验可以在线获得，或者根据某种模拟机制获得。MC方法是episode task上的，不管采取哪种策略。都会在有限时间达到终止状态并获得returnr任务。比如棋牌类游戏。有很多组这样经历完整的状态序列，就可以来近似估计状态价值了。进而求解预测和控制问题。
+ Model-free的强化学习：
+	</div>
+</article>
+</main>
+
+
+			</div>
+			
+<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q" aria-label="SEARCH...">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://lknownothing.github.io/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/torch-nn-linear/">Torch.Linear详解</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/python-classmethod/">classmethod and super</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/gym-cart-pole/">Gym Cart-Pole-v1</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/gym-copy-v0%E5%AE%9E%E7%8E%B0/">OpenAI gym介绍</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/gym/">Gym</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/python/">python</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/development/" title="development">development (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/html/" title="HTML">HTML (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/hugo/" title="hugo">hugo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/torch/" title="Torch">Torch (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%B7%A5%E5%85%B7/" title="工具">工具 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" title="开发环境">开发环境 (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%99%E7%A8%8B/" title="教程">教程 (1)</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            displayMath: [['$$','$$'], ['\[','\]']],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: { autoNumber: "AMS" },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 哇哈哈plus盐.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

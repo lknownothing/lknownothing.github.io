@@ -6,7 +6,7 @@
     <description>Recent content in Categories on 哇哈哈plus盐</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 08 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 09 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://lknownothing.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>强化学习</title>
       <link>https://lknownothing.github.io/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</link>
-      <pubDate>Sat, 08 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>https://lknownothing.github.io/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</guid>
       <description></description>
@@ -23,9 +23,27 @@
     <item>
       <title>教程</title>
       <link>https://lknownothing.github.io/categories/%E6%95%99%E7%A8%8B/</link>
-      <pubDate>Sat, 08 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>https://lknownothing.github.io/categories/%E6%95%99%E7%A8%8B/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Gym</title>
+      <link>https://lknownothing.github.io/categories/gym/</link>
+      <pubDate>Sat, 08 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://lknownothing.github.io/categories/gym/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://lknownothing.github.io/categories/python/</link>
+      <pubDate>Sat, 08 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://lknownothing.github.io/categories/python/</guid>
       <description></description>
     </item>
     
@@ -35,15 +53,6 @@
       <pubDate>Mon, 20 Jul 2020 00:00:00 +0000</pubDate>
       
       <guid>https://lknownothing.github.io/categories/development/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>golang</title>
-      <link>https://lknownothing.github.io/categories/golang/</link>
-      <pubDate>Mon, 20 Jul 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://lknownothing.github.io/categories/golang/</guid>
       <description></description>
     </item>
     

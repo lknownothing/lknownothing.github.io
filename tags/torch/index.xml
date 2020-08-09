@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Torch on 哇哈哈plus盐</title>
+    <link>https://lknownothing.github.io/tags/torch/</link>
+    <description>Recent content in Torch on 哇哈哈plus盐</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 09 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lknownothing.github.io/tags/torch/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Torch.Linear详解</title>
+      <link>https://lknownothing.github.io/post/torch-nn-linear/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://lknownothing.github.io/post/torch-nn-linear/</guid>
+      <description>线性变化 线性变换公式
+$$y=x A^{T}+b$$
+我们将要输入的维度是(128,20) 想要输出 20维的特征
+import torch x = torch.randn(128, 20) # 输入的维度是（128，20） m = torch.nn.Linear(20, 30) # 20,30是指维度 output = m(x) print(&amp;#39;m.weight.shape:\n&amp;#39;, m.weight.shape) print(&amp;#39;m.bias.shape:\n&amp;#39;, m.bias.shape) print(&amp;#39;output.shape:\n&amp;#39;, output.shape) # ans = torch.mm(input,torch.t(m.weight))+m.bias 等价于下面的 ans = torch.mm(x, m.weight.t()) + m.bias print(&amp;#39;ans.shape:\n&amp;#39;, ans.shape) print(torch.equal(ans, output)) 验证输出
+m.weight.shape: torch.Size([30, 20]) m.bias.shape: torch.Size([30]) output.shape: torch.Size([128, 30]) ans.shape: torch.Size([128, 30]) True 为什么weight的shape是（30,20), 实际运算中有转置。
+###　参考链接
+  CSDN博客   </description>
+    </item>
+    
+  </channel>
+</rss>
