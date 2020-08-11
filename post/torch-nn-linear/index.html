@@ -11,10 +11,10 @@
 <meta property="og:description" content="线性变化 线性变换公式
 $$y=x A^{T}&#43;b$$
 我们将要输入的维度是(128,20) 想要输出 20维的特征
-import torch x = torch.randn(128, 20) # 输入的维度是（128，20） m = torch.nn.Linear(20, 30) # 20,30是指维度 output = m(x) print(&#39;m.weight.shape:\n&#39;, m.weight.shape) print(&#39;m.bias.shape:\n&#39;, m.bias.shape) print(&#39;output.shape:\n&#39;, output.shape) # ans = torch.mm(input,torch.t(m.weight))&#43;m.bias 等价于下面的 ans = torch.mm(x, m.weight.t()) &#43; m.bias print(&#39;ans.shape:\n&#39;, ans.shape) print(torch.equal(ans, output)) 验证输出
+ dim=1  import torch x = torch.randn(128, 20) # 输入的维度是（128，20） m = torch.nn.Linear(20, 30) # 20,30是指维度 output = m(x) print(&#39;m.weight.shape:\n&#39;, m.weight.shape) print(&#39;m.bias.shape:\n&#39;, m.bias.shape) print(&#39;output.shape:\n&#39;, output.shape) # ans = torch.mm(input,torch.t(m.weight))&#43;m.bias 等价于下面的 ans = torch.mm(x, m.weight.t()) &#43; m.bias print(&#39;ans.shape:\n&#39;, ans.shape) print(torch.equal(ans, output)) 验证输出
 m.weight.shape: torch.Size([30, 20]) m.bias.shape: torch.Size([30]) output.shape: torch.Size([128, 30]) ans.shape: torch.Size([128, 30]) True 为什么weight的shape是（30,20), 实际运算中有转置。
-###　参考链接
-  CSDN博客   " />
+torch.gather方法 torch.gather(input,dim,index,out=None) -&gt; Tensor
+import torch a = torch." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://lknownothing.github.io/post/torch-nn-linear/" />
 <meta property="article:published_time" content="2020-08-09T00:00:00+00:00" />
@@ -25,10 +25,10 @@ m.weight.shape: torch.Size([30, 20]) m.bias.shape: torch.Size([30]) output.shape
 <meta name="twitter:description" content="线性变化 线性变换公式
 $$y=x A^{T}&#43;b$$
 我们将要输入的维度是(128,20) 想要输出 20维的特征
-import torch x = torch.randn(128, 20) # 输入的维度是（128，20） m = torch.nn.Linear(20, 30) # 20,30是指维度 output = m(x) print(&#39;m.weight.shape:\n&#39;, m.weight.shape) print(&#39;m.bias.shape:\n&#39;, m.bias.shape) print(&#39;output.shape:\n&#39;, output.shape) # ans = torch.mm(input,torch.t(m.weight))&#43;m.bias 等价于下面的 ans = torch.mm(x, m.weight.t()) &#43; m.bias print(&#39;ans.shape:\n&#39;, ans.shape) print(torch.equal(ans, output)) 验证输出
+ dim=1  import torch x = torch.randn(128, 20) # 输入的维度是（128，20） m = torch.nn.Linear(20, 30) # 20,30是指维度 output = m(x) print(&#39;m.weight.shape:\n&#39;, m.weight.shape) print(&#39;m.bias.shape:\n&#39;, m.bias.shape) print(&#39;output.shape:\n&#39;, output.shape) # ans = torch.mm(input,torch.t(m.weight))&#43;m.bias 等价于下面的 ans = torch.mm(x, m.weight.t()) &#43; m.bias print(&#39;ans.shape:\n&#39;, ans.shape) print(torch.equal(ans, output)) 验证输出
 m.weight.shape: torch.Size([30, 20]) m.bias.shape: torch.Size([30]) output.shape: torch.Size([128, 30]) ans.shape: torch.Size([128, 30]) True 为什么weight的shape是（30,20), 实际运算中有转置。
-###　参考链接
-  CSDN博客   "/>
+torch.gather方法 torch.gather(input,dim,index,out=None) -&gt; Tensor
+import torch a = torch."/>
 
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
 	<link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -102,6 +102,9 @@ m.weight.shape: torch.Size([30, 20]) m.bias.shape: torch.Size([30]) output.shape
 <p>线性变换公式</p>
 <p>$$y=x A^{T}+b$$</p>
 <p>我们将要输入的维度是(128,20) 想要输出 20维的特征</p>
+<ol>
+<li>dim=1</li>
+</ol>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> torch
 
 x <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>randn(<span style="color:#ae81ff">128</span>, <span style="color:#ae81ff">20</span>)  <span style="color:#75715e"># 输入的维度是（128，20）</span>
@@ -127,10 +130,49 @@ ans<span style="color:#f92672">.</span>shape:
  torch<span style="color:#f92672">.</span>Size([<span style="color:#ae81ff">128</span>, <span style="color:#ae81ff">30</span>])
 True
 </code></pre></div><p>为什么weight的shape是（30,20), 实际运算中有转置。</p>
-<p>###　参考链接</p>
+<h3 id="torchgather方法">torch.gather方法</h3>
+<p><code>torch.gather(input,dim,index,out=None) -&gt; Tensor</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> torch
+a <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">30</span>, (<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">5</span>))
+<span style="color:#66d9ef">print</span>(a)
+<span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">tensor([[[ 18.,   5.,   7.,   1.,   1.],
+</span><span style="color:#e6db74">         [  3.,  26.,   9.,   7.,   9.],
+</span><span style="color:#e6db74">         [ 10.,  28.,  22.,  27.,   0.]],
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">        [[ 26.,  10.,  20.,  29.,  18.],
+</span><span style="color:#e6db74">         [  5.,  24.,  26.,  21.,   3.],
+</span><span style="color:#e6db74">         [ 10.,  29.,  10.,   0.,  22.]]])
+</span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+index <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>LongTensor([[[<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">2</span>],
+                          [<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>],
+                          [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>]],
+                        [[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>],
+                         [<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>],
+                         [<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>]]])
+<span style="color:#66d9ef">print</span>(a<span style="color:#f92672">.</span>size()<span style="color:#f92672">==</span>index<span style="color:#f92672">.</span>size())
+b <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>gather(a, <span style="color:#ae81ff">1</span>,index)
+<span style="color:#66d9ef">print</span>(b)
+<span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">True
+</span><span style="color:#e6db74">tensor([[[ 18.,  26.,  22.,   1.,   0.],
+</span><span style="color:#e6db74">         [ 18.,   5.,   7.,   1.,   1.],
+</span><span style="color:#e6db74">         [  3.,  26.,   9.,   7.,   9.]],
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">        [[  5.,  29.,  10.,   0.,  22.],
+</span><span style="color:#e6db74">         [ 26.,  10.,  20.,  29.,  18.],
+</span><span style="color:#e6db74">         [ 10.,  29.,  10.,   0.,  22.]]])
+</span><span style="color:#e6db74">可以看到沿着dim=1，也就是列的时候。输出tensor第一页内容，
+</span><span style="color:#e6db74">第一行分别是 按照index指定的，
+</span><span style="color:#e6db74">input tensor的第一页 
+</span><span style="color:#e6db74">第一列的下标为0的元素 第二列的下标为1元素 第三列的下标为2的元素，第四列下标为0元素，第五列下标为2元素
+</span><span style="color:#e6db74">index--&gt;0,1,2,0,2    output--&gt; 18.,  26.,  22.,   1.,   0.
+</span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+</code></pre></div><h3 id="参考链接">参考链接</h3>
 <blockquote>
 <ol>
 <li><a href="https://blog.csdn.net/m0_37586991/article/details/87861418">CSDN博客</a></li>
+<li><a href="https://www.jianshu.com/p/5d1f8cd5fe31">Pytorch中gather函数的理解</a></li>
 </ol>
 </blockquote>
 
@@ -169,6 +211,12 @@ True
 		<a class="pager__link" href="/post/python-classmethod/" rel="prev">
 			<span class="pager__subtitle">«&thinsp;Previous</span>
 			<p class="pager__title">classmethod and super</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-dqn/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">强化学习-八 价值函数的近似与Deep Q-learning</p>
 		</a>
 	</div>
 </nav>
@@ -228,10 +276,10 @@ s.setAttribute('data-timestamp', +new Date());
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/">强化学习-Actor Critc</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/">强化学习-Model based</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-dqn/">强化学习-八 价值函数的近似与Deep Q-learning</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/torch-nn-linear/">Torch.Linear详解</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/python-classmethod/">classmethod and super</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/gym-cart-pole/">Gym Cart-Pole-v1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/gym-copy-v0%E5%AE%9E%E7%8E%B0/">OpenAI gym介绍</a></li>
 		</ul>
 	</div>
 </div>
@@ -257,6 +305,9 @@ s.setAttribute('data-timestamp', +new Date());
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
 			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>
+			</li>
 		</ul>
 	</div>
 </div>
@@ -266,11 +317,12 @@ s.setAttribute('data-timestamp', +new Date());
 		<a class="widget-taglist__link widget__link btn" href="/tags/development/" title="development">development (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/html/" title="HTML">HTML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/hugo/" title="hugo">hugo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/model-based/" title="Model based">Model based (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/torch/" title="Torch">Torch (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%B7%A5%E5%85%B7/" title="工具">工具 (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" title="开发环境">开发环境 (5)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (6)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%99%E7%A8%8B/" title="教程">教程 (1)</a>
 	</div>
 </div>

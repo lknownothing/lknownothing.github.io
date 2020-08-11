@@ -4,17 +4,57 @@
   
   <url>
     <loc>https://lknownothing.github.io/categories/</loc>
-    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+    <lastmod>2020-08-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lknownothing.github.io/tags/model-based/</loc>
+    <lastmod>2020-08-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://lknownothing.github.io/post/</loc>
-    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+    <lastmod>2020-08-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://lknownothing.github.io/tags/</loc>
-    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+    <lastmod>2020-08-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lknownothing.github.io/</loc>
+    <lastmod>2020-08-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lknownothing.github.io/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2020-08-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lknownothing.github.io/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2020-08-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lknownothing.github.io/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/</loc>
+    <lastmod>2020-08-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lknownothing.github.io/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/</loc>
+    <lastmod>2020-08-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lknownothing.github.io/categories/%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2020-08-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lknownothing.github.io/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-dqn/</loc>
+    <lastmod>2020-08-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -28,17 +68,7 @@
   </url>
   
   <url>
-    <loc>https://lknownothing.github.io/</loc>
-    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://lknownothing.github.io/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</loc>
-    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://lknownothing.github.io/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2020-08-09T00:00:00+00:00</lastmod>
   </url>
   
@@ -83,11 +113,6 @@
   </url>
   
   <url>
-    <loc>https://lknownothing.github.io/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</loc>
-    <lastmod>2020-08-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://lknownothing.github.io/categories/development/</loc>
     <lastmod>2020-07-20T00:00:00+00:00</lastmod>
   </url>
@@ -99,6 +124,11 @@
   
   <url>
     <loc>https://lknownothing.github.io/post/hugoisforlovers/</loc>
+    <lastmod>2020-07-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lknownothing.github.io/post/github%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/</loc>
     <lastmod>2020-07-20T00:00:00+00:00</lastmod>
   </url>
   
@@ -123,19 +153,16 @@
   </url>
   
   <url>
+    <loc>https://lknownothing.github.io/tags/%E6%95%99%E7%A8%8B/</loc>
+    <lastmod>2020-07-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://lknownothing.github.io/post/basic-elements/</loc>
   </url>
   
   <url>
-    <loc>https://lknownothing.github.io/post/github%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/</loc>
-  </url>
-  
-  <url>
     <loc>https://lknownothing.github.io/tags/html/</loc>
-  </url>
-  
-  <url>
-    <loc>https://lknownothing.github.io/tags/%E6%95%99%E7%A8%8B/</loc>
   </url>
   
 </urlset>

@@ -12,7 +12,7 @@
 <meta property="og:description" content="陈大壮&#39;s Personal blog about everything" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://lknownothing.github.io/" />
-<meta property="og:updated_time" content="2020-08-09T00:00:00+00:00" />
+<meta property="og:updated_time" content="2020-08-11T00:00:00+00:00" />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="哇哈哈plus盐"/>
@@ -81,6 +81,80 @@
 	<article class="list__item post">
 	<header class="list__header">
 		<h3 class="list__title post__title ">
+			<a href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/" rel="bookmark">
+			强化学习-Actor Critc
+			</a>
+		</h3>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-08-11T00:00:00Z">August 11, 2020</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="category">强化学习</a>, <a class="meta__link" href="/categories/%E7%AC%94%E8%AE%B0/" rel="category">笔记</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		DQN中我们讲到了对价值函数的近似表示，基于价值value-based learning。但是value-based的强化学习有很多局限性。因此在一些场景下我们要使用其它方法，比如Policy-based。
+一、Policy Gradient DQN算法存在三点问题：
+  DQN之类只处理离散动作。无法处理连续动作。就比如经典的冰球世界PuckWorld, 人的行为是可以在四个方向施加一个时长的力，假如力的大小和方向是可以灵活选择的，可以随便方向，随便力的大小，那么DQN就不好做了，Policy-based确可以很好的建模。
+  对受限状态下的问题处理能力不足。网络中使用特征来描述状态空间中的某一状态时，可能因为观测的局限or建模的局限，导致真实环境下本来相同的两个状态在经过建模后有相同的特征描述。导致value-based没有最优解。
+  无法解决随机策略问题。value-based方法对应的策略通常时deterministic policy，因为从众多价值中选择一个最大价值的行为，而有些问题的最优策略却是stochastic policy。这时也是考虑使用policy based强化学习方法。
+  Q-learning，SARSA和DP对于简单的问题也不能收敛到any policy。
+  Policy-based 强化学习的引入 回想我们在alue Based强化学习方法里，我们对价值函数进行了近似表示，引入了一个动作价值函数q，这个函数由参数w描述，并接受状态s与动作a作为输入，计算后得到近似的动作价值，即(个人理解：虽然网络只输入state,但是Q函数确定的时候，也用了action决定输出)： $$\hat{q}(s, a, w) \approx q_{\pi}(s, a)$$
+Policy-based强化学习方法下，我们采用类似的思路，但是此时我们对策略进行近似表示。策略$\pi$可以被描述为一个包含参数$\theta$的函数。即： $$\pi_{\theta}(s, a)=P(a \mid s, \theta) \approx \pi(a \mid s)$$
+讲策略表示成一个连续的函数后，我们就可以以用连续函数的优化方法来寻找optimal的策略了。
+马尔可夫决策链 Partial Observation MDP 和 MDP
+强化学习中，model-based, Q-learning, Policy-gradient中建模评估return和improve the policy的区别框架图：
+对于$=\nabla_{\theta} \log \pi_{\theta}(s, a)$，我们一半称为score function。在变分自编码VAE中同样使用。求梯度的式子已经有了，最难的就是策略函数$\pi_\theta(s,a)$的设计了。
+比如，policy可能通过一个神经网络表示。输入时representation of the state, 输出时action selection probabilities。权重就是策略参数。
+策略函数的设计 最常用的策略函数就是softmax策略函数了，它主要应用于离散空间中，softmax策略使用描述状态和行为的特征$\varphi(s,a)$与参数$\theta$的线性组合来权衡一个行为发生的机率。
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
+			<a href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/" rel="bookmark">
+			强化学习-Model based
+			</a>
+		</h3>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-08-11T00:00:00Z">August 11, 2020</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="category">强化学习</a>, <a class="meta__link" href="/categories/%E7%AC%94%E8%AE%B0/" rel="category">笔记</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		value-based的强化学习和policy-based强化学习模型都不是基于模型的，它们从价值函数，策略函数中直接去学习。不用学习环境的状态转换模型，即在s下采取动作a，转到下一个状态$s^\prime$的概率。一般是学习下面两个相互独立的模型：
+ 状态转化预测模型 奖励预测模型  Model-based learning 强化学习求解过程和传统的监督学习算法没有太多的区别，可以使用传统的监督学习算法来求解这两个模型。当然可以更简单，通过对训练样本进行查表法进行统计，得到$P(S_{t+1}|S_t,A_t)$的概率和$R(R_{t+1}|S_t,A_t)$的平均值。可以将model-based和model-free的强化学习集合起来，取长补短，这样做最常见的就是Dyna算法框架。
+Dyna算法框架 既从模型中学习，也和环境交互的经历中去学习。从而更新价值函数和策略函数。
+多了一个direct-RL的箭头，这正是不急于模型的强化学习的思路。
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
+			<a href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-dqn/" rel="bookmark">
+			强化学习-八 价值函数的近似与Deep Q-learning
+			</a>
+		</h3>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-08-10T00:00:00Z">August 10, 2020</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="category">强化学习</a>, <a class="meta__link" href="/categories/%E7%AC%94%E8%AE%B0/" rel="category">笔记</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		很多时候，我们不能以离散集合的方式表示出状态。
+价值函数的近似表示方法 由于问题的状态集合规模大，一个可行的建模方法是价值函数的近似表示。方法是我们引入一个状态价值函数$v$,这个函数由参数描述，并接受状态s作为输入。计算后得到状态s的价值：
+$$\hat{v}(s, w) \approx v_{\pi}(s)$$
+类似的，引入一个state-action函数，接受状态s和w藐视，接受状态s和动作a作为输入。计算后得到动作价值。
+$$\hat{q}(s, a, w) \approx q_{\pi}(s, a)$$
+其中最简单的就是神经网络的近似表示。
+第三幅图的思路就是Pytorch文档的Deep Q-learning思路
+Deep Q-learning算法思路 Deep Q-learning和普通Q-learning不同的地方在于不是通过状态值s和动作a计算。而是通过上面讲的Q网络来计算的。
+DQN主要使用的技巧是Experience Replay。每次和环境交互得到的奖励与状态更新都保存起来。用于后面目标Q值的更新。回忆一下我们的Q-learning是有一张Q表的，但是DQN没有。那么在动作价值函数更新的时候，就需要其他的方法，这就是经验回放。不需要再优化的时候，亲自去和环境交互。而是把交互的数据存起来，优化的的时候用。
+def optimize_model(): if len(memory) &lt; BATCH_SIZE: return transitions = memory.sample(BATCH_SIZE) policy_net(state_batch) # 其中state_batch就是experience replay采样得来的 next_state_value[non_final_task]=target_net(non_final_next_state) # 目标网络 # 计算预期的Q值 expected_state_action_values = (next_state_values * GAMMA) + reward_batch # 计算Huber损失 loss = F.smooth_l1_loss(state_action_values, expected_state_action_values.unsqueeze(1)) # 优化模型 optimizer.zero_grad() loss.backward() for param in policy_net.parameters(): param.grad.data.clamp_(-1, 1) optimizer.step() Deep Q-learning实例 刘建平博客中算法f步，从经验回放集合中采样m个样本，计算当前目标Q值和算法中预期Q值计算一样。
+Deep Q-learning的进阶之Nature DQN 第一个问题：
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
 			<a href="/post/torch-nn-linear/" rel="bookmark">
 			Torch.Linear详解
 			</a>
@@ -95,10 +169,10 @@
 		线性变化 线性变换公式
 $$y=x A^{T}+b$$
 我们将要输入的维度是(128,20) 想要输出 20维的特征
-import torch x = torch.randn(128, 20) # 输入的维度是（128，20） m = torch.nn.Linear(20, 30) # 20,30是指维度 output = m(x) print(&#39;m.weight.shape:\n&#39;, m.weight.shape) print(&#39;m.bias.shape:\n&#39;, m.bias.shape) print(&#39;output.shape:\n&#39;, output.shape) # ans = torch.mm(input,torch.t(m.weight))+m.bias 等价于下面的 ans = torch.mm(x, m.weight.t()) + m.bias print(&#39;ans.shape:\n&#39;, ans.shape) print(torch.equal(ans, output)) 验证输出
+ dim=1  import torch x = torch.randn(128, 20) # 输入的维度是（128，20） m = torch.nn.Linear(20, 30) # 20,30是指维度 output = m(x) print(&#39;m.weight.shape:\n&#39;, m.weight.shape) print(&#39;m.bias.shape:\n&#39;, m.bias.shape) print(&#39;output.shape:\n&#39;, output.shape) # ans = torch.mm(input,torch.t(m.weight))+m.bias 等价于下面的 ans = torch.mm(x, m.weight.t()) + m.bias print(&#39;ans.shape:\n&#39;, ans.shape) print(torch.equal(ans, output)) 验证输出
 m.weight.shape: torch.Size([30, 20]) m.bias.shape: torch.Size([30]) output.shape: torch.Size([128, 30]) ans.shape: torch.Size([128, 30]) True 为什么weight的shape是（30,20), 实际运算中有转置。
-###　参考链接
-  CSDN博客   
+torch.gather方法 torch.gather(input,dim,index,out=None) -&gt; Tensor
+import torch a = torch.
 	</div>
 </article><article class="list__item post">
 	<header class="list__header">
@@ -204,52 +278,13 @@ Follow the following steps:
 </article><article class="list__item post">
 	<header class="list__header">
 		<h3 class="list__title post__title ">
-			<a href="/post/vscode/" rel="bookmark">
-			VS code 基本使用方法
+			<a href="/post/github%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/" rel="bookmark">
+			Github &amp; Hugo搭建博客
 			</a>
 		</h3>
 		<div class="list__meta meta">
 <div class="meta__item-datetime meta__item">
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-07-20T00:00:00Z">July 20, 2020</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%B7%A5%E5%85%B7/" rel="category">工具</a>, <a class="meta__link" href="/categories/%E6%95%99%E7%A8%8B/" rel="category">教程</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		前言  文章标题：《第一次使用 VS Code 时你应该知道的一切配置》。本文的最新内容，更新于 2020-06-19。大家完全不用担心这篇文章会过时，因为随着 VS Code 的版本更新和插件更新，本文也会随之更新。
-  本文的最新内容，也会在GitHub上同步更新，欢迎 star。
- VS Code 软件实在是太酷、太好用了，越来越多的新生代互联网青年正在使用它。
-前端男神尤雨溪大大这样评价 VS Code：
-有一点你可能会感到惊讶：VS Code 这款软件本身，是用 JavaScript 语言编写的（具体请自行查阅基于 JS 的 PC 客户端开发框架 Electron）。Jeff Atwood 在 2007 年提出了著名的 Atwood 定律：
- 任何能够用 JavaScript 实现的应用系统，最终都必将用 JavaScript 实现。
- Jeff Atwood 这个人是谁不重要（他是 Stack Overflow 网站的联合创始人），重要的是这条定律。
-前端目前是处在春秋战国时代，各路英雄豪杰成为后浪，各种框架工具层出不穷，VS Code 软件无疑是大前端时代最骄傲的工具。
-如果你是做前端开发（JavaScript 编程语言为主），则完全可以将 VS Code 作为「主力开发工具」。这款软件是为前端同学量身定制的。
-如果你是做其他语言方向的开发，并且不需要太复杂的集成开发环境，那么，你可以把 VS Code 作为「代码编辑器」来使用，纵享丝滑。
-甚至是一些写文档、写作的同学，也经常把 VS Code 作为 markdown 写作工具，毫无违和感。
-退而求其次，即便你不属于以上任何范畴，你还可以把 VS Code 当作最简单的文本编辑器来使用，完胜 Windows 系统自带的记事本。
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h3 class="list__title post__title ">
-			<a href="/post/basic-elements/" rel="bookmark">
-			Basic HTML Elements
-			</a>
-		</h3>
-		<div class="list__meta meta"><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/development/" rel="category">Development</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>The main purpose of this article is to make sure that all basic HTML Elements are decorated with CSS so as to not miss any possible elements when creating new themes for Hugo.</p>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h3 class="list__title post__title ">
-			<a href="/post/github%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/" rel="bookmark">
-			Github &amp; Hugo搭建博客
-			</a>
-		</h3>
-		<div class="list__meta meta"><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%B7%A5%E5%85%B7/" rel="category">工具</a>, <a class="meta__link" href="/categories/%E6%95%99%E7%A8%8B/" rel="category">教程</a>
 	</span>
 </div></div>
 	</header>
@@ -277,6 +312,10 @@ echo &quot;# lknownothing.github.io&quot; &gt;&gt; README.mdgit initgit add RE
 </article>
 </main>
 
+<div class="pagination">
+	<span class="pagination__item pagination__item--current">1/2</span>
+	<a class="pagination__item pagination__item--next btn" href="/page/2/">»</a>
+</div>
 
 			</div>
 			<aside class="sidebar"><div class="widget-search widget">
@@ -292,10 +331,10 @@ echo &quot;# lknownothing.github.io&quot; &gt;&gt; README.mdgit initgit add RE
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/">强化学习-Actor Critc</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/">强化学习-Model based</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-dqn/">强化学习-八 价值函数的近似与Deep Q-learning</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/torch-nn-linear/">Torch.Linear详解</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/python-classmethod/">classmethod and super</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/gym-cart-pole/">Gym Cart-Pole-v1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/gym-copy-v0%E5%AE%9E%E7%8E%B0/">OpenAI gym介绍</a></li>
 		</ul>
 	</div>
 </div>
@@ -321,6 +360,9 @@ echo &quot;# lknownothing.github.io&quot; &gt;&gt; README.mdgit initgit add RE
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
 			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>
+			</li>
 		</ul>
 	</div>
 </div>
@@ -330,11 +372,12 @@ echo &quot;# lknownothing.github.io&quot; &gt;&gt; README.mdgit initgit add RE
 		<a class="widget-taglist__link widget__link btn" href="/tags/development/" title="development">development (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/html/" title="HTML">HTML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/hugo/" title="hugo">hugo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/model-based/" title="Model based">Model based (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/torch/" title="Torch">Torch (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%B7%A5%E5%85%B7/" title="工具">工具 (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" title="开发环境">开发环境 (5)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (6)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%99%E7%A8%8B/" title="教程">教程 (1)</a>
 	</div>
 </div>

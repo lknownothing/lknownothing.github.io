@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>强化学习-Actor Critc - 哇哈哈plus盐</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="强化学习-Actor Critc" />
+<meta property="og:description" content="DQN中我们讲到了对价值函数的近似表示，基于价值value-based learning。但是value-based的强化学习有很多局限性。因此在一些场景下我们要使用其它方法，比如Policy-based。
+一、Policy Gradient DQN算法存在三点问题：
+  DQN之类只处理离散动作。无法处理连续动作。就比如经典的冰球世界PuckWorld, 人的行为是可以在四个方向施加一个时长的力，假如力的大小和方向是可以灵活选择的，可以随便方向，随便力的大小，那么DQN就不好做了，Policy-based确可以很好的建模。
+  对受限状态下的问题处理能力不足。网络中使用特征来描述状态空间中的某一状态时，可能因为观测的局限or建模的局限，导致真实环境下本来相同的两个状态在经过建模后有相同的特征描述。导致value-based没有最优解。
+  无法解决随机策略问题。value-based方法对应的策略通常时deterministic policy，因为从众多价值中选择一个最大价值的行为，而有些问题的最优策略却是stochastic policy。这时也是考虑使用policy based强化学习方法。
+  Q-learning，SARSA和DP对于简单的问题也不能收敛到any policy。
+  Policy-based 强化学习的引入 回想我们在alue Based强化学习方法里，我们对价值函数进行了近似表示，引入了一个动作价值函数q，这个函数由参数w描述，并接受状态s与动作a作为输入，计算后得到近似的动作价值，即(个人理解：虽然网络只输入state,但是Q函数确定的时候，也用了action决定输出)： $$\hat{q}(s, a, w) \approx q_{\pi}(s, a)$$
+Policy-based强化学习方法下，我们采用类似的思路，但是此时我们对策略进行近似表示。策略$\pi$可以被描述为一个包含参数$\theta$的函数。即： $$\pi_{\theta}(s, a)=P(a \mid s, \theta) \approx \pi(a \mid s)$$
+讲策略表示成一个连续的函数后，我们就可以以用连续函数的优化方法来寻找optimal的策略了。
+马尔可夫决策链 Partial Observation MDP 和 MDP
+强化学习中，model-based, Q-learning, Policy-gradient中建模评估return和improve the policy的区别框架图：
+对于$=\nabla_{\theta} \log \pi_{\theta}(s, a)$，我们一半称为score function。在变分自编码VAE中同样使用。求梯度的式子已经有了，最难的就是策略函数$\pi_\theta(s,a)$的设计了。
+比如，policy可能通过一个神经网络表示。输入时representation of the state, 输出时action selection probabilities。权重就是策略参数。
+策略函数的设计 最常用的策略函数就是softmax策略函数了，它主要应用于离散空间中，softmax策略使用描述状态和行为的特征$\varphi(s,a)$与参数$\theta$的线性组合来权衡一个行为发生的机率。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lknownothing.github.io/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/" />
+<meta property="article:published_time" content="2020-08-11T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-08-11T00:00:00+00:00" />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="强化学习-Actor Critc"/>
+<meta name="twitter:description" content="DQN中我们讲到了对价值函数的近似表示，基于价值value-based learning。但是value-based的强化学习有很多局限性。因此在一些场景下我们要使用其它方法，比如Policy-based。
+一、Policy Gradient DQN算法存在三点问题：
+  DQN之类只处理离散动作。无法处理连续动作。就比如经典的冰球世界PuckWorld, 人的行为是可以在四个方向施加一个时长的力，假如力的大小和方向是可以灵活选择的，可以随便方向，随便力的大小，那么DQN就不好做了，Policy-based确可以很好的建模。
+  对受限状态下的问题处理能力不足。网络中使用特征来描述状态空间中的某一状态时，可能因为观测的局限or建模的局限，导致真实环境下本来相同的两个状态在经过建模后有相同的特征描述。导致value-based没有最优解。
+  无法解决随机策略问题。value-based方法对应的策略通常时deterministic policy，因为从众多价值中选择一个最大价值的行为，而有些问题的最优策略却是stochastic policy。这时也是考虑使用policy based强化学习方法。
+  Q-learning，SARSA和DP对于简单的问题也不能收敛到any policy。
+  Policy-based 强化学习的引入 回想我们在alue Based强化学习方法里，我们对价值函数进行了近似表示，引入了一个动作价值函数q，这个函数由参数w描述，并接受状态s与动作a作为输入，计算后得到近似的动作价值，即(个人理解：虽然网络只输入state,但是Q函数确定的时候，也用了action决定输出)： $$\hat{q}(s, a, w) \approx q_{\pi}(s, a)$$
+Policy-based强化学习方法下，我们采用类似的思路，但是此时我们对策略进行近似表示。策略$\pi$可以被描述为一个包含参数$\theta$的函数。即： $$\pi_{\theta}(s, a)=P(a \mid s, \theta) \approx \pi(a \mid s)$$
+讲策略表示成一个连续的函数后，我们就可以以用连续函数的优化方法来寻找optimal的策略了。
+马尔可夫决策链 Partial Observation MDP 和 MDP
+强化学习中，model-based, Q-learning, Policy-gradient中建模评估return和improve the policy的区别框架图：
+对于$=\nabla_{\theta} \log \pi_{\theta}(s, a)$，我们一半称为score function。在变分自编码VAE中同样使用。求梯度的式子已经有了，最难的就是策略函数$\pi_\theta(s,a)$的设计了。
+比如，policy可能通过一个神经网络表示。输入时representation of the state, 输出时action selection probabilities。权重就是策略参数。
+策略函数的设计 最常用的策略函数就是softmax策略函数了，它主要应用于离散空间中，softmax策略使用描述状态和行为的特征$\varphi(s,a)$与参数$\theta$的线性组合来权衡一个行为发生的机率。"/>
+
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="哇哈哈plus盐" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/img/placeholder.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">哇哈哈plus盐</div>
+					<div class="logo__tagline">哇哈哈plus盐</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/post/hugoisforlovers/">
+				
+				<span class="menu__text">Getting Started with Hugo</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/gym-cart-pole/">
+				
+				<span class="menu__text">Gym Cart-Pole-v1</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/vscode/">
+				
+				<span class="menu__text">VS code 基本使用方法</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">强化学习-Actor Critc</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-08-11T00:00:00Z">August 11, 2020</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="category">强化学习</a>, <a class="meta__link" href="/categories/%E7%AC%94%E8%AE%B0/" rel="category">笔记</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>DQN中我们讲到了<strong>对价值函数的近似表示</strong>，基于价值value-based learning。但是value-based的强化学习有很多局限性。因此在一些场景下我们要使用其它方法，比如Policy-based。</p>
+<h2 id="一policy-gradient">一、Policy Gradient</h2>
+<p>DQN算法存在三点问题：</p>
+<ul>
+<li>
+<p>DQN之类只处理离散动作。无法处理连续动作。就比如经典的冰球世界PuckWorld, 人的行为是可以在四个方向施加一个时长的力，假如力的大小和方向是可以灵活选择的，可以随便方向，随便力的大小，那么DQN就不好做了，Policy-based确可以很好的建模。</p>
+</li>
+<li>
+<p>对受限状态下的问题处理能力不足。网络中使用特征来描述状态空间中的某一状态时，可能因为观测的局限or建模的局限，导致真实环境下本来相同的两个状态在经过建模后有相同的特征描述。导致value-based没有最优解。</p>
+</li>
+<li>
+<p>无法解决随机策略问题。value-based方法对应的策略通常时deterministic policy，因为从众多价值中选择一个最大价值的行为，而有些问题的最优策略却是stochastic policy。这时也是考虑使用policy based强化学习方法。</p>
+</li>
+<li>
+<p>Q-learning，SARSA和DP对于简单的问题也不能收敛到any policy。</p>
+</li>
+</ul>
+<h3 id="policy-based-强化学习的引入">Policy-based 强化学习的引入</h3>
+<p>回想我们在alue Based强化学习方法里，我们对价值函数进行了近似表示，引入了一个动作价值函数q，这个函数由参数w描述，并接受状态s与动作a作为输入，计算后得到近似的动作价值，即(个人理解：虽然网络只输入state,但是Q函数确定的时候，也用了action决定输出)：
+$$\hat{q}(s, a, w) \approx q_{\pi}(s, a)$$</p>
+<p>Policy-based强化学习方法下，我们采用类似的思路，但是此时我们<strong>对策略进行近似表示</strong>。策略$\pi$可以被描述为一个包含参数$\theta$的函数。即：
+$$\pi_{\theta}(s, a)=P(a \mid s, \theta) \approx \pi(a \mid s)$$</p>
+<p>讲策略表示成一个连续的函数后，我们就可以以用连续函数的优化方法来寻找optimal的策略了。</p>
+<p><strong>马尔可夫决策链</strong>
+Partial Observation MDP 和 MDP</p>
+<p><img src="/img/MDP.png" alt="黄民烈MDP"></p>
+<p>强化学习中，model-based, Q-learning, Policy-gradient中建模评估return和improve the policy的区别框架图：</p>
+<p><img src="/img/RL-framework.png" alt="黄民烈RL-framework"></p>
+<p>对于$=\nabla_{\theta} \log \pi_{\theta}(s, a)$，我们一半称为score function。在变分自编码VAE中同样使用。求梯度的式子已经有了，最难的就是策略函数$\pi_\theta(s,a)$的设计了。</p>
+<p>比如，policy可能通过一个神经网络表示。输入时representation of the state, 输出时action selection probabilities。权重就是策略参数。</p>
+<h3 id="策略函数的设计">策略函数的设计</h3>
+<p>最常用的策略函数就是softmax策略函数了，它主要应用于离散空间中，softmax策略使用描述状态和行为的特征$\varphi(s,a)$与参数$\theta$的线性组合来权衡一个行为发生的机率。</p>
+<p>$$\pi_{\theta}(s, a)=\frac{e^{\phi(s, a)^{T} \theta}}{\sum_{b} e^{\phi(s, b)^{T} \theta}}$$</p>
+<p>通过求导很容易求出对应的score function为：</p>
+<p>$$\nabla_{\theta} \log \pi_{\theta}(s, a)=\phi(s, a)-\mathbb{E}_{\pi \theta}[\phi(s, .)]$$</p>
+<p>另一种高斯策略则是应用于连续空间的一种常用策略。该策略对应的行为从高斯分布中产生。高斯策略对应的分值函数求导可以得到为：</p>
+<p>$$\nabla_{\theta} \log \pi_{\theta}(s, a)==\frac{\left(a-\phi(s)^{T} \theta\right) \phi(s)}{\sigma^{2}}$$</p>
+<h3 id="mc策略梯度reinforce算法">MC策略梯度REINFORCE算法</h3>
+<p>这里我们讨论最简单的PG算法，REINFORCE算法，使用价值函数$v(s)$来近似代替PG公式里面的$Q_\pi(s,a)$。算法的流程为：</p>
+<pre><code>输入：N个Monte Carlo完整序列，训练步长$\alpha$
+输出：策略函数的参数$\theta$
+1. for 每个Monte Carlo序列：
+   1. 用MC方法计算每个时间位置的状态价值$v_t$
+   2. 对序列每个时间位置t, 使用梯度上升法，更新策略函数的参数$\theta$:  $$\theta=\theta+\alpha \nabla_{\theta} \log \pi_{\theta}\left(s_{t}, a_{t}\right) v_{t}$$
+2. 返回策略参数$\theta$
+</code></pre>
+<h3 id="pg小结">PG小结</h3>
+<p>RINFORCE算法并不完美，由于时蒙特卡洛法，我们需要完全的序列样本才能做算法迭代，同时蒙特卡洛法使用收获的期望来计算状态价值。会导致行为有较多的变异性。</p>
+<h2 id="二actor-critic">二、Actor-Critic</h2>
+<p>本篇我们讨论Policy-based和和Value-based相结合的方法：Actor-Critic算法。</p>
+<h3 id="简介">简介</h3>
+<p>Actor时我们上一节讲的<strong>策略函数</strong>，负责产生动作Action并和环境交互，而Critic使用我们之前讲到的价值函数，负责评估Actor的表现。并指导Actor下一阶段的动作。</p>
+<p>上一篇我们使用蒙特卡洛法来计算每一步的价值部分替代了Critic的功能。因此我们现在使用<strong>类似DQN中用的价值函数来代替蒙特卡洛</strong>方法，作为一个比较通用的Critic。</p>
+<p>也就是说在Actor-Critic算法中，我们需要做两组近似，第一组时策略函数近似：</p>
+<p>$$\pi_{\theta}(s, a)=P(a \mid s, \theta) \approx \pi(a \mid s)$$</p>
+<p>第二组是价值函数的近似，对于状态价值和动作价值函数分别是：
+$$
+\begin{aligned}
+\hat{v}(s, w) &amp; \approx v_{\pi}(s) \<br>
+\hat{q}(s, a, w) &amp; \approx q_{\pi}(s, a)
+\end{aligned}
+$$</p>
+<p>梯度更新部分，$\theta=\theta+\alpha \nabla_{\theta} \log \pi_{\theta}\left(s_{t}, a_{t}\right) v_{t}$，其中分值函数不用动，要变的是$v_t$部分，应该从Critic得到。可以完全参考之前的DQN的做法，用一个Q网络来作为Critic，输入的是状态，而输出是每个动作的价值或者最优动作的价值。</p>
+<blockquote>
+<p>现在我们汇总起来说，Critic通过Q网络计算状态的最优价值$v_t$,而Actor利用$v_t$这个最优价值迭代更新策略函数(PG)的参数$\theta$，并得到反馈和新的状态。Critic使用反馈和新的状态更新Q网络参数$w$,ACtor利用新的网络参数$w$来帮Actor计算状态的最优价值$v_t$。</p>
+</blockquote>
+<h3 id="actor-critic算法可选形式">Actor-Critic算法可选形式</h3>
+<p>我们可以选很多的指标来作为Critic的评估点。从目前可使用的Actor-Critic评估点主要有：</p>
+<p>a) 基于状态价值：使用蒙特卡洛REINFORCE的评估点，这样Actor的策略函数更新的公式是：
+$$\theta=\theta+\alpha \nabla_{\theta} \log \pi_{\theta}\left(s_{t}, a_{t}\right) V(s, w)$$</p>
+<p>b) 基于动作价值：在DQN中我们一般使用的都是动作价值函数Q来做价值评估，这样Actor策略函数参数更新公式是：
+$$\theta=\theta+\alpha \nabla_{\theta} \log \pi_{\theta}\left(s_{t}, a_{t}\right) Q(s, a, w)$$</p>
+<p>c) 基于TD误差：TD误差的表达式：$\delta(t)=R_{t+1}+\gamma Q\left(S_{t+1}, A_{t+1}\right)-Q\left(S_{t}, A_{t}\right)$，这样Actor的策略函数的参数更新公式是：
+$\theta=\theta+\alpha \nabla_{\theta} \log \pi_{\theta}\left(s_{t}, a_{t}\right) \delta(t)$</p>
+<p>d) 基于优势函数：</p>
+<p>对于<strong>Critic本身的模型参数w</strong>，一般都是使用均方差函数来做迭代更新，类似于DQN系列中所讲的迭代方法，Critic本身的模型参数w的更新参数公式可以表示为：
+$$\begin{array}{c}
+\delta=R_{t+1}+\gamma Q\left(S_{t+1}, A_{t+1}\right)-Q\left(S_{t}, A_{t}\right) \<br>
+w=w+\beta \delta \phi(s, a)
+\end{array}$$</p>
+<p>通过对均方差误差损失函数求导可以很容易的得到上式。</p>
+<h3 id="actor-critic算法小结">Actor-Critic算法小结</h3>
+<p>基本版的ACtor-Critic算法虽然思路很好，但是由于难收敛的原因，还需要改进。</p>
+<p>目前改进比较好的有两个经典算法，一个是DDPG算法。使用双Actor神经网络和双Critic神经网络的方法来改善收敛性。这个方法从DQN到Nature DQN已经使用过一次了。另一个是A3C方法，使用了多线程的方式，一个主线程负责更新Actor和Critic的参数，多个辅助线程负责分别和环境交互，多个线程负责分别和环境交互，得到梯度更新值，汇总更新主线程的参数。</p>
+<h2 id="三ddpg">三、DDPG</h2>
+<p>使用DDQN类似的方法，经验回放和双网络的方法来该井Actor-Critic难收敛的问题，这个算法就是Deep Deterministic Policy Gradient。</p>
+<h3 id="从随机策略到确定性策略">从随机策略到确定性策略</h3>
+<p>从DDPG这个名字，它是由Deep + Deterministic + Policy Gradient组成。确定性策略和随机策略相对而言，对于某一些动作集合来说，它可能是连续值，或者给长高维的离散值，动作的空间维度极大。如果我们使用随机策略，像DQN一样研究它所有可能动作的概率，并计算可能动作的价值的话，并计算每个可能动作的话，那需要非常大的样本量。有人想出使用确定性策略来简化这个问题。</p>
+<p>作为随机策略，在相同的策略，在同一个状态处，采用的动作是基于一个概率分布的，即是不确定的。而确定性恶略则简单点，虽然在同一个状态处，采用的动作概率不同，但是最大概率只有一个，如果我们只取最大概率的动作，去掉这个概率愤怒，那么就简单多了。即作为确定性策略，相同的策略，在同一个状态处，动作是唯一确定的$\pi_{\theta}(s)=a$</p>
+<p>基于Q值的stochastic policy gradient的梯度计算公式：
+随机梯度策略梯度需要在整个动作的空间$\pi_\theta$进行采样。
+$$\left.\nabla_{\theta} J\left(\pi_{\theta}\right)=E_{s \sim \rho^{\pi}, a \sim \pi_{\theta}} [\nabla_{\theta} \log \pi_{\theta}(s, a) Q_{\pi}(s, a)\right]$$</p>
+<p>而DPG基于Q值的deterministic策略梯度计算公式是：
+$$\nabla_{\theta} J\left(\pi_{\theta}\right)=\left.E_{s \sim \rho} \pi \nabla_{\theta} \pi_{\theta}(s) \nabla_{a} Q_{\pi}(s, a)\right|_{a=\pi \theta}(s)$$</p>
+<p>和SPG相比，少了对动作的积分，多了回报Q函数对动作的导数。从DPG到DDPG的过程中，除了经验回放外，有了双网络，当前网络和目标网络的概念。我们本来就有Actor和Critic两个网络，那么网络就变成了4个网络。</p>
+<h3 id="ddpg的原理">DDPG的原理</h3>
+<p>Critic网络与DDQN的当前Q网络，目标Q网络的功能基本类似。但是DDPG有自己的Actor策略网络，因此不需要$\epsilon$-greedy这样的选择方法，这部分DDQN中的方法到了DDPG可以在Actor当前网络完成。对经验池回放中采样的下一状态$S^\prime$，使用贪婪法选择动作$A^\prime$，这部分工作用来估计目标Q值，因此可以放到Actor目标网络完成。</p>
+<p>最后，我们来看看DDPG的损失函数，对于Critic当前网络，其损失函数和DQN是类似的，都是均方误差，即：</p>
+<p>$$J(w)=\frac{1}{m} \sum_{j=1}^{m}\left(y_{j}-Q\left(\phi\left(S_{j}\right), A_{j}, w\right)\right)^{2}$$</p>
+<p>而对于Actor当前网络，其损失函数就和之前讲的PG,A3C不同了，由于是确定性策略，愿望定义的损失梯度是：</p>
+<p>$$\left.\nabla_{J}(\theta)=\left.\left.\frac{1}{m} \sum_{j=1}^{m}\left[\nabla_{a} Q_{(} s_{i}, a_{i}, w\right)\right|_{s=s_{i}, a=\pi_{\theta}(s)} \nabla_{\theta} \pi_{\theta(s)}\right|_{s=s_{i}}\right]$$</p>
+<p>怎么理解呢？假设输出两个不同的动作$a_1$和$a_2$，Critic得到两个反馈的Q值，分别是$Q_1$,$Q_2$。假设前者大，即采取的动作1可以得到更多的奖励，那么策略梯度的思想是什么呢？就是增加$a_1$的概率,降低$a_2$的概率。也就是说Actor想要尽可能得到更大的Q值。所以我们的Actor的损失可以理解为得到的反馈Q值越大损失越小，得到的反馈Q值越小，损失越大。因此只要对状态估计网络的Q值去一个负号即可，即：</p>
+<p>$$\left.J(\theta)=-\frac{1}{m} \sum_{j=1}^{m} Q_{(} s_{i}, a_{i}, w\right)$$</p>
+<h3 id="ddpg总结">DDPG总结</h3>
+<p>DDPG参考了DDQN的算法思想，通过双网络和经验回放，加一些其他的优化，比较好的解决了Actor-Critic难收敛的问题。自动化相关的产品中用的比较多，是一个比较成熟的Actor-Critic算法。</p>
+<h2 id="参考">参考</h2>
+<blockquote>
+<ol>
+<li><a href="https://www.cnblogs.com/pinard/p/10137696.html">刘建平强化学习-十三-policy gradient</a></li>
+<li><a href="https://www.cnblogs.com/pinard/p/10272023.html">Actor-Critic</a></li>
+</ol>
+</blockquote>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="tag">强化学习</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="陈大壮 avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About 陈大壮</span>
+	</div>
+	<div class="authorbox__description">
+		有的人八十岁就死了，18岁才埋
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">强化学习-Model based</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "dadachen-1" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://dadachen-1.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q" aria-label="SEARCH...">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://lknownothing.github.io/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/">强化学习-Actor Critc</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/">强化学习-Model based</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-dqn/">强化学习-八 价值函数的近似与Deep Q-learning</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/torch-nn-linear/">Torch.Linear详解</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/gym/">Gym</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/python/">python</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/development/" title="development">development (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/html/" title="HTML">HTML (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/hugo/" title="hugo">hugo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/model-based/" title="Model based">Model based (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/torch/" title="Torch">Torch (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%B7%A5%E5%85%B7/" title="工具">工具 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" title="开发环境">开发环境 (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%99%E7%A8%8B/" title="教程">教程 (1)</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            displayMath: [['$$','$$'], ['\[','\]']],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: { autoNumber: "AMS" },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 哇哈哈plus盐.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

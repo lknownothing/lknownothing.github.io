@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Model based on 哇哈哈plus盐</title>
+    <link>https://lknownothing.github.io/tags/model-based/</link>
+    <description>Recent content in Model based on 哇哈哈plus盐</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 11 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lknownothing.github.io/tags/model-based/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>强化学习-Model based</title>
+      <link>https://lknownothing.github.io/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/</link>
+      <pubDate>Tue, 11 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://lknownothing.github.io/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/</guid>
+      <description>value-based的强化学习和policy-based强化学习模型都不是基于模型的，它们从价值函数，策略函数中直接去学习。不用学习环境的状态转换模型，即在s下采取动作a，转到下一个状态$s^\prime$的概率。一般是学习下面两个相互独立的模型：
+ 状态转化预测模型 奖励预测模型  Model-based learning 强化学习求解过程和传统的监督学习算法没有太多的区别，可以使用传统的监督学习算法来求解这两个模型。当然可以更简单，通过对训练样本进行查表法进行统计，得到$P(S_{t+1}|S_t,A_t)$的概率和$R(R_{t+1}|S_t,A_t)$的平均值。可以将model-based和model-free的强化学习集合起来，取长补短，这样做最常见的就是Dyna算法框架。
+Dyna算法框架 既从模型中学习，也和环境交互的经历中去学习。从而更新价值函数和策略函数。
+多了一个direct-RL的箭头，这正是不急于模型的强化学习的思路。</description>
+    </item>
+    
+  </channel>
+</rss>

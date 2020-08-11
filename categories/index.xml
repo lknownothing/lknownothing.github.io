@@ -6,7 +6,7 @@
     <description>Recent content in Categories on 哇哈哈plus盐</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 09 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 11 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://lknownothing.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,9 +14,18 @@
     <item>
       <title>强化学习</title>
       <link>https://lknownothing.github.io/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</link>
-      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 11 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>https://lknownothing.github.io/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>笔记</title>
+      <link>https://lknownothing.github.io/categories/%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 11 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://lknownothing.github.io/categories/%E7%AC%94%E8%AE%B0/</guid>
       <description></description>
     </item>
     

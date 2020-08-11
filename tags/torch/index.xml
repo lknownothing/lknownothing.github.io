@@ -20,10 +20,10 @@
       <description>线性变化 线性变换公式
 $$y=x A^{T}+b$$
 我们将要输入的维度是(128,20) 想要输出 20维的特征
-import torch x = torch.randn(128, 20) # 输入的维度是（128，20） m = torch.nn.Linear(20, 30) # 20,30是指维度 output = m(x) print(&amp;#39;m.weight.shape:\n&amp;#39;, m.weight.shape) print(&amp;#39;m.bias.shape:\n&amp;#39;, m.bias.shape) print(&amp;#39;output.shape:\n&amp;#39;, output.shape) # ans = torch.mm(input,torch.t(m.weight))+m.bias 等价于下面的 ans = torch.mm(x, m.weight.t()) + m.bias print(&amp;#39;ans.shape:\n&amp;#39;, ans.shape) print(torch.equal(ans, output)) 验证输出
+ dim=1  import torch x = torch.randn(128, 20) # 输入的维度是（128，20） m = torch.nn.Linear(20, 30) # 20,30是指维度 output = m(x) print(&amp;#39;m.weight.shape:\n&amp;#39;, m.weight.shape) print(&amp;#39;m.bias.shape:\n&amp;#39;, m.bias.shape) print(&amp;#39;output.shape:\n&amp;#39;, output.shape) # ans = torch.mm(input,torch.t(m.weight))+m.bias 等价于下面的 ans = torch.mm(x, m.weight.t()) + m.bias print(&amp;#39;ans.shape:\n&amp;#39;, ans.shape) print(torch.equal(ans, output)) 验证输出
 m.weight.shape: torch.Size([30, 20]) m.bias.shape: torch.Size([30]) output.shape: torch.Size([128, 30]) ans.shape: torch.Size([128, 30]) True 为什么weight的shape是（30,20), 实际运算中有转置。
-###　参考链接
-  CSDN博客   </description>
+torch.gather方法 torch.gather(input,dim,index,out=None) -&amp;gt; Tensor
+import torch a = torch.</description>
     </item>
     
   </channel>

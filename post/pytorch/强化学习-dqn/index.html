@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>强化学习-八 价值函数的近似与Deep Q-learning - 哇哈哈plus盐</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="强化学习-八 价值函数的近似与Deep Q-learning" />
+<meta property="og:description" content="很多时候，我们不能以离散集合的方式表示出状态。
+价值函数的近似表示方法 由于问题的状态集合规模大，一个可行的建模方法是价值函数的近似表示。方法是我们引入一个状态价值函数$v$,这个函数由参数描述，并接受状态s作为输入。计算后得到状态s的价值：
+$$\hat{v}(s, w) \approx v_{\pi}(s)$$
+类似的，引入一个state-action函数，接受状态s和w藐视，接受状态s和动作a作为输入。计算后得到动作价值。
+$$\hat{q}(s, a, w) \approx q_{\pi}(s, a)$$
+其中最简单的就是神经网络的近似表示。
+第三幅图的思路就是Pytorch文档的Deep Q-learning思路
+Deep Q-learning算法思路 Deep Q-learning和普通Q-learning不同的地方在于不是通过状态值s和动作a计算。而是通过上面讲的Q网络来计算的。
+DQN主要使用的技巧是Experience Replay。每次和环境交互得到的奖励与状态更新都保存起来。用于后面目标Q值的更新。回忆一下我们的Q-learning是有一张Q表的，但是DQN没有。那么在动作价值函数更新的时候，就需要其他的方法，这就是经验回放。不需要再优化的时候，亲自去和环境交互。而是把交互的数据存起来，优化的的时候用。
+def optimize_model(): if len(memory) &lt; BATCH_SIZE: return transitions = memory.sample(BATCH_SIZE) policy_net(state_batch) # 其中state_batch就是experience replay采样得来的 next_state_value[non_final_task]=target_net(non_final_next_state) # 目标网络 # 计算预期的Q值 expected_state_action_values = (next_state_values * GAMMA) &#43; reward_batch # 计算Huber损失 loss = F.smooth_l1_loss(state_action_values, expected_state_action_values.unsqueeze(1)) # 优化模型 optimizer.zero_grad() loss.backward() for param in policy_net.parameters(): param.grad.data.clamp_(-1, 1) optimizer.step() Deep Q-learning实例 刘建平博客中算法f步，从经验回放集合中采样m个样本，计算当前目标Q值和算法中预期Q值计算一样。
+Deep Q-learning的进阶之Nature DQN 第一个问题：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lknownothing.github.io/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-dqn/" />
+<meta property="article:published_time" content="2020-08-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-08-10T00:00:00+00:00" />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="强化学习-八 价值函数的近似与Deep Q-learning"/>
+<meta name="twitter:description" content="很多时候，我们不能以离散集合的方式表示出状态。
+价值函数的近似表示方法 由于问题的状态集合规模大，一个可行的建模方法是价值函数的近似表示。方法是我们引入一个状态价值函数$v$,这个函数由参数描述，并接受状态s作为输入。计算后得到状态s的价值：
+$$\hat{v}(s, w) \approx v_{\pi}(s)$$
+类似的，引入一个state-action函数，接受状态s和w藐视，接受状态s和动作a作为输入。计算后得到动作价值。
+$$\hat{q}(s, a, w) \approx q_{\pi}(s, a)$$
+其中最简单的就是神经网络的近似表示。
+第三幅图的思路就是Pytorch文档的Deep Q-learning思路
+Deep Q-learning算法思路 Deep Q-learning和普通Q-learning不同的地方在于不是通过状态值s和动作a计算。而是通过上面讲的Q网络来计算的。
+DQN主要使用的技巧是Experience Replay。每次和环境交互得到的奖励与状态更新都保存起来。用于后面目标Q值的更新。回忆一下我们的Q-learning是有一张Q表的，但是DQN没有。那么在动作价值函数更新的时候，就需要其他的方法，这就是经验回放。不需要再优化的时候，亲自去和环境交互。而是把交互的数据存起来，优化的的时候用。
+def optimize_model(): if len(memory) &lt; BATCH_SIZE: return transitions = memory.sample(BATCH_SIZE) policy_net(state_batch) # 其中state_batch就是experience replay采样得来的 next_state_value[non_final_task]=target_net(non_final_next_state) # 目标网络 # 计算预期的Q值 expected_state_action_values = (next_state_values * GAMMA) &#43; reward_batch # 计算Huber损失 loss = F.smooth_l1_loss(state_action_values, expected_state_action_values.unsqueeze(1)) # 优化模型 optimizer.zero_grad() loss.backward() for param in policy_net.parameters(): param.grad.data.clamp_(-1, 1) optimizer.step() Deep Q-learning实例 刘建平博客中算法f步，从经验回放集合中采样m个样本，计算当前目标Q值和算法中预期Q值计算一样。
+Deep Q-learning的进阶之Nature DQN 第一个问题："/>
+
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="哇哈哈plus盐" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/img/placeholder.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">哇哈哈plus盐</div>
+					<div class="logo__tagline">哇哈哈plus盐</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/post/hugoisforlovers/">
+				
+				<span class="menu__text">Getting Started with Hugo</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/gym-cart-pole/">
+				
+				<span class="menu__text">Gym Cart-Pole-v1</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/vscode/">
+				
+				<span class="menu__text">VS code 基本使用方法</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">强化学习-八 价值函数的近似与Deep Q-learning</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-08-10T00:00:00Z">August 10, 2020</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="category">强化学习</a>, <a class="meta__link" href="/categories/%E7%AC%94%E8%AE%B0/" rel="category">笔记</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>很多时候，我们不能以离散集合的方式表示出状态。</p>
+<h3 id="价值函数的近似表示方法">价值函数的近似表示方法</h3>
+<p>由于问题的状态集合规模大，一个可行的建模方法是价值函数的近似表示。方法是我们引入一个状态价值函数$v$,这个函数由参数描述，并接受状态s作为输入。计算后得到状态s的价值：</p>
+<p>$$\hat{v}(s, w) \approx v_{\pi}(s)$$</p>
+<p>类似的，引入一个state-action函数，接受状态s和w藐视，接受状态s和动作a作为输入。计算后得到动作价值。</p>
+<p>$$\hat{q}(s, a, w) \approx q_{\pi}(s, a)$$</p>
+<p>其中最简单的就是神经网络的近似表示。</p>
+<p><img src="https://img2018.cnblogs.com/blog/1042406/201809/1042406-20180928142605652-445522913.jpg" alt="输入s输出q_sa"></p>
+<p>第三幅图的思路就是Pytorch文档的Deep Q-learning思路</p>
+<h3 id="deep-q-learning算法思路">Deep Q-learning算法思路</h3>
+<p>Deep Q-learning和普通Q-learning不同的地方在于不是通过状态值s和动作a计算。而是通过上面讲的Q网络来计算的。</p>
+<p>DQN主要使用的技巧是Experience Replay。每次和环境交互得到的奖励与状态更新都保存起来。用于后面<strong>目标Q值</strong>的更新。回忆一下我们的Q-learning是有一张Q表的，但是DQN没有。那么在动作价值函数更新的时候，就需要其他的方法，这就是经验回放。不需要再优化的时候，亲自去和环境交互。而是把交互的数据存起来，优化的的时候用。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">optimize_model</span>():
+    <span style="color:#66d9ef">if</span> len(memory) <span style="color:#f92672">&lt;</span> BATCH_SIZE:
+            <span style="color:#66d9ef">return</span>
+    transitions <span style="color:#f92672">=</span> memory<span style="color:#f92672">.</span>sample(BATCH_SIZE)
+    policy_net(state_batch) <span style="color:#75715e"># 其中state_batch就是experience replay采样得来的</span>
+    next_state_value[non_final_task]<span style="color:#f92672">=</span>target_net(non_final_next_state) <span style="color:#75715e"># 目标网络</span>
+
+    <span style="color:#75715e"># 计算预期的Q值</span>
+    expected_state_action_values <span style="color:#f92672">=</span> (next_state_values <span style="color:#f92672">*</span> GAMMA) <span style="color:#f92672">+</span> reward_batch
+
+    <span style="color:#75715e"># 计算Huber损失</span>
+    loss <span style="color:#f92672">=</span> F<span style="color:#f92672">.</span>smooth_l1_loss(state_action_values, expected_state_action_values<span style="color:#f92672">.</span>unsqueeze(<span style="color:#ae81ff">1</span>))
+
+    <span style="color:#75715e"># 优化模型</span>
+    optimizer<span style="color:#f92672">.</span>zero_grad()
+    loss<span style="color:#f92672">.</span>backward()
+    <span style="color:#66d9ef">for</span> param <span style="color:#f92672">in</span> policy_net<span style="color:#f92672">.</span>parameters():
+        param<span style="color:#f92672">.</span>grad<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>clamp_(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>)
+    optimizer<span style="color:#f92672">.</span>step()
+</code></pre></div><h3 id="deep-q-learning实例">Deep Q-learning实例</h3>
+<p>刘建平博客中算法f步，从经验回放集合中采样m个样本，计算当前目标Q值和算法中预期Q值计算一样。</p>
+<h2 id="deep-q-learning的进阶之nature-dqn">Deep Q-learning的进阶之Nature DQN</h2>
+<p>第一个问题：</p>
+<p>注意到DQN(NIPS 2013)里面，我们使用的目标Q值的计算方式：</p>
+<p>$$y_{j}=\left{\begin{array}{ll}
+R_{j} &amp; \text {is_end}_{j} \text {is true} \<br>
+R_{j}+\gamma \max _{a^{\prime}} Q\left(\phi\left(S_{j}^{\prime}\right), A_{j}^{\prime}, w\right) &amp; \text {is_end}_{j} \text {is false}
+\end{array}\right.$$</p>
+<p>这里的目标Q值使用到了当前要训练的Q网络参数，实际上我们又希望$y_j$来后续更新性能Q网络参数。这样两者循环依赖。迭代起来相关性就太强了。比如，target_net()仍然用policy_net()的权重去计算目标值。这个目标值又反作用于更新policy_net()的参数，官官相互的感觉。</p>
+<p>因此一个改进就是Nature DQN尝试用两个Q网络来减少<strong>目标Q值计算</strong>和<strong>Q网络参数</strong>之间的依赖关系。</p>
+<h3 id="nature-dqn的建模">Nature DQN的建模</h3>
+<p>Nature DQN使用了两个Q网络，一个当前Q网络Q用来选择动作，更新模型参数，另一个目标Q网络Q′用于计算目标Q值。目标Q网络的网络参数不需要迭代更新，而是每隔一段时间从当前Q网络Q复制过来，即延时更新，这样可以减少目标Q值和当前的Q值相关性。</p>
+<p>刘建平博客中，Natrue DQN算法中，增加了<code>h)</code>步骤：如果i%C=1,则更新目标Q网络参数w′=w。也就是经过C步骤，之后再将网络参数拷贝过来，计算目标Q网络。</p>
+<h3 id="nature-dqn总结">Nature DQN总结</h3>
+<p>做了相关性方面的改进，这个改进虽然不错，但是仍然没有解决很多问题。比如</p>
+<ul>
+<li>目标Q值的计算是否准确？全部通过max Q来计算有没有问题 -&gt; 该井就是Double DQN</li>
+<li>随机采样的方法好吗？不同样本的重要性是不一样的 -&gt; Prioritised Replay DQN</li>
+<li>Q值代表state-action的价值，那么当都动作价值的评估会不会更准确? -&gt; Dueling DQN</li>
+</ul>
+<h2 id="三doubel-dqn的算法建模">三、Doubel DQN的算法建模</h2>
+<p>DDQN和Nature DQN一样，也有一样的两个Q网络结构。再nature DQN的基础上，通过解耦<strong>目标Q值动作的选择</strong>和目标Q值的计算**的两步消除overestimate的问题。</p>
+<p>在上一节里，Nature DQN对于非终止状态，其目标Q值的计算式子是：</p>
+<p>$$y_{j}=R_{j}+\gamma \max _{a} \alpha^{\prime}\left(\phi\left(S_{j}^{\prime}\right), A_{j}^{\prime}, w^{\prime}\right)$$</p>
+<p>再DDQN这里，不再是直接再目标Q网络里面找到各个动作中最大Q值，而是在<strong>当前Q</strong>网络找出最大Q值对应的动作。(以前有种用前朝尚方宝剑斩本朝的官这种感觉)。即:</p>
+<p>$$a^{\max }\left(S_{j}^{\prime}, w\right)=\arg \max _{a^{\prime}} Q\left(\phi\left(S_{j}^{\prime}\right), a, w\right)$$</p>
+<p>利用这个选出来的动作$a^{\max }\left(S_{j}^{\prime}, w\right)$ 在目标网络去计算Q值。即：</p>
+<p>$$y_{j}=R_{j}+\gamma Q^{\prime}\left(\phi\left(S_{j}^{\prime}\right), a^{\max }\left(S_{j}^{\prime}, w\right), w^{\prime}\right)$$</p>
+<h3 id="ddqn算法流程">DDQN算法流程</h3>
+<p>和NatureDQN最大的不同，在于动作选择的时候是用当前的Qw网络。$Q^\prime$是延后更新的。</p>
+<h3 id="ddqn总结">DDQN总结</h3>
+<p>DDQN算法之后取得了比较好的效果，因此得到了比较广泛的应用。</p>
+<h2 id="四prioritized-replay-dqn">四、Prioritized Replay DQN</h2>
+<p>DDQN使用了两个Q网络，用当前Q网络计算最大Q值对应的动作，用目标Q网络计算这个最大动作对应的目标Q值，进而**消除greedy方法带来的偏差。今天在DDQN的基础上，对经验回放部分的逻辑做优化。</p>
+<h3 id="之前存在的问题">之前存在的问题</h3>
+<p>之前在采样的时候，我们是一视同仁，在experience中所有的样本都有相同的被采样到的概率。但是经验回放池中不同的样本由于TD误差的不同，对我们反向传播的作用是不一样的。TD误差越大，反向传播的作用越大。如果TD误差绝对值较大的样本更容易被采样，算法就比较容易收敛。</p>
+<h3 id="算法建模">算法建模</h3>
+<p>实际中，我们经常采用SumTree这样的二叉树结构来做我们的带优先级的经验回放池样本的存储。</p>
+<p><img src="https://img2018.cnblogs.com/blog/1042406/201810/1042406-20181016144419142-1819652338.png" alt="SumTree"></p>
+<p>所有的经验回放样本只保存在最下面的叶子节点上面，一个节点一个样本。内部节点不保存样本数据。而叶子节点除了保存数据以外，还要保存该样本的优先级，就是图中的显示的数字。对于内部节点每个节点只保存自己的儿子节点的优先级值之和，如图中内部节点上显示的数字。</p>
+<p>这样保存有什么好处呢？主要是方便采样。以上面的树结构为例，根节点是42，如果要采样一个样本，那么我们可以在[0,42]之间做均匀采样，采样到哪个区间，就是哪个样本。比如我们采样到了26， 在（25-29）这个区间，那么就是第四个叶子节点被采样到。而注意到第三个叶子节点优先级最高，是12，它的区间13-25也是最长的，会比其他节点更容易被采样到。</p>
+<p>除了经验回放池，现在我们的Q网络的算法损失函数也有优化，之前我们的损失函数是：</p>
+<p>$$\frac{1}{m} \sum_{j=1}^{m}\left(y_{j}-Q\left(\phi\left(S_{j}\right), A_{j}, w\right)\right)^{2}$$</p>
+<p>现在我们新的考虑了样本优先级的损失函数是:</p>
+<p>$$\frac{1}{m} \sum_{j=1}^{m} w_{j}\left(y_{j}-Q\left(\phi\left(S_{j}\right), A_{j}, w\right)\right)^{2}$$</p>
+<p>其中$w$j是第j个样本的优先级权重，由TD误差$|δ(t)|$归一化得到。</p>
+<p>第三个要注意的就是当我们对Q网络参数进行更新后，需要重新计算TD误差。并将TD误差更新到SunTree上面。</p>
+<p>刘建平博客中f,g,h步骤的使用是关键。</p>
+<h3 id="prioritized-replay-dqn小结">Prioritized Replay DQN小结</h3>
+<p>和DDQN相比，收敛速度有了很大的提高，避免了一些没有价值的迭代。可以直接集成DDQN算法，是个比较常用的DQN算法。</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="tag">强化学习</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="陈大壮 avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About 陈大壮</span>
+	</div>
+	<div class="authorbox__description">
+		有的人八十岁就死了，18岁才埋
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/post/torch-nn-linear/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Torch.Linear详解</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">强化学习-Model based</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "dadachen-1" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://dadachen-1.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q" aria-label="SEARCH...">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://lknownothing.github.io/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/">强化学习-Actor Critc</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/">强化学习-Model based</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-dqn/">强化学习-八 价值函数的近似与Deep Q-learning</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/torch-nn-linear/">Torch.Linear详解</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/gym/">Gym</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/python/">python</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/development/" title="development">development (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/html/" title="HTML">HTML (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/hugo/" title="hugo">hugo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/model-based/" title="Model based">Model based (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/torch/" title="Torch">Torch (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%B7%A5%E5%85%B7/" title="工具">工具 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" title="开发环境">开发环境 (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%99%E7%A8%8B/" title="教程">教程 (1)</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            displayMath: [['$$','$$'], ['\[','\]']],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: { autoNumber: "AMS" },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 哇哈哈plus盐.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>
