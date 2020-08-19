@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>强化学习-SAC - 哇哈哈plus盐</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="强化学习-SAC" />
+<meta property="og:description" content="面向连续控制的Continuous Control的DRL算法在机器人学习中正在快速的发展。在这一领域中，有三类行之有效的model-free方法：
+ DDPG，TD3, D4PG TRPO,PPO Soft Q-learning, Soft Actor-Critic  PPO是目前最主流的DRL算法，同时面向离散控制和连续控制，但是PPO是一种on-policy算法，也就是PPO面临着严重的sample inefficent。需要巨量的采样才能学习，和环境大量的交互。
+DDPG是DeepMind开发的面向连续控制的off-policy算法。比PPO更加有sample efficient。
+Soft Actor-Critic(SAC)是面向最大熵学习开发的一种off-policy算法。使用的是stochastic policy。随机策略在实际机器人控制熵往往是更好的做法，比如让机器人抓取一个水杯，是有无数条路径去实现这个过程的，而不是只有唯一的做法。因此需要drl算法能够给出一个随机策略。在每个state上给出每种动作的概率
+基于最大熵的RL算法优势  学到的policy可以作为更复杂任务的初始化 更强的exploration能力。更容易在多峰（multimodal reward）下找到更好的模式。比如要求机器人走的好，有要求节约能源 更robust，更强的generalization。从不同的方式来探索各种最优的可能性。面对干扰的时候能够更容易做出调整。  最大熵的Bellman方程 $$q_{\pi}(s, a)=r(s, a)&#43;\gamma \sum_{s^{\prime} \in \mathcal{S}} \mathcal{P}_{s s^{\prime}}^{a} \sum_{a^{\prime} \in \mathcal{A}} \pi\left(a^{\prime} \mid s^{\prime}\right)\left(q_{\pi}\left(s^{\prime}, a^{\prime}\right)-\alpha \log \left(\pi\left(a^{\prime} \mid s^{\prime}\right)\right)\right.$$
+根据上式，得到Soft Bellman Backup的更新公式：
+$$Q_{\text {soft}}\left(s_{t}, a_{t}\right)=r\left(s_{t}, a_{t}\right)&#43;\gamma \mathbb{E}_{s_{l&#43;1}, a_{t&#43;1}}\left[Q_{\text {soft}}\left(s_{t&#43;1}, a_{t&#43;1}\right)-\alpha \log \left(\pi\left(a_{t&#43;1} \mid s_{t&#43;1}\right)\right)\right.$$
+当然将entropy作为reward的一部分得到的也是相同的结果。
+Soft value function, 我们有下面的公式（10）：
+$$V_{\text {soft}}\left(s_{t}\right)=\mathbb{E}_{a_{t} \sim \pi}\left[Q_{\text {soft}}\left(s_{t}, a_{t}\right)-\alpha \log \pi\left(a_{t} \mid s_{t}\right)\right]$$" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lknownothing.github.io/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-sac/" />
+<meta property="article:published_time" content="2020-08-11T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-08-11T00:00:00+00:00" />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="强化学习-SAC"/>
+<meta name="twitter:description" content="面向连续控制的Continuous Control的DRL算法在机器人学习中正在快速的发展。在这一领域中，有三类行之有效的model-free方法：
+ DDPG，TD3, D4PG TRPO,PPO Soft Q-learning, Soft Actor-Critic  PPO是目前最主流的DRL算法，同时面向离散控制和连续控制，但是PPO是一种on-policy算法，也就是PPO面临着严重的sample inefficent。需要巨量的采样才能学习，和环境大量的交互。
+DDPG是DeepMind开发的面向连续控制的off-policy算法。比PPO更加有sample efficient。
+Soft Actor-Critic(SAC)是面向最大熵学习开发的一种off-policy算法。使用的是stochastic policy。随机策略在实际机器人控制熵往往是更好的做法，比如让机器人抓取一个水杯，是有无数条路径去实现这个过程的，而不是只有唯一的做法。因此需要drl算法能够给出一个随机策略。在每个state上给出每种动作的概率
+基于最大熵的RL算法优势  学到的policy可以作为更复杂任务的初始化 更强的exploration能力。更容易在多峰（multimodal reward）下找到更好的模式。比如要求机器人走的好，有要求节约能源 更robust，更强的generalization。从不同的方式来探索各种最优的可能性。面对干扰的时候能够更容易做出调整。  最大熵的Bellman方程 $$q_{\pi}(s, a)=r(s, a)&#43;\gamma \sum_{s^{\prime} \in \mathcal{S}} \mathcal{P}_{s s^{\prime}}^{a} \sum_{a^{\prime} \in \mathcal{A}} \pi\left(a^{\prime} \mid s^{\prime}\right)\left(q_{\pi}\left(s^{\prime}, a^{\prime}\right)-\alpha \log \left(\pi\left(a^{\prime} \mid s^{\prime}\right)\right)\right.$$
+根据上式，得到Soft Bellman Backup的更新公式：
+$$Q_{\text {soft}}\left(s_{t}, a_{t}\right)=r\left(s_{t}, a_{t}\right)&#43;\gamma \mathbb{E}_{s_{l&#43;1}, a_{t&#43;1}}\left[Q_{\text {soft}}\left(s_{t&#43;1}, a_{t&#43;1}\right)-\alpha \log \left(\pi\left(a_{t&#43;1} \mid s_{t&#43;1}\right)\right)\right.$$
+当然将entropy作为reward的一部分得到的也是相同的结果。
+Soft value function, 我们有下面的公式（10）：
+$$V_{\text {soft}}\left(s_{t}\right)=\mathbb{E}_{a_{t} \sim \pi}\left[Q_{\text {soft}}\left(s_{t}, a_{t}\right)-\alpha \log \pi\left(a_{t} \mid s_{t}\right)\right]$$"/>
+
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="哇哈哈plus盐" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/img/placeholder.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">哇哈哈plus盐</div>
+					<div class="logo__tagline">哇哈哈plus盐</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/post/hugoisforlovers/">
+				
+				<span class="menu__text">Getting Started with Hugo</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/gym-cart-pole/">
+				
+				<span class="menu__text">Gym Cart-Pole-v1</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/java/jdbcm/">
+				
+				<span class="menu__text">Java快速开始-JDBC</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/java/maven/">
+				
+				<span class="menu__text">Java快速开始-创建Maven项目并整合Tomcat发布Maven项目</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/vscode/">
+				
+				<span class="menu__text">VS code 基本使用方法</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/">
+				
+				<span class="menu__text">强化学习-Actor Critc</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">强化学习-SAC</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-08-11T00:00:00Z">August 11, 2020</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="category">强化学习</a>, <a class="meta__link" href="/categories/%E7%AC%94%E8%AE%B0/" rel="category">笔记</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>面向连续控制的Continuous Control的DRL算法在机器人学习中正在快速的发展。在这一领域中，有三类行之有效的model-free方法：</p>
+<ul>
+<li>DDPG，TD3, D4PG</li>
+<li>TRPO,PPO</li>
+<li>Soft Q-learning, Soft Actor-Critic</li>
+</ul>
+<p>PPO是目前最主流的DRL算法，同时面向离散控制和连续控制，但是PPO是一种on-policy算法，也就是PPO面临着严重的sample inefficent。需要巨量的采样才能学习，和环境大量的交互。</p>
+<p>DDPG是DeepMind开发的面向连续控制的off-policy算法。比PPO更加有sample efficient。</p>
+<p>Soft Actor-Critic(SAC)是面向<strong>最大熵学习</strong>开发的一种off-policy算法。使用的是stochastic policy。随机策略在实际机器人控制熵往往是更好的做法，比如让机器人抓取一个水杯，是有无数条路径去实现这个过程的，而不是只有唯一的做法。因此需要drl算法能够给出一个随机策略。在每个state上给出每种动作的概率</p>
+<h3 id="基于最大熵的rl算法优势">基于最大熵的RL算法优势</h3>
+<ol>
+<li>学到的policy可以作为更复杂任务的初始化</li>
+<li>更强的exploration能力。更容易在多峰（multimodal reward）下找到更好的模式。比如要求机器人走的好，有要求节约能源</li>
+<li>更robust，更强的generalization。从不同的方式来探索各种最优的可能性。面对干扰的时候能够更容易做出调整。</li>
+</ol>
+<h3 id="最大熵的bellman方程">最大熵的Bellman方程</h3>
+<p>$$q_{\pi}(s, a)=r(s, a)+\gamma \sum_{s^{\prime} \in \mathcal{S}} \mathcal{P}_{s s^{\prime}}^{a} \sum_{a^{\prime} \in \mathcal{A}} \pi\left(a^{\prime} \mid s^{\prime}\right)\left(q_{\pi}\left(s^{\prime}, a^{\prime}\right)-\alpha \log \left(\pi\left(a^{\prime} \mid s^{\prime}\right)\right)\right.$$</p>
+<p>根据上式，得到Soft Bellman Backup的更新公式：</p>
+<p>$$Q_{\text {soft}}\left(s_{t}, a_{t}\right)=r\left(s_{t}, a_{t}\right)+\gamma \mathbb{E}_{s_{l+1}, a_{t+1}}\left[Q_{\text {soft}}\left(s_{t+1}, a_{t+1}\right)-\alpha \log \left(\pi\left(a_{t+1} \mid s_{t+1}\right)\right)\right.$$</p>
+<p>当然将entropy作为reward的一部分得到的也是相同的结果。</p>
+<p>Soft value function, 我们有下面的公式（10）：</p>
+<p>$$V_{\text {soft}}\left(s_{t}\right)=\mathbb{E}_{a_{t} \sim \pi}\left[Q_{\text {soft}}\left(s_{t}, a_{t}\right)-\alpha \log \pi\left(a_{t} \mid s_{t}\right)\right]$$</p>
+<p>公式(7)的做法直接证明了Lemma 1的Soft Policy Evaluation</p>
+<h3 id="为什么称为soft-哪里soft了">为什么称为soft, 哪里soft了？</h3>
+<p>soft-function的定义为题可以从[Soft-Q-learning}(https://bair.berkeley.edu/blog/2017/10/06/soft-q-learning/)中寻找答案。（PS: 知识点energy-based policy和Boltzmann Distribution）
+$$ \pi(a_t|s_t) \to \exp(Q_{soft}(s_t,a_t))$$
+这样的policy能够为每一action赋值一个特定的概率符合Q值分布，也就满足了stochastic policy的需求。</p>
+<p>在Solti Q-learning中，是从soft value function的定义出发去连接Energy-based Policy和Maximum Entropy Objective的关系。而在SAC中，是从Maximum Entropy Objective出发，来连接其他两部分。前面已经推导得到了公式（10），论文中公式（3），那么根据公式10，我们可以直接推导得到policy的形式：</p>
+<p>$$\pi\left(s_{t}, a_{t}\right)=\exp \left(\frac{1}{\alpha}\left(Q_{s o f t}\left(s_{t}, a_{t}\right)-V_{s o f t}\left(s_{t}\right)\right)\right)$$</p>
+<p>分母可以看成是log partition function。就连接了最大熵目标和基于能量的policy的关系。</p>
+<p>$$V_{s o f t}\left(s_{t}\right) \triangleq \alpha \log \int \exp \left(\frac{1}{\alpha} Q_{s o f t}\left(s_{t}, a\right)\right) d \mathbf{a}$$</p>
+<p>这其实就是logSumExp（LSE）的积分形式，就是smooth maximum/soft maximum (软的最大）。偏导的形式如下：
+$$\frac{\partial}{\partial x_{i}} L S E(\mathbf{x})=\frac{\exp x_{i}}{\sum_{j} \exp x_{j}}$$</p>
+<p>soft max f(a)的意思是找到最大的$f(a)$， 而$\arg \max_a$则是为了找到参数，使得$f(a)$最大。</p>
+<p>以上的推导是面向policy的Value和Q。下面要说明的optimal policy也必然是energy-based policy形式。</p>
+<h3 id="policy-iteration">Policy Iteration</h3>
+<ol>
+<li>
+<p>Policy evaluation: 固定policy，使用Bellman方程更新Q值指导收敛；</p>
+</li>
+<li>
+<p>Policy improvement: 更新policy: $\pi(s)=\argmax_a Q_\pi(s,a)$ 基于同样的方法，我们有soft policy iteration。</p>
+</li>
+<li>
+<p>Soft policy evaluation: 固定policy，使用Bellman方程更新Q值直到收敛：</p>
+</li>
+</ol>
+<p>$$Q_{\text {soft }}^{\pi}\left(s_{t}, a_{t}\right)=r\left(s_{t}, a_{t}\right)+\lambda \mathbb{E}_{s_{t+1}, a_{t+1}}\left[Q_{\text {soft}}^{\pi}\left(s_{t+1}, a_{t+1}\right)-\alpha \log \left(\pi\left(a_{t+1} \mid s_{t+1}\right)\right)\right.$$</p>
+<ol>
+<li>Soft policy improvement: 更新policy</li>
+</ol>
+<p>$$\pi^{\prime}=\arg \min <em>{\pi</em>{k} \in \Pi} D_{K L}\left(\pi_{k}\left(\cdot \mid s_{t}\right) | \frac{\exp \left(\frac{1}{\alpha} Q_{s o f t}^{\pi}\left(s_{t}, \cdot\right)\right)}{Z_{s o f t}^{\pi}\left(s_{t}\right)}\right)$$</p>
+<p>Policy evaluation基于lemma 1的soft policy evaluation，可收敛。</p>
+<p>Policy improvement基于上一部分Theorem 4。Lemma 2也证明了。这里的做法不是直接赋值，而是通过KL divergence来趋近。SAC的原文中可以看到这么做的原因是为了限制policy在一定范围的policies中，从而tractable。</p>
+<h3 id="soft-actor-critic">Soft Actor-Critic</h3>
+<p>Q网络比较简单，几层MLP最后输出一个单值表示Q就可以了，policy网络需要输出一个分布，</p>
+<h2 id="参考">参考</h2>
+<blockquote>
+<ol>
+<li><a href="https://www.zhihu.com/search?type=content&amp;q=SAC">知乎-深度理解SAC</a></li>
+</ol>
+</blockquote>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="tag">强化学习</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="陈大壮 avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About 陈大壮</span>
+	</div>
+	<div class="authorbox__description">
+		有的人八十岁就死了，18岁才埋
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-dqn/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">强化学习-八 价值函数的近似与Deep Q-learning</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-pomdp/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">强化学习-POMDP</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "dadachen-1" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://dadachen-1.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q" aria-label="SEARCH...">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://lknownothing.github.io/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/java/jdbcm/">Java快速开始-JDBC</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/java/maven/">Java快速开始-创建Maven项目并整合Tomcat发布Maven项目</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/">强化学习-Actor Critc</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/">强化学习-Model based</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/gym/">Gym</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/java/">Java</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/python/">python</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/development/" title="development">development (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/html/" title="HTML">HTML (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/hugo/" title="hugo">hugo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="Java">Java (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/model-based/" title="Model based">Model based (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/spring/" title="spring">spring (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/torch/" title="Torch">Torch (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%B7%A5%E5%85%B7/" title="工具">工具 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" title="开发环境">开发环境 (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (8)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%99%E7%A8%8B/" title="教程">教程 (1)</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            displayMath: [['$$','$$'], ['\[','\]']],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: { autoNumber: "AMS" },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 哇哈哈plus盐.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

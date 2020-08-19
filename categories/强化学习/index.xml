@@ -46,6 +46,40 @@ Dyna算法框架 既从模型中学习，也和环境交互的经历中去学习
     </item>
     
     <item>
+      <title>强化学习-POMDP</title>
+      <link>https://lknownothing.github.io/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-pomdp/</link>
+      <pubDate>Tue, 11 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://lknownothing.github.io/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-pomdp/</guid>
+      <description>部分可观测的马尔可夫决策过程 在某一段时间T 内， 机器人开始并不确定自己处于哪个状态。首先，机器人用传感器收集环境数据，$O(o|s)$ 表示机器人在观测到$o$之后，有多大概率确定自己处于状态$s$. 举个例子，$o$(观测值) 表示有阳光， $s$(真实值) 表示晴天，那么我们在晴天的时候有可能看到阳光，也有可能躺在屋子里看不到阳光（观测的不确定性），但当我们看到阳光时，我们应该有很大把握确信今天是晴天。
+POMDP模型中，机器人不能确信自己处于哪个状态，机器人对下一步动作的决策基础是当前所处状态的概率，就是说最有可能处于哪个状态。根据观测到太阳，推测的处于晴天的概率。agent需要通过传感器手机环境信息（观测值），来更新对当前所处状态的可信度。
+置信度belief更新 首先说明置信空间的概念，它表示机器人对自己目前所处状态的可信度，用$b(s)$表示。在机器人轨迹规划中，机器人到达状态 $s′$, 观测到环境信息 $o∈Ω$, 这整个过程发生的概率可以用$ O(o|s′,a)$ 来表示。那么置信度的更新可以迭代地表示为：
+$$b^{\prime}\left(s^{\prime}\right)=\eta O\left(o \mid s^{\prime}\right) \sum_{s \in S} T\left(s^{\prime} \mid s, a\right) b(s)$$
+其中$\eta$是一个归一化因子（normalizing constant): $$\operatorname{Pr}(o \mid b, a)=\sum_{s^{\prime} \in S} O\left(o \mid s^{\prime}\right) \sum_{s \in S} T\left(s^{\prime} \mid s, a\right) b(s)$$
+这样求得的belief state是一个用观测变量求得的后验$b(s^\prime|o)$后验。
+Belief MDP 在POMDP中，如果我们把机器人对自己所处状态地可信度也看作是一个”状态“，称之为置信状态belief state。那么POMDP模型的处理就可以回归到MDP模型中。我们用一个五元数$(B,A,τ,r,γ)$ 来定义 Belief MDP。
+$$\tau\left(b^{\prime} \mid b, a\right)=\sum_{o \in \Omega} \operatorname{Pr}\left(b^{\prime} \mid b, a, o\right) \operatorname{Pr}(o \mid b, a)$$</description>
+    </item>
+    
+    <item>
+      <title>强化学习-SAC</title>
+      <link>https://lknownothing.github.io/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-sac/</link>
+      <pubDate>Tue, 11 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://lknownothing.github.io/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-sac/</guid>
+      <description>面向连续控制的Continuous Control的DRL算法在机器人学习中正在快速的发展。在这一领域中，有三类行之有效的model-free方法：
+ DDPG，TD3, D4PG TRPO,PPO Soft Q-learning, Soft Actor-Critic  PPO是目前最主流的DRL算法，同时面向离散控制和连续控制，但是PPO是一种on-policy算法，也就是PPO面临着严重的sample inefficent。需要巨量的采样才能学习，和环境大量的交互。
+DDPG是DeepMind开发的面向连续控制的off-policy算法。比PPO更加有sample efficient。
+Soft Actor-Critic(SAC)是面向最大熵学习开发的一种off-policy算法。使用的是stochastic policy。随机策略在实际机器人控制熵往往是更好的做法，比如让机器人抓取一个水杯，是有无数条路径去实现这个过程的，而不是只有唯一的做法。因此需要drl算法能够给出一个随机策略。在每个state上给出每种动作的概率
+基于最大熵的RL算法优势  学到的policy可以作为更复杂任务的初始化 更强的exploration能力。更容易在多峰（multimodal reward）下找到更好的模式。比如要求机器人走的好，有要求节约能源 更robust，更强的generalization。从不同的方式来探索各种最优的可能性。面对干扰的时候能够更容易做出调整。  最大熵的Bellman方程 $$q_{\pi}(s, a)=r(s, a)+\gamma \sum_{s^{\prime} \in \mathcal{S}} \mathcal{P}_{s s^{\prime}}^{a} \sum_{a^{\prime} \in \mathcal{A}} \pi\left(a^{\prime} \mid s^{\prime}\right)\left(q_{\pi}\left(s^{\prime}, a^{\prime}\right)-\alpha \log \left(\pi\left(a^{\prime} \mid s^{\prime}\right)\right)\right.$$
+根据上式，得到Soft Bellman Backup的更新公式：
+$$Q_{\text {soft}}\left(s_{t}, a_{t}\right)=r\left(s_{t}, a_{t}\right)+\gamma \mathbb{E}_{s_{l+1}, a_{t+1}}\left[Q_{\text {soft}}\left(s_{t+1}, a_{t+1}\right)-\alpha \log \left(\pi\left(a_{t+1} \mid s_{t+1}\right)\right)\right.$$
+当然将entropy作为reward的一部分得到的也是相同的结果。
+Soft value function, 我们有下面的公式（10）：
+$$V_{\text {soft}}\left(s_{t}\right)=\mathbb{E}_{a_{t} \sim \pi}\left[Q_{\text {soft}}\left(s_{t}, a_{t}\right)-\alpha \log \pi\left(a_{t} \mid s_{t}\right)\right]$$</description>
+    </item>
+    
+    <item>
       <title>强化学习-八 价值函数的近似与Deep Q-learning</title>
       <link>https://lknownothing.github.io/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-dqn/</link>
       <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
@@ -88,7 +122,8 @@ import torch a = torch.</description>
       <description>介绍 在CartPole-v0的环境中，实际参考了论文：AG Barto, RS Sutton and CW Anderson, “Neuronlike Adaptive Elements That Can Solve Difficult Learning Control Problem”, IEEE Transactions on Systems, Man, and Cybernetics, 1983.中的倒立摆控制问题。
 Cart-Pole就是车杆游戏，为了保证游戏能继续进行,需要满足两个条件，如图所示：
  杆子倾斜的角度$\theta$不能大于12度 小车移动的位置x需要保持在一定的范围，（中间到两边各2.4个单位长度) Episode is greater than 200 在连续100次试验中，平均return大于195就认为问题解决了。  状态变量
- x 小车位置 Cart Position (-4.8 4.8) v 小车速度 (-Inf Inf) $\theta$：杆子与竖直方向的夹角(-0.418 rad - 0.418 rad)24度 $v_{rad}$ 角度变化率 (-Inf Inf)  starting state All observations are assigned a uniform random value in (-0.</description>
+ x 小车位置 Cart Position (-4.8 4.8) v 小车速度 (-Inf Inf) $\theta$：杆子与竖直方向的夹角(-0.418 rad - 0.418 rad)24度 $v_{rad}$ 角度变化率 (-Inf Inf)  starting state
+All observations are assigned a uniform random value in (-0.</description>
     </item>
     
     <item>
@@ -104,7 +139,7 @@ Toy example import gym test_envs={&amp;#39;algorithm&amp;#39;:&amp;#39;Copy-v0&a
     </item>
     
     <item>
-      <title>Q-learning and SARSA</title>
+      <title>Q-learning(off-policy) and SARSA(on-policy)</title>
       <link>https://lknownothing.github.io/post/q-learning-and-sarsa/</link>
       <pubDate>Sat, 08 Aug 2020 00:00:00 +0000</pubDate>
       

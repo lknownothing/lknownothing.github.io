@@ -82,9 +82,30 @@ Deep Q-learning的进阶之Nature DQN 第一个问题："/>
 			</a>
 		</li>
 		<li class="menu__item">
+			<a class="menu__link" href="/post/java/jdbcm/">
+				
+				<span class="menu__text">Java快速开始-JDBC</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/java/maven/">
+				
+				<span class="menu__text">Java快速开始-创建Maven项目并整合Tomcat发布Maven项目</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/post/vscode/">
 				
 				<span class="menu__text">VS code 基本使用方法</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/">
+				
+				<span class="menu__text">强化学习-Actor Critc</span>
 				
 			</a>
 		</li>
@@ -144,7 +165,7 @@ Deep Q-learning的进阶之Nature DQN 第一个问题："/>
 <p>注意到DQN(NIPS 2013)里面，我们使用的目标Q值的计算方式：</p>
 <p>$$y_{j}=\left{\begin{array}{ll}
 R_{j} &amp; \text {is_end}_{j} \text {is true} \<br>
-R_{j}+\gamma \max _{a^{\prime}} Q\left(\phi\left(S_{j}^{\prime}\right), A_{j}^{\prime}, w\right) &amp; \text {is_end}_{j} \text {is false}
+R_{j}+ \gamma \max_{a^{\prime}} Q\left(\phi\left(S_{j}^{\prime}\right), A_{j}^{\prime}, w\right) &amp; \text {is_end}_{j} \text {is false}
 \end{array}\right.$$</p>
 <p>这里的目标Q值使用到了当前要训练的Q网络参数，实际上我们又希望$y_j$来后续更新性能Q网络参数。这样两者循环依赖。迭代起来相关性就太强了。比如，target_net()仍然用policy_net()的权重去计算目标值。这个目标值又反作用于更新policy_net()的参数，官官相互的感觉。</p>
 <p>因此一个改进就是Nature DQN尝试用两个Q网络来减少<strong>目标Q值计算</strong>和<strong>Q网络参数</strong>之间的依赖关系。</p>
@@ -224,9 +245,9 @@ R_{j}+\gamma \max _{a^{\prime}} Q\left(\phi\left(S_{j}^{\prime}\right), A_{j}^{\
 		</a>
 	</div>
 	<div class="pager__item pager__item--next">
-		<a class="pager__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/" rel="next">
+		<a class="pager__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-sac/" rel="next">
 			<span class="pager__subtitle">Next&thinsp;»</span>
-			<p class="pager__title">强化学习-Model based</p>
+			<p class="pager__title">强化学习-SAC</p>
 		</a>
 	</div>
 </nav>
@@ -286,10 +307,10 @@ s.setAttribute('data-timestamp', +new Date());
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/java/jdbcm/">Java快速开始-JDBC</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/java/maven/">Java快速开始-创建Maven项目并整合Tomcat发布Maven项目</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/">强化学习-Actor Critc</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/">强化学习-Model based</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-dqn/">强化学习-八 价值函数的近似与Deep Q-learning</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/torch-nn-linear/">Torch.Linear详解</a></li>
 		</ul>
 	</div>
 </div>
@@ -302,6 +323,9 @@ s.setAttribute('data-timestamp', +new Date());
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/gym/">Gym</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/java/">Java</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/python/">python</a>
@@ -327,12 +351,14 @@ s.setAttribute('data-timestamp', +new Date());
 		<a class="widget-taglist__link widget__link btn" href="/tags/development/" title="development">development (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/html/" title="HTML">HTML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/hugo/" title="hugo">hugo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="Java">Java (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/model-based/" title="Model based">Model based (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/spring/" title="spring">spring (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/torch/" title="Torch">Torch (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%B7%A5%E5%85%B7/" title="工具">工具 (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" title="开发环境">开发环境 (5)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%99%E7%A8%8B/" title="教程">教程 (1)</a>
 	</div>
 </div>

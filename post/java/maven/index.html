@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Java快速开始-创建Maven项目并整合Tomcat发布Maven项目 - 哇哈哈plus盐</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Java快速开始-创建Maven项目并整合Tomcat发布Maven项目" />
+<meta property="og:description" content="Intro  依赖管理：maven工程对jar包的管理过程。 项目的一键构建：指的是项目从编译、测试、运行、打包、安装，部署整个过程都交给maven进行管理，这个过程称为构建。pom.xml文件。到pom.xml文件下面，执行`mvn tomcat:run&rsquo;  一、Maven  传统Web工程crm, Jar包在项目中， Maven开发的crm项目，jar包不在项目中。jar包的坐标-&gt; jar包仓库。代码可重用，  1.1 Maven安装  安装只需要到官网下载解压即可。将解压路径 添加到MAVEN_PATH的环境变量中，path中添加%MAVEN_HOME%\bin config文件下的Default:${user.home}/.m2/repository会在home下建立repository文件夹，作为本地仓库的位置。当我们启动maven工程的时候，会默认取系统盘找本地仓库。连网情况下，会连接网络取中央仓库（放置了所有开源的jar包）寻找。也可以配置局域网，在远程仓库（私服）下载。 修改&lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;本地仓库的位置。  1.2 工程目录 核心代码，配置文件，测试代码，测试配置文件。Maven目录标准目录结构
+|-src/main/java目录 核心代码部分。 |-src.main/resource 配置文件部分 |-src/test/java 测试代码部分 |-src/test/resource 测试配置文件 |-src/main/webapp 页面资源，js,css,img等等。
+1.3 Maven中常用命令  mvn clean将target目录删掉。 mvn compile 将src/main中的代码进行了编译。在公司中需要删除别人编译的信息，在自己电脑编译。 mvn test除了classes文件还有一个test-class文件。 mvn package 把打完的包放在了target目录下边，打包成一个war包，因为在pom文件中指定为war包。 mvn install 不仅编译main，还编译test, 还打包。  1.4 Maven生命周期 默认生命周期defaultLifeCycle:clean(清理生命周期), compile,test, install, 发布deploy。clean作为一个单独的清理周期；后面的default生命周期中，比如执行mvn test时就自动执行了前面的compile。
+1.5 Maven概念模型图 包含三个信息：1) 项目本身的信息，2) dependency的jar信息，3) 项目运行环境信息，比如jdk，tomcat信息。
+ dependency: 公司组织的名称groupid，项目名字artifact，版本号version 每个构建项目的命令都对应了maven底层的一个插件。  1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lknownothing.github.io/post/java/maven/" />
+<meta property="article:published_time" content="2020-08-18T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-08-18T00:00:00+00:00" />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java快速开始-创建Maven项目并整合Tomcat发布Maven项目"/>
+<meta name="twitter:description" content="Intro  依赖管理：maven工程对jar包的管理过程。 项目的一键构建：指的是项目从编译、测试、运行、打包、安装，部署整个过程都交给maven进行管理，这个过程称为构建。pom.xml文件。到pom.xml文件下面，执行`mvn tomcat:run&rsquo;  一、Maven  传统Web工程crm, Jar包在项目中， Maven开发的crm项目，jar包不在项目中。jar包的坐标-&gt; jar包仓库。代码可重用，  1.1 Maven安装  安装只需要到官网下载解压即可。将解压路径 添加到MAVEN_PATH的环境变量中，path中添加%MAVEN_HOME%\bin config文件下的Default:${user.home}/.m2/repository会在home下建立repository文件夹，作为本地仓库的位置。当我们启动maven工程的时候，会默认取系统盘找本地仓库。连网情况下，会连接网络取中央仓库（放置了所有开源的jar包）寻找。也可以配置局域网，在远程仓库（私服）下载。 修改&lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;本地仓库的位置。  1.2 工程目录 核心代码，配置文件，测试代码，测试配置文件。Maven目录标准目录结构
+|-src/main/java目录 核心代码部分。 |-src.main/resource 配置文件部分 |-src/test/java 测试代码部分 |-src/test/resource 测试配置文件 |-src/main/webapp 页面资源，js,css,img等等。
+1.3 Maven中常用命令  mvn clean将target目录删掉。 mvn compile 将src/main中的代码进行了编译。在公司中需要删除别人编译的信息，在自己电脑编译。 mvn test除了classes文件还有一个test-class文件。 mvn package 把打完的包放在了target目录下边，打包成一个war包，因为在pom文件中指定为war包。 mvn install 不仅编译main，还编译test, 还打包。  1.4 Maven生命周期 默认生命周期defaultLifeCycle:clean(清理生命周期), compile,test, install, 发布deploy。clean作为一个单独的清理周期；后面的default生命周期中，比如执行mvn test时就自动执行了前面的compile。
+1.5 Maven概念模型图 包含三个信息：1) 项目本身的信息，2) dependency的jar信息，3) 项目运行环境信息，比如jdk，tomcat信息。
+ dependency: 公司组织的名称groupid，项目名字artifact，版本号version 每个构建项目的命令都对应了maven底层的一个插件。  1."/>
+
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="哇哈哈plus盐" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/img/placeholder.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">哇哈哈plus盐</div>
+					<div class="logo__tagline">哇哈哈plus盐</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/post/hugoisforlovers/">
+				
+				<span class="menu__text">Getting Started with Hugo</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/gym-cart-pole/">
+				
+				<span class="menu__text">Gym Cart-Pole-v1</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/java/jdbcm/">
+				
+				<span class="menu__text">Java快速开始-JDBC</span>
+				
+			</a>
+		</li>
+		<li class="menu__item menu__item--active">
+			<a class="menu__link" href="/post/java/maven/">
+				
+				<span class="menu__text">Java快速开始-创建Maven项目并整合Tomcat发布Maven项目</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/vscode/">
+				
+				<span class="menu__text">VS code 基本使用方法</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/">
+				
+				<span class="menu__text">强化学习-Actor Critc</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Java快速开始-创建Maven项目并整合Tomcat发布Maven项目</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-08-18T00:00:00Z">August 18, 2020</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/java/" rel="category">Java</a>, <a class="meta__link" href="/categories/%E7%AC%94%E8%AE%B0/" rel="category">笔记</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<h2 id="intro">Intro</h2>
+<ol>
+<li>依赖管理：maven工程对jar包的管理过程。</li>
+<li>项目的一键构建：指的是项目从编译、测试、运行、打包、安装，部署整个过程都交给maven进行管理，这个过程称为构建。<code>pom.xml</code>文件。到<code>pom.xml</code>文件下面，执行`mvn tomcat:run&rsquo;</li>
+</ol>
+<h2 id="一maven">一、Maven</h2>
+<ul>
+<li>传统Web工程crm, Jar包在项目中，</li>
+<li>Maven开发的crm项目，jar包不在项目中。jar包的坐标-&gt; jar包仓库。代码可重用，</li>
+</ul>
+<h3 id="11-maven安装">1.1 Maven安装</h3>
+<ol>
+<li>安装只需要到官网下载解压即可。将解压路径 添加到MAVEN_PATH的环境变量中，path中添加<code>%MAVEN_HOME%\bin</code></li>
+<li>config文件下的<code>Default:${user.home}/.m2/repository</code>会在home下建立repository文件夹，作为本地仓库的位置。当我们启动maven工程的时候，会默认取系统盘找本地仓库。连网情况下，会连接网络取中央仓库（放置了所有开源的jar包）寻找。也可以配置局域网，在远程仓库（私服）下载。</li>
+<li>修改<code>&lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;</code>本地仓库的位置。</li>
+</ol>
+<h3 id="12-工程目录">1.2 工程目录</h3>
+<p>核心代码，配置文件，测试代码，测试配置文件。Maven目录标准目录结构</p>
+<p>|-src/main/java目录 核心代码部分。
+|-src.main/resource 配置文件部分
+|-src/test/java 测试代码部分
+|-src/test/resource 测试配置文件
+|-src/main/webapp 页面资源，js,css,img等等。</p>
+<h3 id="13-maven中常用命令">1.3 Maven中常用命令</h3>
+<ol>
+<li><code>mvn clean</code>将target目录删掉。</li>
+<li><code>mvn compile</code> 将src/main中的代码进行了编译。在公司中需要删除别人编译的信息，在自己电脑编译。</li>
+<li><code>mvn test</code>除了classes文件还有一个test-class文件。</li>
+<li><code>mvn package</code> 把打完的包放在了target目录下边，打包成一个war包，因为在pom文件中指定为war包。</li>
+<li><code>mvn install</code> 不仅编译main，还编译test, 还打包。</li>
+</ol>
+<h3 id="14-maven生命周期">1.4 Maven生命周期</h3>
+<p>默认生命周期defaultLifeCycle:clean(清理生命周期), compile,test, install, 发布deploy。clean作为一个单独的清理周期；后面的default生命周期中，比如执行<code>mvn test</code>时就自动执行了前面的compile。</p>
+<h3 id="15-maven概念模型图">1.5 Maven概念模型图</h3>
+<p>包含三个信息：1) 项目本身的信息，2) dependency的jar信息，3) 项目运行环境信息，比如jdk，tomcat信息。</p>
+<ol>
+<li>dependency: 公司组织的名称groupid，项目名字artifact，版本号version</li>
+<li>每个构建项目的命令都对应了maven底层的一个插件。</li>
+</ol>
+<h3 id="16-使用骨架创建maven工程">1.6 使用骨架创建maven工程</h3>
+<ol>
+<li>settings中配置maven的setting地址和jar包地址。</li>
+<li>鼠标在main文件夹上新建一个resource文件，指定为resource文件类型</li>
+</ol>
+<p>不再使用模板如何创建maven工程。框架完整，有resource资源文件。填写groupid为com.ecnu。</p>
+<p>使用create from archtype创建web工程，archtype.webapp，填写groupid和artifactid。提示maven project need to be imported的时候，允许自动导入。补充main中的java文件。</p>
+<h2 id="二spring-quick-start">二、Spring quick start</h2>
+<h3 id="21-spring是什么">2.1 Spring是什么？</h3>
+<p>Spring是分层Jave EE/SE应用full-stack轻量级开源框架，以IoC(inverse of control，控制反转)和AOp(Aspect Oriented Programming,面向切面编程)为内核。提供了<strong>展现层</strong>SpringMVC和<strong>持久层</strong>Spring JDBCTemplate以及<strong>业务层</strong>事物管理等众多的企业级应用技术，还能整合开源世界等众多著名第三方框架和类库。</p>
+<p>1997年IBM提出了2006EJB思想, 2006年EJB3.0发布。Rob Johnson（Spring之父）,《手把手教你不用EJB开发》。Spring优势：方便解耦，简化开发，2) AOP编程支持，声明式事物的支持。测试更加方便，3)方便集成各种优秀框架（struts,Hibemate，Hessian)的支持。4)降低API的使用难度。5) Java源码。</p>
+<p>层次Core Container: Beans，Core, context, SpEL; Data Access: JDBC。</p>
+<h3 id="22-spring快速入门">2.2 Spring快速入门</h3>
+<p>编写Dao接口和实现类，UserDao userDao = Spring客户端.getBeanid(id标识)&lt;&mdash;&gt; Spring框架（读取xml配置文件，更具id标识获得Bean权限定名，通过反射对象创建Bean对象 &lt;&mdash;&gt; xml配置文件。</p>
+<ol>
+<li>导入坐标</li>
+<li>创建bean: 创建Dao接口和实现类</li>
+<li>创建applicationContex.xml</li>
+<li>在配置文件中进行配置</li>
+<li>创建ApplicationContex对象getBean</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> com.ecnu.demo<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> com.ecnu.dao.UserDao<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.context.ApplicationContext<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.context.support.ClassPathXmlApplicationContext<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">// 1.编写好Class类，放在impl文件夹下。
+</span><span style="color:#75715e">// 2.resource文件下创建Spring的xml文件将class封装好。ps: 相当于python中通过setuptools将模块封装起来。
+</span><span style="color:#75715e">// 3.在调用类中，new ClassPathXmlapplicationContex中读取xml文件，返回一个ApplicationContex类型返回值。ps:相当于python的import pandas
+</span><span style="color:#75715e">// 4.从app.getBean(&#34;class_name&#34;)中获得一个UserDao类型的返回值。ps：python中导入模块后调用df=pandas.read_from_csv()
+</span><span style="color:#75715e">// 5.在当前调用中，直接调用编写的类。ps:相当于pd.head()的调用
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserDaoDemo</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        ApplicationContext app<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ClassPathXmlApplicationContext<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;applicationContex.xml&#34;</span><span style="color:#f92672">);</span>
+        UserDao userDao<span style="color:#f92672">=(</span>UserDao<span style="color:#f92672">)</span>  app<span style="color:#f92672">.</span><span style="color:#a6e22e">getBean</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;userDao&#34;</span><span style="color:#f92672">);</span>
+        userDao<span style="color:#f92672">.</span><span style="color:#a6e22e">save</span><span style="color:#f92672">();</span>
+        <span style="color:#75715e">//执行现实save running...
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><h3 id="23-spring配置文件">2.3 Spring配置文件</h3>
+<h4 id="231-bean">2.3.1 Bean</h4>
+<p>bean标签中id不能重复。getBean(&ldquo;id&rdquo;) 通过id调取。</p>
+<h4 id="232-bean标签范围配置">2.3.2 Bean标签范围配置</h4>
+<p>scope:指对象的作用范围。</p>
+<ul>
+<li>singleton，单例的。当加载文件时，被创建，个数是1个；（当spring的核心文件被加载时，实例化配置的Bean实例。
+<ul>
+<li>Bean的生命周期：创建容器时，对象就被创建了。对象运行时，只要容器在，对象一直活着。对象销毁，当应用卸载时，对象就被销毁了。</li>
+</ul>
+</li>
+<li>prototype，多例的，bean的创建时期说执行getBeans是，每调用一次创建一个。对象运行时，只要对象在使用中，就一直活着。长时间不使用，就被销毁了。</li>
+<li>request,WEB项目中，Spring创建一个Bean对象，将对象存入到request中；</li>
+<li>session,WEB项目中，spring船舰一个Bean对象，将对象存入到session中；</li>
+<li>global session,</li>
+</ul>
+<p>Bean生命周期配置：</p>
+<ul>
+<li>init-method:指定类中的初始化方法名称</li>
+<li>destroy-method：指定类中销毁方法名称</li>
+</ul>
+<h4 id="233-注入依赖dependency-injection">2.3.3 注入依赖Dependency Injection</h4>
+<p>依赖注入是spring框架核心IOC的具体实现，怎么把UserDao注入到UserService内部呢？</p>
+<ul>
+<li>构造方法: 无参数构造方法，通过在applicationContex里边添加一个constructor-arg的属性，name为private 定义的名字，ref为bean的id名。</li>
+<li>set方法：使用generate UserDao，setUserDao() 设置一个userDao变量。需要在applicationContex里边的bean的property里边写清楚。（PS: p命名空间可以达到和property一样的效果<code>p:userDao-ref=&quot;userDxx&quot;</code>）。</li>
+</ul>
+<h4 id="234-bean的依赖注入的数据类型">2.3.4 Bean的依赖注入的数据类型</h4>
+<p>上面的操作都是注入引用的Bean，除了对象的引用可以注入，普通数据类型也可以注入。下面时String和Int的普通数据类型的注入。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> String username<span style="color:#f92672">;</span>
+<span style="color:#75715e">// generate setter
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setUsername</span><span style="color:#f92672">(</span>String username<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">username</span> <span style="color:#f92672">=</span> username<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><p>在bean中的property中设置name为username，value为设置的值。</p>
+<p>此外还可以设置为<code>List&lt;String&gt;</code>和<code>Map&lt;String,User&gt;</code>的注入。参见Hello_spring1项目的User,UserService,UserDao三个类的联用。</p>
+<h4 id="235-bean的依赖注入总结">2.3.5 Bean的依赖注入总结</h4>
+<p>我们将UserDao对象注入到UserService对象中使用了两种方法，setter方法和construct-arg的无参构造方法。将string,int等普通数据类型注入的setter方法，将复杂数据类型List，Map，Properties等数据类型注入的方法。</p>
+<p>scope属性，默认时singletion，bean有子标签property和construct-arg。property下属标签有name,value,注入的试剂盒的话还有<code>&lt;list&gt;</code>和<code>map</code>,<code>&lt;properties&gt;</code>。这些用来传一个字典值。</p>
+<h4 id="236-引入其它配置文件分模块开发">2.3.6 引入其它配置文件（分模块开发）</h4>
+<p>xml的配置项目很多时，很复杂，可以拆成很多配置文件。可以在主的配置文件中，去引入其它的配置文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;import</span>  <span style="color:#a6e22e">resource=</span><span style="color:#e6db74">&#34;applicationContex-xxx.xml/</span><span style="color:#f92672">&gt;</span>
+
+</code></pre></div><h4 id="237-spring相关的api-applicationcontex的读取方式">2.3.7 Spring相关的API-applicationContex的读取方式</h4>
+<p>applicationContex的继承体系。实现类有</p>
+<ol>
+<li>ClassPathXmlApplicationContex 从类的根路径下加载配置文件，推荐使用这种。</li>
+<li>FileSystemXmlApplicationContex 从磁盘路径加载配置文件，配置文件可以是磁盘任意位置。</li>
+<li>AnnotationConfigApplicationContex 注解配置对象时。</li>
+</ol>
+<p>getBean()方法的使用。<code>UserService userService=app.getBean(UserBean.class)</code>，根据Class获取。</p>
+<h3 id="spring配置数据源-jdbcproperties和xml配置">Spring配置数据源-<code>jdbc.properties</code>和<code>.xml</code>配置</h3>
+<p>数据源（连接池）的作用，事先实例化数据源，初始化部分连接资源。使用连接资源时，从数据源中获取，使用完毕后，归还数据源。常用的数据源：DBCP，C3P0，BoneCP，Bruid。</p>
+<p>一、直接在java文件中现用现配</p>
+<p>二、 从jdbc.properties配置</p>
+<ol>
+<li>从c3p0加载配置文件形式。</li>
+<li>使用ResourceBundle读取文件</li>
+<li>使用ComboPooleDatasource配置连接器</li>
+</ol>
+<p>三、从applicationContex的bean中配置。可以将DataSource的创建交由Spring去完成。Spring环境搭建的过程。</p>
+<ol>
+<li>导入坐标：POM中导入spring-contex</li>
+<li>在applicationContex里面写DataSource类的bean。</li>
+<li>连接配置文件中dataSource=get(DataSourc.class)之后直接使用。</li>
+</ol>
+<p>实际应用中，我们在applicationContext中加载properties文件。</p>
+<p>四、<strong>spring容器加载properties文件</strong>。在applicationContex中加载properties文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!--    加载外部的properties文件--&gt;</span>
+    <span style="color:#f92672">&lt;contex:property-placeholder</span> <span style="color:#a6e22e">location=</span><span style="color:#e6db74">&#34;classpath:jdbc.properties&#34;</span><span style="color:#f92672">/&gt;</span>
+
+    <span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;dataSource&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;com.mchange.v2.c3p0.ComboPooledDataSource&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;driverClass&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;${jdbc.driver}&#34;</span><span style="color:#f92672">&gt;&lt;/property&gt;</span>
+        <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;jdbcUrl&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;${jdbc.url}&#34;</span><span style="color:#f92672">&gt;&lt;/property&gt;</span>
+        <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;user&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;${jdbc.username}&#34;</span><span style="color:#f92672">&gt;&lt;/property&gt;</span>
+        <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;password&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;${jdbc.password}&#34;</span><span style="color:#f92672">&gt;&lt;/property&gt;</span>
+    <span style="color:#f92672">&lt;/bean&gt;</span>
+</code></pre></div><h3 id="遇到问题">遇到问题</h3>
+<p>在Test文件中的中文注释遇到GBK编码错误，<a href="https://www.jishufanyi.cn/277763.html">解决地址</a>，<a href="https://stackoverflow.com/questions/3017695/how-to-configure-encoding-in-maven">Stackoverflow解决地址</a>。在pom文件中加上(这个很重要，还没找到具体的解决办法):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;properties&gt;</span>
+    <span style="color:#f92672">&lt;project.build.sourceEncoding&gt;</span>UTF-8<span style="color:#f92672">&lt;/project.build.sourceEncoding&gt;</span>
+    <span style="color:#f92672">&lt;project.reporting.outputEncoding&gt;</span>UTF-8<span style="color:#f92672">&lt;/project.reporting.outputEncoding&gt;</span>
+<span style="color:#f92672">&lt;/properties&gt;</span>
+</code></pre></div><h2 id="三tomcat的安装与config">三、Tomcat的安装与config</h2>
+<h3 id="31-tomcat-安装遇到问题">3.1 Tomcat 安装遇到问题</h3>
+<p>安装Tomcat<a href="https://blog.csdn.net/tianjing0517/article/details/85840564">教程</a>tomcat目录下执行<code>startup.bat</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Using CATALINA_BASE:   &#34;E:\Users\DjChen\Apache\apache-tomcat-9.0.37&#34;
+Using CATALINA_HOME:   &#34;E:\Users\DjChen\Apache\apache-tomcat-9.0.37&#34;
+Using CATALINA_TMPDIR: &#34;E:\Users\DjChen\Apache\apache-tomcat-9.0.37\temp&#34;
+Using JRE_HOME:        &#34;D:\Program Files\Java\jdk1.8.0_251\jre&#34;
+Using CLASSPATH:       &#34;E:\Users\DjChen\Apache\apache-tomcat-9.0.37\bin\bootstrap.jar;E:\Users\DjChen\Apache\apache-tomcat-9.0.37\bin\tomcat-juli.jar&#34;
+</code></pre></div><p><strong>问题1</strong>： 必须指定CATALINA_HOME和JAVA_HOME.</p>
+<p><strong>问题2</strong>：执行<code>starup.bat</code>命令后，Windows的console窗口乱码问题。</p>
+<blockquote>
+<p>在tomcat/conf目录下的logging.properties文件中的java.utils.logging.ConsoleHandler.encoding=UTF-8 改为GBK; 在idea编辑器中config是添加<code>-Dfile.encoding=UTF-8</code></p>
+</blockquote>
+<h3 id="32-tomcat在idea中的创建">3.2 Tomcat在idea中的创建</h3>
+<ol>
+<li>Edit configuration中从模板创建一个Tomcat local server
+<ol>
+<li><code>Server</code>中需要配置Application server。其它默认</li>
+<li><code>Deployment</code>需要添加war exploded。</li>
+</ol>
+</li>
+</ol>
+<h2 id="appendix">Appendix</h2>
+<h3 id="a1-java基础">A.1 Java基础</h3>
+<p>public: public表明该数据成员、成员函数对所有永华开放的，所用用户可以直接调用</p>
+<p>private: 表示私有，除了自己，任何人都不可以直接使用，子女，朋友都不可以使用。</p>
+<p>protected: 对朋友，子女可以使用，外部的不能使用</p>
+<p><code>public static void main(String[] args)</code> 为什么时public? 因为main方法时公共的，JVM就可以轻松的访问执行。为什么是static,因为main方法是静态的，JVM就不需要创建任何包含这个main方法的实例。比如上文中的class UserDemo就不需要实例化。如果不声明为静态的，JVM就必须创建main类的实例，构造器可以被重载，JVM就不知道该调用哪一个main方法。为什么void? 因为main返回值对程序都没有任何意义。不会有返回值。</p>
+<h3 id="a2-代码结构中的daoservicecontrollerutilmodel是什么意思">A.2 代码结构中的Dao，Service，Controller，Util，Model是什么意思？</h3>
+<p>DAO= Data Access Object。数据存取对象，通常要和很多数据库打交道，如果为每一个场景都去写一个SQL语句，会让我们代码变得很奇怪，希望代码比较干净整洁，把数据库封装一下，让我们和数据库打交道看起来和一个对象打交道。这个对象通常就是DAO。和DAO打交道就可以了。</p>
+<p>Service，有时候需要一些相对独立，与业务系统没啥关系的功能。不是所有的功能都可以做成一个服务，服务是一个相对独立的功能模块，服务是一个相对独立的功能模块。典型的服务像数据库服务，缓存服务，文件存储服务，身份验证服务，，消息对立服务。关系型数据库有高度的抽象性，写出标准的DQL,后面的MySQL，SQL Server还是Oracle都会呈现出完全相同的行为。</p>
+<p>Utils，小功能或者重复的代码需要提取。</p>
+<p>Model, 模型认为是视图的内核，我们交互的知乎网站的界面就是视图，而模型是指它的数据。问题分为标题和描述，答案有内容和作者。知乎有很多UI, 移动页面，普通PC,这些称作不同的视图。而所有这些形态迥异的视图，内核都是一样的。内核就是MOdel。Model和Vie拆分开来，可以更有效的分工。</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/java/" rel="tag">Java</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/spring/" rel="tag">spring</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="陈大壮 avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About 陈大壮</span>
+	</div>
+	<div class="authorbox__description">
+		有的人八十岁就死了，18岁才埋
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">强化学习-Actor Critc</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/post/java/jdbcm/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Java快速开始-JDBC</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "dadachen-1" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://dadachen-1.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q" aria-label="SEARCH...">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://lknownothing.github.io/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/java/jdbcm/">Java快速开始-JDBC</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/java/maven/">Java快速开始-创建Maven项目并整合Tomcat发布Maven项目</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/">强化学习-Actor Critc</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/">强化学习-Model based</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/gym/">Gym</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/java/">Java</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/python/">python</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/development/" title="development">development (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/html/" title="HTML">HTML (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/hugo/" title="hugo">hugo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="Java">Java (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/model-based/" title="Model based">Model based (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/spring/" title="spring">spring (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/torch/" title="Torch">Torch (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%B7%A5%E5%85%B7/" title="工具">工具 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" title="开发环境">开发环境 (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (8)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%99%E7%A8%8B/" title="教程">教程 (1)</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            displayMath: [['$$','$$'], ['\[','\]']],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: { autoNumber: "AMS" },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 哇哈哈plus盐.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

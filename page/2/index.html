@@ -12,7 +12,7 @@
 <meta property="og:description" content="陈大壮&#39;s Personal blog about everything" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://lknownothing.github.io/" />
-<meta property="og:updated_time" content="2020-08-11T00:00:00+00:00" />
+<meta property="og:updated_time" content="2020-08-18T00:00:00+00:00" />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="哇哈哈plus盐"/>
@@ -63,9 +63,30 @@
 			</a>
 		</li>
 		<li class="menu__item">
+			<a class="menu__link" href="/post/java/jdbcm/">
+				
+				<span class="menu__text">Java快速开始-JDBC</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/java/maven/">
+				
+				<span class="menu__text">Java快速开始-创建Maven项目并整合Tomcat发布Maven项目</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/post/vscode/">
 				
 				<span class="menu__text">VS code 基本使用方法</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/">
+				
+				<span class="menu__text">强化学习-Actor Critc</span>
 				
 			</a>
 		</li>
@@ -79,6 +100,106 @@
 			
 <main class="main list" role="main">
 	<article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
+			<a href="/post/gym-copy-v0%E5%AE%9E%E7%8E%B0/" rel="bookmark">
+			OpenAI gym介绍
+			</a>
+		</h3>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-08-08T00:00:00Z">August 08, 2020</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="category">强化学习</a>, <a class="meta__link" href="/categories/%E6%95%99%E7%A8%8B/" rel="category">教程</a>, <a class="meta__link" href="/categories/gym/" rel="category">Gym</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		介绍 目前，OpenAI Gym（以下简称gym）作为一个在强化学习领域内非常流行的测试框架，已然成为了Benchmark。
+Toy example import gym test_envs={&#39;algorithm&#39;:&#39;Copy-v0&#39;, &#39;toy_text&#39;:&#39;FrozenLake-v0&#39;, &#39;control&#39;:&#39;CartPole-v0&#39;, # option：MountainCar-v0 &#39;atari&#39;:&#39;SpaceInvaders-v0&#39;,# options：&#39;Breakout-ram-v4&#39;，&#39;Seaquest-v0&#39;, &#39;mujoco&#39;:&#39;Humanoid-v1&#39;, # not feasible on Win10 &#39;box2d&#39;:&#39;LunarLander-v2&#39; } # not feasible on Win10 game_name = test_envs[&#39;algorithm&#39;] env = gym.make(game_name) for i_episode in range(20): observation = env.reset() for t in range(100): env.render() print(observation) action = env.action_space.sample() observation, reward, done, info = env.step(action) if done: print(&#34;Episode finished after {} timesteps&#34;.format(t+1)) break 在增强学习算法中有观察（observation）、回报（reward）、价值（value）、策略（policy）四个核心元素。使用python可以安装并加载OpenAI Gym提供的预设环境。这些环境在每一轮动作执行后以新的观察和即时回报作为输出，接受下一轮执行的动作作为输入。
+ Monte Carlo算法：与动态规划DP不同的是，这里不需要完整的知识，MC方法仅仅需要经验就可以求解最优策略。这些经验可以在线获得，或者根据某种模拟机制获得。MC方法是episode task上的，不管采取哪种策略。都会在有限时间达到终止状态并获得returnr任务。比如棋牌类游戏。有很多组这样经历完整的状态序列，就可以来近似估计状态价值了。进而求解预测和控制问题。
+ Model-free的强化学习：
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
+			<a href="/post/q-learning-and-sarsa/" rel="bookmark">
+			Q-learning(off-policy) and SARSA(on-policy)
+			</a>
+		</h3>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-08-08T00:00:00Z">August 08, 2020</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="category">强化学习</a>, <a class="meta__link" href="/categories/%E6%95%99%E7%A8%8B/" rel="category">教程</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		Q learning和SARSA都是时序差分TD模型。
+一、off-policy和on-policy off-policy和on-policy的行为策略(behavior policy，即选择action的策略)都是相同的，其主要区别在于其目标选择策略（target policy，即选择下一个action用于计算Q的策略）。对于off-policy其目标策略是greedy策略，而on-policy的目标选择除了考虑最优值之外，还考虑explore作用的值。
+二、Q-learning and SARSA $a_{t+1}$如何选取？这就涉及到上述的on-policy和off-policy了
+一种策略是使用off-policy的策略，其使用当前的策略，为下一个状态计算一个最优动作，对应的便是Q-learning算法。令一种选择的方法是使用on-policy的策略，即使用的采样轨迹是在下一个状态上实际执行的动作，对应的便是Sarsa算法。
+Q和Sarsa算法的不同主要体现在值函数的评估上（目标策略）。Q-learning使用的greedy思想，直接选取下一时刻价值最大的行动，尽管真实行动并不一定是价值最大的行动，而SARSA是根据下一步的真实行动l来进行价值估计。
+时序差分TD 回顾蒙特卡罗法中计算状态收获的方法是： $$ G_{t}=R_{t+1}+\gamma R_{t+2}+\gamma^{2} R_{t+3}+\ldots \gamma^{T-t-1} R_{T} $$
+而对于时序差分来说，没有**完整的状态序列，那么如何近似求出某个状态的收获呢？回顾MDP的贝尔曼方程： $$ v_{\pi}(s)=\mathbb{E}_{\pi}\left(R_{t+1}+\gamma v_{\pi}\left(S_{t+1}\right) \mid S_{t}=s\right) $$
+这启发我们可以用$R_t+1+γv(S_{t+1})$来近似的代替收获$G_t$, 一般我们把$Rt+1+γV(S_{t+1})$称为TD目标值。$R_{t+1}+γV(S_{t+1})−V(S_t)$称为TD误差,将用TD目标值近似代替收获$G(t)$的过程称为引导(bootstrapping)。
+时序差分TD预测问题求解 时序差分的预测问题求解和蒙特卡罗法类似，但是主要有两个不同点。一是收获$G_t$的表达式不同 $$G(t)=R_{t+1}+\gamma V\left(S_{t+1}\right)$$
+二是迭代不同： $$Q\left(S_{t}, A_{t}\right)=Q\left(S_{t}, A_{t}\right)+\alpha\left(G_{t}-Q\left(S_{t}, A_{t}\right)\right)$$
+参考   off-policy adn on policy 刘建平时序差分TD   
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
+			<a href="/post/hugoisforlovers/" rel="bookmark">
+			Getting Started with Hugo
+			</a>
+		</h3>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-07-20T00:00:00Z">July 20, 2020</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/development/" rel="category">Development</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		Step 1. Install Hugo Go to Hugo releases and download the appropriate version for your OS and architecture.
+Save it somewhere specific as we will be using it in the next step.
+More complete instructions are available at Install Hugo
+Step 2. Build the Docs Hugo has its own example site which happens to also be the documentation site you are reading right now.
+Follow the following steps:
+ Clone the Hugo repository Go into the repo Run hugo in server mode and build the docs Open your browser to http://localhost:1313  Corresponding pseudo commands:
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
+			<a href="/post/github%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/" rel="bookmark">
+			Github &amp; Hugo搭建博客
+			</a>
+		</h3>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-07-20T00:00:00Z">July 20, 2020</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%B7%A5%E5%85%B7/" rel="category">工具</a>, <a class="meta__link" href="/categories/%E6%95%99%E7%A8%8B/" rel="category">教程</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		主题地址  本篇博客选择的theme地址github主题地址
+ 主要参考为hugo官方中文文档。
+创建的站点文件目录说明 创建的sites就是用来存放创建的网站的，创建的文件夹名为blog的网站：
+|- archetypes ：存放default.md，头文件格式
+|- content ：content目录存放博客文章（.markdown/.md文件）
+|- data ：存放自定义模版，导入的toml文件（或json，yaml）
+|- layouts ：layouts目录存放的是网站的模板文件
+|- static ：static目录存放js/css/img等静态资源
+|- config.toml ：config.toml是网站的配置文件
+当前网站是没有任何内容的，需要下载个主题跑起来才有内容。
+安装主题 |- archetypes ：存放default.md，头文件格式
+|- layouts ：主题模板文件
+|- static ：静态资源
+|- theme.toml ：主题配置文件
+运行Hugo server  hugo server &ndash;theme=mainraod hugo new post/test.md 注意需要将draft的值改为false才能看到页面
+ 生成静态网站  hugo &ndash;theme=THEME_NAME baseUrl=&quot;http://YOURNAME.github.io/&rdquo;
+ 所有的静态页面都会生成道public目录下，生成静态网站后并push到你的github pages上。就能得到一个在线的个人博客了。
+在github端创建repository 在命令行里边创建一个github repository
+echo &quot;# lknownothing.github.io&quot; &gt;&gt; README.mdgit initgit add README.
+	</div>
+</article><article class="list__item post">
 	<header class="list__header">
 		<h3 class="list__title post__title ">
 			<a href="/post/vscode/" rel="bookmark">
@@ -141,10 +262,10 @@
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/java/jdbcm/">Java快速开始-JDBC</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/java/maven/">Java快速开始-创建Maven项目并整合Tomcat发布Maven项目</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/">强化学习-Actor Critc</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/">强化学习-Model based</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-dqn/">强化学习-八 价值函数的近似与Deep Q-learning</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/torch-nn-linear/">Torch.Linear详解</a></li>
 		</ul>
 	</div>
 </div>
@@ -157,6 +278,9 @@
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/gym/">Gym</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/java/">Java</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/python/">python</a>
@@ -182,12 +306,14 @@
 		<a class="widget-taglist__link widget__link btn" href="/tags/development/" title="development">development (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/html/" title="HTML">HTML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/hugo/" title="hugo">hugo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="Java">Java (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/model-based/" title="Model based">Model based (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/spring/" title="spring">spring (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/torch/" title="Torch">Torch (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%B7%A5%E5%85%B7/" title="工具">工具 (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" title="开发环境">开发环境 (5)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%99%E7%A8%8B/" title="教程">教程 (1)</a>
 	</div>
 </div>

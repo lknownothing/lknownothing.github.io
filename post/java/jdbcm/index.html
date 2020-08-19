@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Java快速开始-JDBC - 哇哈哈plus盐</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Java快速开始-JDBC" />
+<meta property="og:description" content="JDBC 一般的JDBC架构由两层模式组成：
+ JDBC API: 提供了应用程序对JDBC管理器的连接 JDBC Driver API：JDBC管理器对驱动程序的连接  下面是结构图：driver=com.mysql.jdbc.Driver
+JDBC SQL语法
+CREATE DATABASE DATABASE_NAME; DROP DATABASE DATABASE_NAME; CREATE TABLE Employees ( id INT NOT NULL, age INT NOT NULL, first VARCHAR(255), last VARCHAR(255), PRIMARY KEY ( id ) ); DROP TABLE Employees; INSERT INTO Employees VALUES(100，18，&#39;Zara&#39;，&#39;Ali&#39;) SELECT first, last, age FROM Employees WHERE id = 100; UPDATE Employees SET age=20 WHERE id=100; DELETE FROM Employees WHERE id=100; 创建JDBC应用程序 构建一个JDBC应用程序包括以下6个步骤" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lknownothing.github.io/post/java/jdbcm/" />
+<meta property="article:published_time" content="2020-08-18T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-08-18T00:00:00+00:00" />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java快速开始-JDBC"/>
+<meta name="twitter:description" content="JDBC 一般的JDBC架构由两层模式组成：
+ JDBC API: 提供了应用程序对JDBC管理器的连接 JDBC Driver API：JDBC管理器对驱动程序的连接  下面是结构图：driver=com.mysql.jdbc.Driver
+JDBC SQL语法
+CREATE DATABASE DATABASE_NAME; DROP DATABASE DATABASE_NAME; CREATE TABLE Employees ( id INT NOT NULL, age INT NOT NULL, first VARCHAR(255), last VARCHAR(255), PRIMARY KEY ( id ) ); DROP TABLE Employees; INSERT INTO Employees VALUES(100，18，&#39;Zara&#39;，&#39;Ali&#39;) SELECT first, last, age FROM Employees WHERE id = 100; UPDATE Employees SET age=20 WHERE id=100; DELETE FROM Employees WHERE id=100; 创建JDBC应用程序 构建一个JDBC应用程序包括以下6个步骤"/>
+
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="哇哈哈plus盐" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/img/placeholder.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">哇哈哈plus盐</div>
+					<div class="logo__tagline">哇哈哈plus盐</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/post/hugoisforlovers/">
+				
+				<span class="menu__text">Getting Started with Hugo</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/gym-cart-pole/">
+				
+				<span class="menu__text">Gym Cart-Pole-v1</span>
+				
+			</a>
+		</li>
+		<li class="menu__item menu__item--active">
+			<a class="menu__link" href="/post/java/jdbcm/">
+				
+				<span class="menu__text">Java快速开始-JDBC</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/java/maven/">
+				
+				<span class="menu__text">Java快速开始-创建Maven项目并整合Tomcat发布Maven项目</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/vscode/">
+				
+				<span class="menu__text">VS code 基本使用方法</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/">
+				
+				<span class="menu__text">强化学习-Actor Critc</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Java快速开始-JDBC</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-08-18T00:00:00Z">August 18, 2020</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/java/" rel="category">Java</a>, <a class="meta__link" href="/categories/%E7%AC%94%E8%AE%B0/" rel="category">笔记</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<h2 id="jdbc">JDBC</h2>
+<p>一般的JDBC架构由两层模式组成：</p>
+<ul>
+<li>JDBC API: 提供了应用程序对JDBC管理器的连接</li>
+<li>JDBC Driver API：JDBC管理器对驱动程序的连接</li>
+</ul>
+<p>下面是结构图：<code>driver=com.mysql.jdbc.Driver</code></p>
+<p><img src="https://atts.w3cschool.cn/attachments/image/wk/jdbc/r8GqQJ3.jpg" alt="Java-JDBC Driver Manager-SQL server"></p>
+<p>JDBC SQL语法</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-MySQL" data-lang="MySQL"> <span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">DATABASE</span> DATABASE_NAME;
+ <span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">DATABASE</span> DATABASE_NAME;
+
+<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#a6e22e">Employees</span>
+(
+   id <span style="color:#66d9ef">INT</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+   age <span style="color:#66d9ef">INT</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+   first <span style="color:#66d9ef">VARCHAR</span>(<span style="color:#ae81ff">255</span>),
+   last <span style="color:#66d9ef">VARCHAR</span>(<span style="color:#ae81ff">255</span>),
+   <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> ( id )
+);
+<span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> Employees;
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> Employees <span style="color:#66d9ef">VALUES</span>(<span style="color:#ae81ff">100</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#ae81ff">18</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#e6db74">&#39;Zara&#39;</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#e6db74">&#39;Ali&#39;</span>)
+<span style="color:#66d9ef">SELECT</span> first, last, age <span style="color:#66d9ef">FROM</span> Employees <span style="color:#66d9ef">WHERE</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>;
+
+<span style="color:#66d9ef">UPDATE</span> Employees <span style="color:#66d9ef">SET</span> age<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span> <span style="color:#66d9ef">WHERE</span> id<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>;
+<span style="color:#66d9ef">DELETE</span> <span style="color:#66d9ef">FROM</span> Employees <span style="color:#66d9ef">WHERE</span> id<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>;
+</code></pre></div><h3 id="创建jdbc应用程序">创建JDBC应用程序</h3>
+<p>构建一个JDBC应用程序包括以下6个步骤</p>
+<ol>
+<li>导入数据：导入还有需要进行数据库编程的JDBC类的包。import java.sql</li>
+<li>注册JDBC驱动器
+<ol>
+<li>方法1：使用java的Class.forName()来动态加载驱动程序的类文件,Class.forname和直接写DriverManager.registerDriver(new Driver)两者的功能等同。</li>
+<li>方法2: DriverManager.registerDriver() 注册一个驱动程序。Driver MyDriver=new oracle.jdbc.driver.OracleDriver();</li>
+</ol>
+</li>
+<li>数据库URL制定：指向想要连接的数据库</li>
+<li>打开连接：代码调用DriverManager对象的getConnection(string url,string user,string password)来创建一个Connection对象。</li>
+</ol>
+<h3 id="jdbc-statement对象">JDBC Statement对象</h3>
+<p>获得数据库的连接，就可以和数据库进行交互，JDBC的Statement，CallableStatement和PreparedStatement接口定义的方法和属性，可以发送SQL命令到数据库，并接受数据。Connection对象的createStatement()方法创建一个Statement<code>stmt=conn.createStatement</code>可以使用下面三个方法执行SQL语句</p>
+<ol>
+<li>boolean execute(String SQL)</li>
+<li>int executeUpdate(String SQL)</li>
+<li>ResultSet executeQuery(String SQL) 返回ResultSet对象。希望获得<strong>结果集</strong>时使用这个。</li>
+</ol>
+<p><strong>结果集</strong>。一个ResultSet对象控制一个光标指向当前行的结果集。Result接口的方法可以细分为三类：</p>
+<ol>
+<li>导航方法</li>
+<li>获取方法</li>
+<li>更新方法</li>
+</ol>
+<h3 id="jdbc数据类型">JDBC数据类型</h3>
+<p>VARCHAR为例，会映射为java.lang.String，NUMERIC会映射为java.math.BigDecimal。</p>
+<h3 id="jdbc事物">JDBC事物</h3>
+<p>如果你的 JDBC 连接是处于自动提交模式下，该模式为默认模式，那么每句 SQL 语句都是在其完成时提交到数据库。<code>conn.setAutoCommit(false)</code>;将自动关闭提交模式。</p>
+<p><strong>提交和回滚</strong>。完成修改，想要提交修改时，<code>conn.commit()</code>；回滚数据到数据库的时候<code>conn.rollback</code>; 下面的例子说明了如何使用提交和回滚对象.<strong>在这种情况下，之前的 INSERT 语句不会成功，一切都将被回滚到最初状态</strong>。有一个语句报错，数据库就不会变动。此外可以使用SavePoint对象达支持设定还原点。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+   <span style="color:#75715e">//Assume a valid connection object conn
+</span><span style="color:#75715e"></span>   conn<span style="color:#f92672">.</span><span style="color:#a6e22e">setAutoCommit</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+   Statement stmt <span style="color:#f92672">=</span> conn<span style="color:#f92672">.</span><span style="color:#a6e22e">createStatement</span><span style="color:#f92672">();</span>
+
+   String SQL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;INSERT INTO Employees  &#34;</span> <span style="color:#f92672">+</span>
+                <span style="color:#e6db74">&#34;VALUES (106, 20, &#39;Rita&#39;, &#39;Tez&#39;)&#34;</span><span style="color:#f92672">;</span>
+   stmt<span style="color:#f92672">.</span><span style="color:#a6e22e">executeUpdate</span><span style="color:#f92672">(</span>SQL<span style="color:#f92672">);</span>  
+   <span style="color:#75715e">//Submit a malformed SQL statement that breaks
+</span><span style="color:#75715e"></span>   String SQL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;INSERTED IN Employees  &#34;</span> <span style="color:#f92672">+</span>
+                <span style="color:#e6db74">&#34;VALUES (107, 22, &#39;Sita&#39;, &#39;Singh&#39;)&#34;</span><span style="color:#f92672">;</span>
+   stmt<span style="color:#f92672">.</span><span style="color:#a6e22e">executeUpdate</span><span style="color:#f92672">(</span>SQL<span style="color:#f92672">);</span>
+   <span style="color:#75715e">// If there is no error.
+</span><span style="color:#75715e"></span>   conn<span style="color:#f92672">.</span><span style="color:#a6e22e">commit</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span>SQLException se<span style="color:#f92672">){</span>
+   <span style="color:#75715e">// If there is any error.
+</span><span style="color:#75715e"></span>   conn<span style="color:#f92672">.</span><span style="color:#a6e22e">rollback</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="jdbc异常">JDBC异常</h3>
+<p>当前执行的程序停止，控制器被重定向到最近适用的catch子句。对于JDBC，最常见的异常时java.sql.SQLException。传递的 SQLException 对象具有以下的方法，以下的方法可用于检索该异常的额外信息。</p>
+<h3 id="jdbc-批处理">JDBC 批处理</h3>
+<h3 id="jdbc存储过程">JDBC存储过程</h3>
+<p>JSBC的转移义语法</p>
+<ol>
+<li>d,t,ts关键字。<code>{d 'yyyy-mm-dd'}</code>。它们能帮助确定日期，时间和时间戳的文字。众所周知，没有两个数据库管理系统的时间和日期的表现方式是相同的。该转义语法告诉驱动程序以目标数据库的格式来呈现日期或时间。此外，<code>{t 'hh:mm:ss'}</code>；</li>
+<li>escape关键字。该关键字在LIKE子句中适用，来定义转义字符。<code>WHERE symbol LIKE '\%' {escape '\'}&quot;;</code>告诉LIKE字符中的字符看作实际值，而不是通配符。<code>LIKE  'AB&amp;_%'   ESCAPE  ‘&amp;'</code>把&amp;看成是转移字符。而“——”看成是实际的值。</li>
+<li>fn关键字。<code>{fn length('Hello World')}</code>代表在数据库中使用标量函数function。</li>
+<li>call关键字。对于需要一个IN参数的存储过程，使用<code>{call my_procedure(?)};</code>，对于返回一个OUT参数的存储过程，使用<code>{? = call my_procedure(?)};</code>。</li>
+<li>oj关键字。out-joint表示外部连接。</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">String sql <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;SELECT Employees 
+</span><span style="color:#e6db74">              FROM {oj ThisTable RIGHT
+</span><span style="color:#e6db74">              OUTER JOIN ThatTable on id = &#39;100&#39;}&#34;</span><span style="color:#f92672">;</span>
+stmt<span style="color:#f92672">.</span><span style="color:#a6e22e">execute</span><span style="color:#f92672">(</span>sql<span style="color:#f92672">);</span>
+</code></pre></div><h3 id="jdbc流数据">JDBC流数据</h3>
+<p>数据流。PreparedStatement对象必须具备使用输入和输出流来提供参数数据的能力。这使得能够将整个文件存储到数据库列中，这样的数据库能存储大型数据，例如CLOB和BLOB数据类型。用于数据流的有以下几种方法</p>
+<ul>
+<li>setAsciiStream():该方法用来提供较大的ASCII值。</li>
+<li>setCharacterStream():用来提供UNICODE值。</li>
+<li>serBinaryStream(): 用来提供较大的二进制值。</li>
+</ul>
+<h2 id="appendix">Appendix</h2>
+<p><strong><code>理解Class.forName()</code></strong> 。这里，不用解释，读者也会明白，在使用 jdbc 方式连接数据库时，为什么要执行 Class.forName(&lsquo;驱动类名&rsquo;) 方法了：将驱动类的 class 文件装载到内存中，并且形成一个描述此驱动类结构的 Class 类实例，并且初始化此驱动类，这样 jvm 就可以使用它了，这就是 Class.forName() 方法的含义。</p>
+<p><strong>Java异常中Exception</strong> e中的getMessage()和toString()以及e.printStackTrace()方法的区别。由此可以看出，e.toString()获取的信息包括异常类型和异常详细消息，而e.getMessage()只是获取了异常的详细消息字符串。e.printStackTrace();会打出详细异常,异常名称,出错位置,便于调试用一般一个异常至少几十行</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// Import required packages
+</span><span style="color:#75715e"></span><span style="color:#f92672">import</span> java.sql.*<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.*<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.util.*<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">JDBCExample</span> <span style="color:#f92672">{</span>
+   <span style="color:#75715e">// JDBC driver name and database URL
+</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String JDBC_DRIVER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;com.mysql.jdbc.Driver&#34;</span><span style="color:#f92672">;</span>  
+   <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String DB_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;jdbc:mysql://localhost/EMP&#34;</span><span style="color:#f92672">;</span>
+
+   <span style="color:#75715e">//  Database credentials
+</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String USER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;username&#34;</span><span style="color:#f92672">;</span>
+   <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String PASS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;password&#34;</span><span style="color:#f92672">;</span>
+
+   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+   Connection conn <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+   PreparedStatement pstmt <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+   Statement stmt <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+   ResultSet rs <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+   <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+      <span style="color:#75715e">// Register JDBC driver
+</span><span style="color:#75715e"></span>      Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;com.mysql.jdbc.Driver&#34;</span><span style="color:#f92672">);</span>
+
+      <span style="color:#75715e">// Open a connection
+</span><span style="color:#75715e"></span>      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Connecting to database...&#34;</span><span style="color:#f92672">);</span>
+      conn <span style="color:#f92672">=</span> DriverManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getConnection</span><span style="color:#f92672">(</span>DB_URL<span style="color:#f92672">,</span>USER<span style="color:#f92672">,</span>PASS<span style="color:#f92672">);</span>
+
+      <span style="color:#75715e">//Create a Statement object and build table
+</span><span style="color:#75715e"></span>      stmt <span style="color:#f92672">=</span> conn<span style="color:#f92672">.</span><span style="color:#a6e22e">createStatement</span><span style="color:#f92672">();</span>
+      createXMLTable<span style="color:#f92672">(</span>stmt<span style="color:#f92672">);</span>
+
+      <span style="color:#75715e">//Open a FileInputStream
+</span><span style="color:#75715e"></span>      File f <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;XML_Data.xml&#34;</span><span style="color:#f92672">);</span>
+      <span style="color:#66d9ef">long</span> fileLength <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">();</span>
+      FileInputStream fis <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> FileInputStream<span style="color:#f92672">(</span>f<span style="color:#f92672">);</span>
+
+      <span style="color:#75715e">//Create PreparedStatement and stream data
+</span><span style="color:#75715e"></span>      String SQL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;INSERT INTO XML_Data VALUES (?,?)&#34;</span><span style="color:#f92672">;</span>
+      pstmt <span style="color:#f92672">=</span> conn<span style="color:#f92672">.</span><span style="color:#a6e22e">prepareStatement</span><span style="color:#f92672">(</span>SQL<span style="color:#f92672">);</span>
+      pstmt<span style="color:#f92672">.</span><span style="color:#a6e22e">setInt</span><span style="color:#f92672">(</span>1<span style="color:#f92672">,</span>100<span style="color:#f92672">);</span>
+      pstmt<span style="color:#f92672">.</span><span style="color:#a6e22e">setAsciiStream</span><span style="color:#f92672">(</span>2<span style="color:#f92672">,</span>fis<span style="color:#f92672">,(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span>fileLength<span style="color:#f92672">);</span>
+      pstmt<span style="color:#f92672">.</span><span style="color:#a6e22e">execute</span><span style="color:#f92672">();</span>
+
+      <span style="color:#75715e">//Close input stream
+</span><span style="color:#75715e"></span>      fis<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+
+      <span style="color:#75715e">// Do a query to get the row
+</span><span style="color:#75715e"></span>      SQL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;SELECT Data FROM XML_Data WHERE id=100&#34;</span><span style="color:#f92672">;</span>
+      rs <span style="color:#f92672">=</span> stmt<span style="color:#f92672">.</span><span style="color:#a6e22e">executeQuery</span> <span style="color:#f92672">(</span>SQL<span style="color:#f92672">);</span>
+      <span style="color:#75715e">// Get the first row
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>rs<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span> <span style="color:#f92672">()){</span>
+         <span style="color:#75715e">//Retrieve data from input stream
+</span><span style="color:#75715e"></span>         InputStream xmlInputStream <span style="color:#f92672">=</span> rs<span style="color:#f92672">.</span><span style="color:#a6e22e">getAsciiStream</span> <span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+         <span style="color:#66d9ef">int</span> c<span style="color:#f92672">;</span>
+         ByteArrayOutputStream bos <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ByteArrayOutputStream<span style="color:#f92672">();</span>
+         <span style="color:#66d9ef">while</span> <span style="color:#f92672">((</span> c <span style="color:#f92672">=</span> xmlInputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span> <span style="color:#f92672">())</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">)</span>
+            bos<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span>c<span style="color:#f92672">);</span>
+         <span style="color:#75715e">//Print results
+</span><span style="color:#75715e"></span>         System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>bos<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">());</span>
+      <span style="color:#f92672">}</span>
+      <span style="color:#75715e">// Clean-up environment
+</span><span style="color:#75715e"></span>      rs<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+      stmt<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+      pstmt<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+      conn<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+   <span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span>SQLException se<span style="color:#f92672">){</span>
+      <span style="color:#75715e">//Handle errors for JDBC
+</span><span style="color:#75715e"></span>      se<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+   <span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span>Exception e<span style="color:#f92672">){</span>
+      <span style="color:#75715e">//Handle errors for Class.forName
+</span><span style="color:#75715e"></span>      e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+   <span style="color:#f92672">}</span><span style="color:#66d9ef">finally</span><span style="color:#f92672">{</span>
+      <span style="color:#75715e">//finally block used to close resources
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+         <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>stmt<span style="color:#f92672">!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+            stmt<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+      <span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span>SQLException se2<span style="color:#f92672">){</span>
+      <span style="color:#f92672">}</span><span style="color:#75715e">// nothing we can do
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+         <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>pstmt<span style="color:#f92672">!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+            pstmt<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+      <span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span>SQLException se2<span style="color:#f92672">){</span>
+      <span style="color:#f92672">}</span><span style="color:#75715e">// nothing we can do
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+         <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>conn<span style="color:#f92672">!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+            conn<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+      <span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span>SQLException se<span style="color:#f92672">){</span>
+         se<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+      <span style="color:#f92672">}</span><span style="color:#75715e">//end finally try
+</span><span style="color:#75715e"></span>   <span style="color:#f92672">}</span><span style="color:#75715e">//end try
+</span><span style="color:#75715e"></span>   System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Goodbye!&#34;</span><span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span><span style="color:#75715e">//end main
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">createXMLTable</span><span style="color:#f92672">(</span>Statement stmt<span style="color:#f92672">)</span> 
+   <span style="color:#66d9ef">throws</span> SQLException<span style="color:#f92672">{</span>
+   System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Creating XML_Data table...&#34;</span> <span style="color:#f92672">);</span>
+   <span style="color:#75715e">//Create SQL Statement
+</span><span style="color:#75715e"></span>   String streamingDataSql <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CREATE TABLE XML_Data &#34;</span> <span style="color:#f92672">+</span>
+                             <span style="color:#e6db74">&#34;(id INTEGER, Data LONG)&#34;</span><span style="color:#f92672">;</span>
+   <span style="color:#75715e">//Drop table first if it exists.
+</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+      stmt<span style="color:#f92672">.</span><span style="color:#a6e22e">executeUpdate</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;DROP TABLE XML_Data&#34;</span><span style="color:#f92672">);</span>
+   <span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span>SQLException se<span style="color:#f92672">){</span>
+   <span style="color:#f92672">}</span><span style="color:#75715e">// do nothing
+</span><span style="color:#75715e"></span>   <span style="color:#75715e">//Build table.
+</span><span style="color:#75715e"></span>   stmt<span style="color:#f92672">.</span><span style="color:#a6e22e">executeUpdate</span><span style="color:#f92672">(</span>streamingDataSql<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span><span style="color:#75715e">//end createXMLTable
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span><span style="color:#75715e">//end JDBCExample
+</span></code></pre></div><p>参考</p>
+<blockquote>
+<ol>
+<li><a href="https://www.runoob.com/w3cnote/java-class-forname.html">runoob的Class.forName</a></li>
+<li><a href="https://www.w3cschool.cn/jdbc/xeh31myg.html">w3school JDBC示例</a></li>
+</ol>
+</blockquote>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/java/" rel="tag">Java</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="陈大壮 avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About 陈大壮</span>
+	</div>
+	<div class="authorbox__description">
+		有的人八十岁就死了，18岁才埋
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/post/java/maven/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Java快速开始-创建Maven项目并整合Tomcat发布Maven项目</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "dadachen-1" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://dadachen-1.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q" aria-label="SEARCH...">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://lknownothing.github.io/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/java/jdbcm/">Java快速开始-JDBC</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/java/maven/">Java快速开始-创建Maven项目并整合Tomcat发布Maven项目</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/">强化学习-Actor Critc</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/">强化学习-Model based</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/gym/">Gym</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/java/">Java</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/python/">python</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/development/" title="development">development (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/html/" title="HTML">HTML (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/hugo/" title="hugo">hugo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="Java">Java (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/model-based/" title="Model based">Model based (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/spring/" title="spring">spring (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/torch/" title="Torch">Torch (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%B7%A5%E5%85%B7/" title="工具">工具 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" title="开发环境">开发环境 (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (8)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%99%E7%A8%8B/" title="教程">教程 (1)</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            displayMath: [['$$','$$'], ['\[','\]']],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: { autoNumber: "AMS" },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 哇哈哈plus盐.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

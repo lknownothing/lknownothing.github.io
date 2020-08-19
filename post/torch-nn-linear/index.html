@@ -74,9 +74,30 @@ import torch a = torch."/>
 			</a>
 		</li>
 		<li class="menu__item">
+			<a class="menu__link" href="/post/java/jdbcm/">
+				
+				<span class="menu__text">Java快速开始-JDBC</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/java/maven/">
+				
+				<span class="menu__text">Java快速开始-创建Maven项目并整合Tomcat发布Maven项目</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/post/vscode/">
 				
 				<span class="menu__text">VS code 基本使用方法</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/">
+				
+				<span class="menu__text">强化学习-Actor Critc</span>
 				
 			</a>
 		</li>
@@ -168,7 +189,19 @@ b <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>
 </span><span style="color:#e6db74">第一列的下标为0的元素 第二列的下标为1元素 第三列的下标为2的元素，第四列下标为0元素，第五列下标为2元素
 </span><span style="color:#e6db74">index--&gt;0,1,2,0,2    output--&gt; 18.,  26.,  22.,   1.,   0.
 </span><span style="color:#e6db74">&#39;&#39;&#39;</span>
-</code></pre></div><h3 id="参考链接">参考链接</h3>
+</code></pre></div><h3 id="matplotlib中ion和inoff的区别">matplotlib中ion()和inoff()的区别</h3>
+<p>其中的区别是</p>
+<p>在交互模式下：</p>
+<ul>
+<li>plt.plot(x)或者plt.imshow()直接出图像，不需要plt.show()</li>
+<li>脚本中使用ion()命令开启了交互模式，没有使用ioff的话，则图像会一闪而过。防止这种情况，需要在plt.show()之前加上ioff()命令。</li>
+</ul>
+<p>在阻塞模式下：</p>
+<ul>
+<li>一个窗口关闭才能打开下一个新的窗口</li>
+<li>plt.plot()或者plt.imshow()是直接出图像，需要plt.show()</li>
+</ul>
+<h3 id="参考链接">参考链接</h3>
 <blockquote>
 <ol>
 <li><a href="https://blog.csdn.net/m0_37586991/article/details/87861418">CSDN博客</a></li>
@@ -276,10 +309,10 @@ s.setAttribute('data-timestamp', +new Date());
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/java/jdbcm/">Java快速开始-JDBC</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/java/maven/">Java快速开始-创建Maven项目并整合Tomcat发布Maven项目</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/">强化学习-Actor Critc</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/">强化学习-Model based</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-dqn/">强化学习-八 价值函数的近似与Deep Q-learning</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/torch-nn-linear/">Torch.Linear详解</a></li>
 		</ul>
 	</div>
 </div>
@@ -292,6 +325,9 @@ s.setAttribute('data-timestamp', +new Date());
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/gym/">Gym</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/java/">Java</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/python/">python</a>
@@ -317,12 +353,14 @@ s.setAttribute('data-timestamp', +new Date());
 		<a class="widget-taglist__link widget__link btn" href="/tags/development/" title="development">development (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/html/" title="HTML">HTML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/hugo/" title="hugo">hugo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="Java">Java (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/model-based/" title="Model based">Model based (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/spring/" title="spring">spring (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/torch/" title="Torch">Torch (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%B7%A5%E5%85%B7/" title="工具">工具 (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" title="开发环境">开发环境 (5)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%99%E7%A8%8B/" title="教程">教程 (1)</a>
 	</div>
 </div>
