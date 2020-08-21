@@ -312,8 +312,8 @@ Using CLASSPATH:       &#34;E:\Users\DjChen\Apache\apache-tomcat-9.0.37\bin\boot
 <h3 id="a1-java基础">A.1 Java基础</h3>
 <p>public: public表明该数据成员、成员函数对所有永华开放的，所用用户可以直接调用</p>
 <p>private: 表示私有，除了自己，任何人都不可以直接使用，子女，朋友都不可以使用。</p>
-<p>protected: 对朋友，子女可以使用，外部的不能使用</p>
-<p><code>public static void main(String[] args)</code> 为什么时public? 因为main方法时公共的，JVM就可以轻松的访问执行。为什么是static,因为main方法是静态的，JVM就不需要创建任何包含这个main方法的实例。比如上文中的class UserDemo就不需要实例化。如果不声明为静态的，JVM就必须创建main类的实例，构造器可以被重载，JVM就不知道该调用哪一个main方法。为什么void? 因为main返回值对程序都没有任何意义。不会有返回值。</p>
+<p>protected: 对朋友，子女可以使用，外部的不能使用。</p>
+<p>public static void main(String[] args)。为什么是public? 因为main方法时公共的，JVM就可以轻松的访问执行。为什么是static,因为main方法是静态的，JVM就不需要创建任何包含这个main方法的实例。比如上文中的class UserDemo就不需要实例化。如果不声明为静态的，JVM就必须创建main类的实例，构造器可以被重载，JVM就不知道该调用哪一个main方法。为什么void? 因为main返回值对程序都没有任何意义。不会有返回值。</p>
 <h3 id="a2-代码结构中的daoservicecontrollerutilmodel是什么意思">A.2 代码结构中的Dao，Service，Controller，Util，Model是什么意思？</h3>
 <p>DAO= Data Access Object。数据存取对象，通常要和很多数据库打交道，如果为每一个场景都去写一个SQL语句，会让我们代码变得很奇怪，希望代码比较干净整洁，把数据库封装一下，让我们和数据库打交道看起来和一个对象打交道。这个对象通常就是DAO。和DAO打交道就可以了。</p>
 <p>Service，有时候需要一些相对独立，与业务系统没啥关系的功能。不是所有的功能都可以做成一个服务，服务是一个相对独立的功能模块，服务是一个相对独立的功能模块。典型的服务像数据库服务，缓存服务，文件存储服务，身份验证服务，，消息对立服务。关系型数据库有高度的抽象性，写出标准的DQL,后面的MySQL，SQL Server还是Oracle都会呈现出完全相同的行为。</p>
@@ -420,10 +420,10 @@ s.setAttribute('data-timestamp', +new Date());
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-gym-mujoco/">强化学习-Gym mujoco和mujoco_py版本直接折磨人的关系</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/java/jdbcm/">Java快速开始-JDBC</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/java/maven/">Java快速开始-创建Maven项目并整合Tomcat发布Maven项目</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/">强化学习-Actor Critc</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/">强化学习-Model based</a></li>
 		</ul>
 	</div>
 </div>
@@ -450,6 +450,9 @@ s.setAttribute('data-timestamp', +new Date());
 				<a class="widget__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a>
 			</li>
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/">搭建环境</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
 			</li>
 			<li class="widget__item">
@@ -471,7 +474,7 @@ s.setAttribute('data-timestamp', +new Date());
 		<a class="widget-taglist__link widget__link btn" href="/tags/torch/" title="Torch">Torch (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%B7%A5%E5%85%B7/" title="工具">工具 (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" title="开发环境">开发环境 (5)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (8)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (9)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%99%E7%A8%8B/" title="教程">教程 (1)</a>
 	</div>
 </div>

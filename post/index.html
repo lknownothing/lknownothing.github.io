@@ -11,7 +11,7 @@
 <meta property="og:description" content="陈大壮&#39;s Personal blog about everything" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://lknownothing.github.io/post/" />
-<meta property="og:updated_time" content="2020-08-18T00:00:00+00:00" />
+<meta property="og:updated_time" content="2020-08-20T00:00:00+00:00" />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Posts"/>
@@ -101,6 +101,32 @@
 	<header class="main__header">
 		<h1 class="main__title">Posts</h1>
 	</header><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
+			<a href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-gym-mujoco/" rel="bookmark">
+			强化学习-Gym mujoco和mujoco_py版本直接折磨人的关系
+			</a>
+		</h3>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-08-20T00:00:00Z">August 20, 2020</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="category">强化学习</a>, <a class="meta__link" href="/categories/%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/" rel="category">搭建环境</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		首先设置好环境变量
+MUJOCO_PY_MJKEY_PATH C:\Users\DjChen.mujoco\mjkey.txt
+MUJOCO_PY_MJPRO_PATH
+C:\Users\DjChen.mujoco\mjpro131
+###　Ｇym Ｍujoco和mujoco_py之间的版本关系 总的来说
+pip install mujoco_py==1.50.1.68
+一、oyster下的rand_param_envs  有setup文件，mjpro131和 mujoco_py==0.5.6的环境中setup install 之后确定可以使用。 在后可使用。修改*.lib和platform是在site-packages里面改的。  ||-rand_pram_envs |--|-gym |----|-benchmarks |----|-envs //和官方Gym中的结构一样 |------|-algorithm |------|-classic_control |------|-mujoco //gym里的的装的是half_cheetah等定义文件还有asset文件。 |--------|-ant.py |--------|-half_cheetah.py // _get_obs()和_step()等函数 |--------|-hunoid.py |--------|-ant.py |------|-box2d |----|-monitoring |----|-tests |--|-mujoco_py //这里是设置mujoco131的安装的 |----|config.py |--|-base.py |--|-hopper_rand_params.py 示例可以运行 总的来说，安装到site-packages里面的mujoco_py和原文件夹下的是一个。修改mjlib.py中的*.lib为*.dll和;config.py设置的是和环境变量MUJOCO_PY_MJKEY_PATH和MUJOCO_PY_MJKEY_PATH相关的设置。如果强行换为mj150存在mjlib不再支持的情况
+不用改的情况下：在 mjpro131和 mujoco_py==0.5.6的环境中独立运行良好。
+最后解决方法： site-packages-&gt;rand_params-&gt;mujoco_py
+ 在rand源文件mujoco_py目录中的mjlib.py中修改*.lib 在platformdir.py中修改平台。 在config.py文件中修改MOJOCO_MJPRO_PATH为MOJOCO_MJPRO_PATH 4 总结：和安装的Mujoco_py版本没有关系。  github源版仓库中的rlkit 原始github仓库中的rlkit 有setup文件: 首先执行python setup.py install安装依赖。 本文件下多出来的assets文件：low_gear_ratio_ant.xml 和reacher_7dof.xml
+site_package gym -&gt; sitepackage mujoco_py -&gt;builder
+	</div>
+</article><article class="list__item post">
 	<header class="list__header">
 		<h3 class="list__title post__title ">
 			<a href="/post/java/jdbcm/" rel="bookmark">
@@ -303,26 +329,6 @@ import torch a = torch.
 	<div class="content list__excerpt post__content clearfix">
 		代码 class time(object): def __init__(self, year): super(time, self).__init__() self.year = year print(self.year) ​ # a class method to create a time that one day following the data &#39;year&#39; @classmethod def tomorrow(cls,year): print(type(cls)) # &gt;&gt;&gt; ▲ Python所有类都继承自`&lt;class &#39;type&#39;&gt;`，包括新式类`object` return cls(year+1) ​ # a static method to check whether the given data &#39;year&#39; is after 2000. @staticmethod def twoThoundYear(year): return year&gt;2000 ​ @classmethod def class_name(cls): return cls.__name__ ​ if __name__ == &#39;__main__&#39;: t1 = time(1999) t2 = time.
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h3 class="list__title post__title ">
-			<a href="/post/gym-cart-pole/" rel="bookmark">
-			Gym Cart-Pole-v1
-			</a>
-		</h3>
-		<div class="list__meta meta">
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-08-08T00:00:00Z">August 08, 2020</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="category">强化学习</a>, <a class="meta__link" href="/categories/%E6%95%99%E7%A8%8B/" rel="category">教程</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		介绍 在CartPole-v0的环境中，实际参考了论文：AG Barto, RS Sutton and CW Anderson, “Neuronlike Adaptive Elements That Can Solve Difficult Learning Control Problem”, IEEE Transactions on Systems, Man, and Cybernetics, 1983.中的倒立摆控制问题。
-Cart-Pole就是车杆游戏，为了保证游戏能继续进行,需要满足两个条件，如图所示：
- 杆子倾斜的角度$\theta$不能大于12度 小车移动的位置x需要保持在一定的范围，（中间到两边各2.4个单位长度) Episode is greater than 200 在连续100次试验中，平均return大于195就认为问题解决了。  状态变量
- x 小车位置 Cart Position (-4.8 4.8) v 小车速度 (-Inf Inf) $\theta$：杆子与竖直方向的夹角(-0.418 rad - 0.418 rad)24度 $v_{rad}$ 角度变化率 (-Inf Inf)  starting state
-All observations are assigned a uniform random value in (-0.
-	</div>
 </article>
 </main>
 
@@ -346,10 +352,10 @@ All observations are assigned a uniform random value in (-0.
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-gym-mujoco/">强化学习-Gym mujoco和mujoco_py版本直接折磨人的关系</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/java/jdbcm/">Java快速开始-JDBC</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/java/maven/">Java快速开始-创建Maven项目并整合Tomcat发布Maven项目</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-actor-critic/">强化学习-Actor Critc</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-model-based/">强化学习-Model based</a></li>
 		</ul>
 	</div>
 </div>
@@ -376,6 +382,9 @@ All observations are assigned a uniform random value in (-0.
 				<a class="widget__link" href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a>
 			</li>
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/">搭建环境</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
 			</li>
 			<li class="widget__item">
@@ -397,7 +406,7 @@ All observations are assigned a uniform random value in (-0.
 		<a class="widget-taglist__link widget__link btn" href="/tags/torch/" title="Torch">Torch (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%B7%A5%E5%85%B7/" title="工具">工具 (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" title="开发环境">开发环境 (5)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (8)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="强化学习">强化学习 (9)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%99%E7%A8%8B/" title="教程">教程 (1)</a>
 	</div>
 </div>

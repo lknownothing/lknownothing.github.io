@@ -6,10 +6,29 @@
     <description>Recent content in 强化学习 on 哇哈哈plus盐</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 11 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 20 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://lknownothing.github.io/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>强化学习-Gym mujoco和mujoco_py版本直接折磨人的关系</title>
+      <link>https://lknownothing.github.io/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-gym-mujoco/</link>
+      <pubDate>Thu, 20 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://lknownothing.github.io/post/pytorch/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-gym-mujoco/</guid>
+      <description>首先设置好环境变量
+MUJOCO_PY_MJKEY_PATH C:\Users\DjChen.mujoco\mjkey.txt
+MUJOCO_PY_MJPRO_PATH
+C:\Users\DjChen.mujoco\mjpro131
+###　Ｇym Ｍujoco和mujoco_py之间的版本关系 总的来说
+pip install mujoco_py==1.50.1.68
+一、oyster下的rand_param_envs  有setup文件，mjpro131和 mujoco_py==0.5.6的环境中setup install 之后确定可以使用。 在后可使用。修改*.lib和platform是在site-packages里面改的。  ||-rand_pram_envs |--|-gym |----|-benchmarks |----|-envs //和官方Gym中的结构一样 |------|-algorithm |------|-classic_control |------|-mujoco //gym里的的装的是half_cheetah等定义文件还有asset文件。 |--------|-ant.py |--------|-half_cheetah.py // _get_obs()和_step()等函数 |--------|-hunoid.py |--------|-ant.py |------|-box2d |----|-monitoring |----|-tests |--|-mujoco_py //这里是设置mujoco131的安装的 |----|config.py |--|-base.py |--|-hopper_rand_params.py 示例可以运行 总的来说，安装到site-packages里面的mujoco_py和原文件夹下的是一个。修改mjlib.py中的*.lib为*.dll和;config.py设置的是和环境变量MUJOCO_PY_MJKEY_PATH和MUJOCO_PY_MJKEY_PATH相关的设置。如果强行换为mj150存在mjlib不再支持的情况
+不用改的情况下：在 mjpro131和 mujoco_py==0.5.6的环境中独立运行良好。
+最后解决方法： site-packages-&amp;gt;rand_params-&amp;gt;mujoco_py
+ 在rand源文件mujoco_py目录中的mjlib.py中修改*.lib 在platformdir.py中修改平台。 在config.py文件中修改MOJOCO_MJPRO_PATH为MOJOCO_MJPRO_PATH 4 总结：和安装的Mujoco_py版本没有关系。  github源版仓库中的rlkit 原始github仓库中的rlkit 有setup文件: 首先执行python setup.py install安装依赖。 本文件下多出来的assets文件：low_gear_ratio_ant.xml 和reacher_7dof.xml
+site_package gym -&amp;gt; sitepackage mujoco_py -&amp;gt;builder</description>
+    </item>
     
     <item>
       <title>强化学习-Actor Critc</title>
